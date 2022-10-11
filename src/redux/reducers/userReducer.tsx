@@ -1,6 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { http } from "../../util/setting";
+import { setLocale } from "yup";
+import {
+  ACCESS_TOKEN,
+  getStoreJSON,
+  http,
+  setStore,
+  setStoreJSON,
+  TOKEN_CYBERSOFT,
+  USER_LOGIN,
+} from "../../util/setting";
 import { AppDispatch } from "../configStore";
 
 interface userLogin {
@@ -17,7 +26,7 @@ export interface userLoginState {
   userLogin: userLogin;
 }
 const initialState = {
-  //   userLogin: userLogin,
+  userLogin: getStoreJSON(USER_LOGIN),
 };
 
 const userReducer = createSlice({
@@ -35,10 +44,24 @@ export const postSignupUser = (data: userLogin) => {
   console.log({ data });
   return async (dispatch: AppDispatch) => {
     try {
-      let result = await http.post("/auth/signup", {
-        data,
-      });
+      let result = await http.post("/auth/signup", data);
       console.log({ result });
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+
+// Call api  post signin
+export const postSignin = (data: userLogin) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.post("/auth/signin", data);
+      console.log({ result });
+      //LƯU TOKEN VÀO LOCALSTORE
+      setStore(ACCESS_TOKEN, result.data.content.token);
+      // Lưu lại email
+      setStoreJSON(USER_LOGIN, result.data.content);
     } catch (error) {
       console.log({ error });
     }

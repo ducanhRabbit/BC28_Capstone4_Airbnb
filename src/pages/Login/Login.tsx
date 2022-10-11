@@ -1,92 +1,61 @@
+import axios from "axios";
+import { Field, Form, Formik } from "formik";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/configStore";
+import { postSignin } from "../../redux/reducers/userReducer";
+import { http, TOKEN_CYBERSOFT } from "../../util/setting";
 
-type Props = {
-  // thongTinNguoiDung: {
-  //   id: 0;
-  //   name: "string";
-  //   email: "string";
-  //   password: "string";
-  //   phone: "string";
-  //   birthday: "string";
-  //   gender: true;
-  //   role: "string";
-  // };
-};
+type Props = {};
 
-export interface userLogin {
-  id?: number;
-  name?: string;
-  email?: string;
-  password?: string;
-  phone?: string;
-  birthday?: string;
-  gender?: boolean;
-  role?: string;
-}
+export interface userLogin {}
 
 export default function Loign({}: Props) {
-  // const formik:any = useFormik({
-  //   initialValues {
-  //     taiKhoan:,
-  //     password,
-  //     email,
-  //     name,
-  //     phone,
-  //   },
-  // });
+  const dispatch: AppDispatch = useDispatch();
+  const initialValues = {};
   return (
     <div className="login">
-      <form className="container">
-        <h3>ĐĂNG KÝ</h3>
-        <div className="form-group">
-          <p>Tài khoản</p>
-          <input
-            className="form-control"
-            type="text"
-            name="taiKhoan"
-            id="taiKhoan"
-          />
-        </div>
-        <div className="form-group">
-          <p>Mật khẩu</p>
-          <input
-            className="form-control"
-            type="password"
-            name="password"
-            id="password"
-          />
-        </div>
-        <div className="form-group">
-          <p>Nhập lại mật khẩu</p>
-          <input
-            className="form-control"
-            type="password"
-            name="password"
-            id="password"
-          />
-        </div>
-        <div className="form-group">
-          <p>Họ tên</p>
-          <input className="form-control" type="text" name="name" id="name" />
-        </div>
-        <div className="form-group">
-          <p>Email</p>
-          <input
-            className="form-control"
-            type="email"
-            name="email"
-            id="email"
-          />
-        </div>
-        <div className="form-group">
-          <p>Số điện thoại</p>
-          <input className="form-control" type="text" name="phone" id="phone" />
-        </div>
-        <div className="mt-2">
-          <button className="btn btn-success">Đăng ký</button>
-          <button className="mx-2 btn btn-primary">Đăng nhập</button>
-        </div>
-      </form>
+      <div className="container">
+        <h3>ĐĂNG NHẬP</h3>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values) => {
+            console.log({ values });
+            const action = postSignin(values);
+            dispatch(action);
+          }}
+        >
+          <Form>
+            <div className="form-group">
+              <p>Email</p>
+              <Field
+                className="form-control"
+                type="text"
+                name="email"
+                id="email"
+              />
+            </div>
+            <div className="form-group">
+              <p>Mật khẩu</p>
+              <Field
+                className="form-control"
+                type="password"
+                name="password"
+                id="password"
+              />
+            </div>
+
+            <div className="mt-2">
+              <button type="submit" className="btn btn-success">
+                Đăng nhập
+              </button>
+              <button type="button" className="mx-2 btn btn-primary">
+                Đăng ký
+              </button>
+            </div>
+          </Form>
+        </Formik>
+      </div>
     </div>
   );
 }

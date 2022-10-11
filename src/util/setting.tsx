@@ -14,7 +14,7 @@ export const configs = {
     // Lưu vào store
     localStorage.setItem(name, values);
   },
-  getStoreJSON: (name: string, values: any) => {
+  getStoreJSON: (name: string) => {
     if (localStorage.getItem(name)) {
       let value: any = localStorage.getItem(name);
       let content = JSON.parse(value);
@@ -39,7 +39,7 @@ export const {
   getStoreJSON,
 } = configs;
 
-const TOKEN_CYBERSOFT =
+export const TOKEN_CYBERSOFT =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA";
 
 //Cấu hình interceptor {Cấu hình cho các request và response}

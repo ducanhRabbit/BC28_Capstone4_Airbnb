@@ -14,25 +14,29 @@ import {
 import { createBrowserHistory } from "history";
 import "./assets/scss/style.scss";
 import Loign from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
+import DemoFormik from "./pages/Register/DemoFormik";
 
 export const history = createBrowserHistory();
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <HistoryRouter history={history}>
-        <Routes>
-          <Route path="" element={<UserTemplate />}>
-            <Route index element={<Home />}></Route>
-            <Route path="/login" element={<Loign />}></Route>
-            <Route path="*" element={<Navigate to="" />}></Route>
-          </Route>
-        </Routes>
-      </HistoryRouter>
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <HistoryRouter history={history}>
+      <Routes>
+        <Route path="" element={<UserTemplate />}>
+          <Route index element={<Home />}></Route>
+          <Route path="/login" element={<Loign />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+          <Route path="/formik" element={<DemoFormik />}></Route>
+          <Route path="*" element={<Navigate to="" />}></Route>
+        </Route>
+      </Routes>
+    </HistoryRouter>
+  </Provider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

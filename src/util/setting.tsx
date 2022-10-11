@@ -40,12 +40,12 @@ export const {
 } = configs;
 
 const TOKEN_CYBERSOFT =
-  "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJraGFpZG9AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiVklFV19QUk9GSUxFIiwibmJmIjoxNjYzMTU4NzQ2LCJleHAiOjE2NjMxNjIzNDZ9.a7-C44-MiZHYrhzxAu0JPkbr11sTftDQfZM0JuoN3yY";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA";
 
 //Cấu hình interceptor {Cấu hình cho các request và response}
 export const http = axios.create({
-  baseURL: "https://shop.cyberlearn.vn/api",
-  timeout: 60000,
+  baseURL: `https://airbnbnew.cybersoft.edu.vn/api`,
+  timeout: 6000,
 });
 
 //Cấu hình request
@@ -55,8 +55,8 @@ http.interceptors.request.use(
     // Cấu hình tất cả header add thêm thuộc tính Authorization
     configs.headers = {
       ...configs.headers,
-      ["Authorization"]: `Bearer ${getStore(ACCESS_TOKEN)}`,
-      ["TokenCyersoft"]: TOKEN_CYBERSOFT,
+      // ["Authorization"]: `Bearer ${getStore(ACCESS_TOKEN)}`,
+      ["tokenCybersoft"]: TOKEN_CYBERSOFT,
     };
     return configs;
   },
@@ -76,22 +76,24 @@ http.interceptors.request.use(
     500(Error in server): Lỗi xảy ra trên server (Nguyên do do FE hoặc BE tùy tình huống)
 */
 
-// Cấu hình kết quả trả về
-http.interceptors.response.use(
-  (response) => {
-    console.log(response);
-    return response;
-  },
-  (err) => {
-    console.log(err.response.status);
-    if (err.response.status === 400 || err.response.status === 404) {
-      history.push("/");
-      return Promise.reject(err);
-    }
-    if (err.response.status === 401 || err.response.status === 403) {
-      alert("Token Không hợp lệ! Vui lòng đăng nhập lại");
-      history.push("/login");
-      return Promise.reject(err);
-    }
-  }
-);
+// // Cấu hình kết quả trả về
+// http.interceptors.response.use(
+//   (response) => {
+//     console.log(response);
+//     return response;
+//   },
+//   (err) => {
+//     console.log(err.response.status);
+//     if (err.response.status === 400 || err.response.status === 404) {
+//       // history.push("/");
+//       window.location.href = "/";
+//       return Promise.reject(err);
+//     }
+//     if (err.response.status === 401 || err.response.status === 403) {
+//       alert("Token Không hợp lệ! Vui lòng đăng nhập lại");
+//       // history.push("/login");
+//       // window.location.href = "/";
+//       return Promise.reject(err);
+//     }
+//   }
+// );

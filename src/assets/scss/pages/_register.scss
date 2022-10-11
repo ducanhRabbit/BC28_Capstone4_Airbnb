@@ -1,0 +1,17 @@
+.register {
+    .container {
+        max-width: 768px !important;
+
+        h3 {
+            @include text ($text-3xl, $text-bold, $text-c1-dark)
+        }
+
+        div {
+            p {}
+
+            input {
+                // width: 100%;
+            }
+        }
+    }
+}

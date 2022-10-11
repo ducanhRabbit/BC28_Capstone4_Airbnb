@@ -13,38 +13,78 @@ type Props = {
   // };
 };
 
+export interface userLogin {
+  id?: number;
+  name?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+  birthday?: string;
+  gender?: boolean;
+  role?: string;
+}
+
 export default function Loign({}: Props) {
+  // const formik:any = useFormik({
+  //   initialValues {
+  //     taiKhoan:,
+  //     password,
+  //     email,
+  //     name,
+  //     phone,
+  //   },
+  // });
   return (
-    <div className="dangki">
+    <div className="login">
       <form className="container">
         <h3>ĐĂNG KÝ</h3>
         <div className="form-group">
           <p>Tài khoản</p>
-          <input type="text" name="taiKhoan" id="taiKhoan" />
+          <input
+            className="form-control"
+            type="text"
+            name="taiKhoan"
+            id="taiKhoan"
+          />
         </div>
         <div className="form-group">
           <p>Mật khẩu</p>
-          <input type="password" name="password" id="password" />
+          <input
+            className="form-control"
+            type="password"
+            name="password"
+            id="password"
+          />
         </div>
         <div className="form-group">
           <p>Nhập lại mật khẩu</p>
-          <input type="password" name="password" id="password" />
+          <input
+            className="form-control"
+            type="password"
+            name="password"
+            id="password"
+          />
         </div>
         <div className="form-group">
           <p>Họ tên</p>
-          <input type="text" name="name" id="name" />
+          <input className="form-control" type="text" name="name" id="name" />
         </div>
         <div className="form-group">
           <p>Email</p>
-          <input type="email" name="email" id="email" />
+          <input
+            className="form-control"
+            type="email"
+            name="email"
+            id="email"
+          />
         </div>
         <div className="form-group">
           <p>Số điện thoại</p>
-          <input type="text" name="phone" id="phone" />
+          <input className="form-control" type="text" name="phone" id="phone" />
         </div>
-        <div>
-          <button>Đăng ký</button>
-          <button>Đăng nhập</button>
+        <div className="mt-2">
+          <button className="btn btn-success">Đăng ký</button>
+          <button className="mx-2 btn btn-primary">Đăng nhập</button>
         </div>
       </form>
     </div>

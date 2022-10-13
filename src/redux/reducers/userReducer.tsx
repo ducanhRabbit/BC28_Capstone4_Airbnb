@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setLocale } from "yup";
+import { history } from "../..";
 import {
   ACCESS_TOKEN,
   getStoreJSON,
@@ -46,8 +47,10 @@ export const postSignupUser = (data: userLogin) => {
     try {
       let result = await http.post("/auth/signup", data);
       console.log({ result });
-    } catch (error) {
+      history.push("/login");
+    } catch (error: any) {
       console.log({ error });
+      alert(error.response.data.content);
     }
   };
 };
@@ -62,7 +65,9 @@ export const postSignin = (data: userLogin) => {
       setStore(ACCESS_TOKEN, result.data.content.token);
       // Lưu lại email
       setStoreJSON(USER_LOGIN, result.data.content);
-    } catch (error) {
+    } catch (error: any) {
+      let err = error.response.data.content;
+      alert(err);
       console.log({ error });
     }
   };

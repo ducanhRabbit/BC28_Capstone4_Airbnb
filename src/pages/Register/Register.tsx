@@ -5,6 +5,7 @@ import { AppDispatch } from "../../redux/configStore";
 import { postSignupUser } from "../../redux/reducers/userReducer";
 import * as Yup from "yup";
 import { string } from "yup/lib/locale";
+import { NavLink } from "react-router-dom";
 type Props = {};
 export interface userRegister {
   id: number;
@@ -142,9 +143,13 @@ export default function Register({}: Props) {
                 <button type="submit" className="btn btn-success">
                   Đăng ký
                 </button>
-                <button type="button" className="mx-2 btn btn-primary">
+                <NavLink
+                  to="/login"
+                  type="button"
+                  className="mx-2 btn btn-primary"
+                >
                   Đăng nhập
-                </button>
+                </NavLink>
               </div>
             </Form>
           )}

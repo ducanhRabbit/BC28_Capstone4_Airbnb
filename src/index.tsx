@@ -16,6 +16,7 @@ import "./assets/scss/style.scss";
 import Loign from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import DemoFormik from "./pages/Register/DemoFormik";
+import Profile from "./pages/Profile/Profile";
 
 export const history = createBrowserHistory();
 const root = ReactDOM.createRoot(
@@ -31,6 +32,8 @@ root.render(
           <Route path="/login" element={<Loign />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/formik" element={<DemoFormik />}></Route>
+          <Route path="/profile" element={<Profile />}></Route>
+
           <Route path="*" element={<Navigate to="" />}></Route>
         </Route>
       </Routes>

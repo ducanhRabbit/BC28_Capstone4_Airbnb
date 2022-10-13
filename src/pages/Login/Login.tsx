@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/configStore";
 import { postSignin } from "../../redux/reducers/userReducer";
 import { http, TOKEN_CYBERSOFT } from "../../util/setting";
+import { NavLink } from "react-router-dom";
 
 type Props = {};
 
@@ -64,9 +65,13 @@ export default function Loign({}: Props) {
                 <button type="submit" className="btn btn-success">
                   Đăng nhập
                 </button>
-                <button type="button" className="mx-2 btn btn-primary">
+                <NavLink
+                  type="button"
+                  className="mx-2 btn btn-primary"
+                  to={"/register"}
+                >
                   Đăng ký
-                </button>
+                </NavLink>
               </div>
             </Form>
           )}

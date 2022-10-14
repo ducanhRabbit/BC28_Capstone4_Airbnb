@@ -2,5 +2,6 @@
 @import './base/variables';
 @import './base/base';
 //Components
-@import './components/header'
+@import './components/Popper/popperWrapper';
+@import './components/header';
 //Pages

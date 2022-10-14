@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
+import locationReducer from './reducers/locationReducer'
 // ...
 
 export const store = configureStore({
   reducer: {
-  
+    locationReducer: locationReducer,
   }
 })
 

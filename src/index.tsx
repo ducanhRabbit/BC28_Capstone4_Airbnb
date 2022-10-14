@@ -1,25 +1,20 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { Provider } from "react-redux";
-import { store } from "./redux/configStore";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import { store } from './redux/configStore';
 
-import UserTemplate from "./template/user/UserTemplate";
-import Home from "./pages/Home/Home";
-import {
-  Route,
-  Routes,
-  unstable_HistoryRouter as HistoryRouter,
-} from "react-router-dom";
-import { createBrowserHistory } from "history";
+import UserTemplate from './template/user/UserTemplate';
+import Home from './pages/Home/Home';
+import Detail from './pages/Detail/Detail';
+import { Route, Routes, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import './assets/scss/style.scss';
 
 export const history = createBrowserHistory();
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
@@ -27,6 +22,7 @@ root.render(
         <Routes>
           <Route path="" element={<UserTemplate />}>
             <Route index element={<Home />}></Route>
+            <Route path="detail" element={<Detail />}></Route>
           </Route>
         </Routes>
       </HistoryRouter>

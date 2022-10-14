@@ -2,5 +2,9 @@
 @import './base/variables';
 @import './base/base';
 //Components
-@import './components/header'
+@import './components/header';
+@import './components/bookRoom';
+@import './components/comments';
+
 //Pages
+@import './pages/detail';

@@ -1,0 +1,83 @@
+.detail {
+  margin-top: 30px;
+  .detail_title {
+    @include text(26px, 500, #222222);
+  }
+  .detail_rate {
+    @include text(14px, 500, #222222);
+    margin-bottom: 25px;
+  }
+  .detail_image {
+    margin-bottom: 50px;
+    img {
+      width: 100%;
+      border-radius: 12px;
+    }
+  }
+
+  .detail_content {
+    &--des {
+      padding-right: 90px;
+      &-top {
+        display: flex;
+        justify-content: space-between;
+
+        .top_name {
+          &-title {
+            @include text(22px, 500, #222222);
+          }
+          &-info {
+            display: flex;
+            @include text(16px, 400, rgba(34, 34, 34, 0.8));
+          }
+        }
+        .top_imghost {
+          img {
+            border-radius: 50%;
+          }
+        }
+      }
+
+      &-middle {
+        .middle_item {
+          @include text(16px, 600, rgba(34, 34, 34, 0.8));
+          margin-top: 30px;
+          display: flex;
+
+          &-icon {
+            font-size: 24px;
+          }
+          &-text {
+            margin-left: 15px;
+            &-grey {
+              @include text(14px, 400, rgb(113, 113, 113));
+            }
+          }
+        }
+      }
+
+      &-bottom {
+        .bottom_item {
+          margin-bottom: 16px;
+        }
+        .bottom_icon {
+          width: 24px;
+          margin-right: 16px;
+        }
+        .bottom_text {
+          @include text(16px, 400, rgba(34, 34, 34, 0.8));
+        }
+      }
+    }
+  }
+}
+
+.detail_rate-star {
+  color: #ff395c;
+  font-size: 16px;
+}
+
+.detail_rate-note {
+  @include text(14px, 500, #222222);
+  text-decoration: underline;
+}

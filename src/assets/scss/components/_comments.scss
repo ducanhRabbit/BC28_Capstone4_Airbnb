@@ -1,0 +1,41 @@
+.detail_comment {
+  &-rate {
+    display: flex;
+    align-items: center;
+
+    .rate_title {
+      @include text(22px, 500, #222222);
+    }
+  }
+
+  &-process {
+    padding-right: 90px;
+    &-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 20px;
+      .process-text {
+        @include text(16px, 400, rgba(34, 34, 34, 0.8));
+      }
+      .process-item {
+        width: 250px;
+        height: 5px;
+        .process-item-bar {
+          background-color: #ff395c;
+        }
+      }
+    }
+  }
+
+  &-item {
+    padding-right: 90px;
+    margin-top: 30px;
+    &-name {
+      @include text(16px, 500, #222222);
+    }
+    &-text {
+      @include text(16px, 400, rgba(34, 34, 34, 0.8));
+    }
+  }
+}

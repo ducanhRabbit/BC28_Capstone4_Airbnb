@@ -1,6 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { setLocale } from "yup";
 import { history } from "../..";
 import {
   ACCESS_TOKEN,
@@ -23,6 +22,14 @@ interface userLogin {
   gender?: boolean;
   role?: string;
 }
+type UpdateUser = {
+  name: string;
+  email: string;
+  birthday: string;
+  role: string;
+  gender: boolean;
+  phone: string;
+};
 export interface userLoginState {
   userLogin: userLogin;
 }
@@ -33,10 +40,14 @@ const initialState = {
 const userReducer = createSlice({
   name: "userReducer",
   initialState,
-  reducers: {},
+  reducers: {
+    setUserLogin: (state: userLoginState, action: PayloadAction<userLogin>) => {
+      state.userLogin = action.payload;
+    },
+  },
 });
 
-export const {} = userReducer.actions;
+export const { setUserLogin } = userReducer.actions;
 
 export default userReducer.reducer;
 
@@ -68,6 +79,45 @@ export const postSignin = (data: userLogin) => {
     } catch (error: any) {
       let err = error.response.data.content;
       alert(err);
+      console.log({ error });
+    }
+  };
+};
+// Call api get user
+export const getUserAPi = (id: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.get(`/users/${id}`);
+      console.log({ result });
+      let action = setUserLogin(result.data.content);
+      dispatch(action);
+    } catch (err) {
+      console.log({ err });
+    }
+  };
+};
+export const getDatphongApi = (id: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.get(`/dat-phong/lay-theo-nguoi-dung/${id}`);
+      console.log({ result });
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+// call api put user
+export const putUseApi = (id: number, data: UpdateUser) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.put(`/users/${id}`, data);
+      console.log({ result });
+      //Chuyển về trang profile
+      // history.push("/profile");
+      window.location.reload();
+      let action = setUserLogin(result.data.content);
+      dispatch(action);
+    } catch (error) {
       console.log({ error });
     }
   };

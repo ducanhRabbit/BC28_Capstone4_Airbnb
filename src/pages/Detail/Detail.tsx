@@ -1,12 +1,28 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { NavLink, useParams } from 'react-router-dom';
 import 'antd/dist/antd.css';
-import BookRoom from '../../components/BookRoom';
+// import BookRoom from '../../components/BookRoom';
 import Comments from '../../components/Comments';
+import { getRoomDetailApi } from '../../util/reducers/phongThueReducer';
+import { AppDispatch } from '../../redux/configStore';
+import { useDispatch } from 'react-redux';
+import { number } from 'yup';
 
 type Props = {};
 
 export default function AirbnbDetail({}: Props) {
+  const params = useParams();
+  console.log(typeof params.id);
+
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    if (params.id) {
+      const action = getRoomDetailApi(params.id);
+      dispatch(action);
+    }
+  }, [params.id]);
+
   return (
     <div className="detail">
       <div className="container">
@@ -157,7 +173,7 @@ export default function AirbnbDetail({}: Props) {
             </div>
           </div>
 
-          <BookRoom />
+          {/* <BookRoom /> */}
         </div>
 
         <hr />

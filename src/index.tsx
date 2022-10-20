@@ -16,18 +16,18 @@ import './assets/scss/style.scss';
 export const history = createBrowserHistory();
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <HistoryRouter history={history}>
-        <Routes>
-          <Route path="" element={<UserTemplate />}>
-            <Route index element={<Home />}></Route>
-            <Route path="detail" element={<Detail />}></Route>
+  <Provider store={store}>
+    <HistoryRouter history={history}>
+      <Routes>
+        <Route path="" element={<UserTemplate />}>
+          <Route index element={<Home />}></Route>
+          <Route path="detail">
+            <Route path=":id" element={<Detail />}></Route>
           </Route>
-        </Routes>
-      </HistoryRouter>
-    </Provider>
-  </React.StrictMode>
+        </Route>
+      </Routes>
+    </HistoryRouter>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

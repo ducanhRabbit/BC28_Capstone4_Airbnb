@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { AppDispatch } from '../../redux/configStore';
-import { http } from '../setting';
+import { AppDispatch } from '../configStore';
+import { http } from '../../util/setting';
 
 export interface Room {
   id: number;
@@ -25,8 +25,12 @@ export interface Room {
   hinhAnh: string;
 }
 
-const initialState = {
-  room: {},
+export interface RoomState {
+  room: Room[];
+}
+
+const initialState: RoomState = {
+  room: [],
 };
 
 const phongThueReducer = createSlice({
@@ -34,12 +38,12 @@ const phongThueReducer = createSlice({
   initialState,
   reducers: {
     getRoomDetail: (state, action: PayloadAction<Room>) => {
-      state.room = action.payload;
+      state.room = [...state.room, action.payload];
     },
   },
 });
 
-export const {} = phongThueReducer.actions;
+export const { getRoomDetail } = phongThueReducer.actions;
 
 export default phongThueReducer.reducer;
 
@@ -57,6 +61,8 @@ export const getRoomDetailApi = (id: string) => {
         },
       });
       console.log(result);
+      const action = getRoomDetail(result.data.content);
+      dispatch(action);
     } catch (err) {
       console.log(err);
     }

@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import phongThueReducer from '../util/reducers/phongThueReducer';
+import locationDetailReducer from './reducers/locationDetailReducer';
+import phongThueReducer from './reducers/phongThueReducer';
 // ...
 
 export const store = configureStore({
   reducer: {
     phongThueReducer: phongThueReducer,
+    locationDetailReducer: locationDetailReducer,
   },
 });
 

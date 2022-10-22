@@ -107,7 +107,7 @@ export default function Comments({}: Props) {
   };
 
   return (
-    <div className="detail_comment row">
+    <div className="detail_comment row" id="detailComment">
       <div className="detail_comment-rate">
         <Rate className="detail_rate-star" allowHalf defaultValue={4.8} />
         <span className="ms-2 rate_title">4,80</span>

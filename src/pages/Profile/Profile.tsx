@@ -81,7 +81,7 @@ export default function Profile({}: Props) {
               >
                 Chỉnh sửa hồ sơ
               </a>
-              <div>
+              <div className="my-2">
                 <p>Phòng đã thuê</p>
               </div>
             </div>

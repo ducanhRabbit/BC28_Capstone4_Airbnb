@@ -19,7 +19,7 @@
                         }
 
                         a {
-                            text-align: center;
+                            text-decoration: revert;
                         }
                     }
 
@@ -89,9 +89,16 @@
 
                 }
 
-                a {}
+                a {
+                    text-decoration: revert;
+                }
 
-                div {}
+                div {
+                    p {
+                        @include text ($text-2xl, $text-bold, $text-c1-dark);
+
+                    }
+                }
             }
         }
     }

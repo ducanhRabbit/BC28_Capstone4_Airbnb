@@ -20,12 +20,11 @@ export default function Profile({}: Props) {
   );
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    let action = getUserAPi(118);
+    let action = getUserAPi(1);
     dispatch(action);
     let action2 = getDatphongApi(1);
     dispatch(action2);
   }, []);
-  // console.log({ userLogin });
   return (
     <>
       <HocModal />
@@ -83,7 +82,7 @@ export default function Profile({}: Props) {
                 Chỉnh sửa hồ sơ
               </a>
               <div>
-                <i className="fas fa-star"></i> 0 đánh giá
+                <p>Phòng đã thuê</p>
               </div>
             </div>
           </div>

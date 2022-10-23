@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { NavLink, useLoaderData, useParams } from 'react-router-dom';
 import 'antd/dist/antd.css';
-// import BookRoom from '../../components/BookRoom';
+import BookRoom from '../../components/BookRoom';
 import Comments from '../../components/Comments';
 import { getRoomDetailApi } from '../../redux/reducers/phongThueReducer';
 import { AppDispatch, RootState } from '../../redux/configStore';
@@ -115,7 +115,7 @@ export default function AirbnbDetail({}: Props) {
             </div>
           </div>
 
-          {/* <BookRoom /> */}
+          <BookRoom bookRoom={roomDetail} />
         </div>
       </div>
     );

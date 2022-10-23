@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import type { DatePickerProps, RadioChangeEvent } from 'antd';
 import { DatePicker, Radio } from 'antd';
 import type { RangePickerProps } from 'antd/es/date-picker';
 import moment from 'moment';
+import { amountGuest, getBookRoomApi, Room } from '../redux/reducers/phongThueReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../redux/configStore';
 
 const { RangePicker } = DatePicker;
 
-type Props = {};
+type Props = {
+  bookRoom: Room;
+};
 
-export default function BookRoom({}: Props) {
+export default function BookRoom({ bookRoom }: Props) {
+  let dispatch: AppDispatch = useDispatch();
+  const { nguoiLon, treEm, emBe, thuCung } = useSelector((state: RootState) => state.phongThueReducer.guestNumber);
+
   const [placement, SetPlacement] = useState<DatePickerProps['placement']>('bottomRight');
 
   const placementChange = (e: RadioChangeEvent) => {
@@ -21,13 +29,23 @@ export default function BookRoom({}: Props) {
     return current && current < moment().endOf('day');
   };
 
+  const countGuest = (value: boolean, text: string) => {
+    const action = amountGuest({ value, text });
+    dispatch(action);
+  };
+
+  useEffect(() => {
+    const action = getBookRoomApi();
+    dispatch(action);
+  }, []);
+
   return (
     <div className="col-4">
       <div className="detail_book">
         <div className="detail_book-layout">
           <div className="detail_book-header">
             <div className="detail_book-header-price">
-              <span className="header_price">$28</span> <span>đêm</span>
+              <span className="header_price">${bookRoom?.giaTien}</span> <span>đêm</span>
             </div>
             <div className="detail_book-header-rate">
               <span>
@@ -58,7 +76,11 @@ export default function BookRoom({}: Props) {
                     aria-controls="flush-collapseOne"
                   >
                     <p>Khách</p>
-                    <p className="detail_guest-btn-amount">1 khách</p>
+                    <p className="detail_guest-btn-amount">
+                      {nguoiLon + treEm} khách
+                      <span>{emBe >= 1 ? `, ${emBe} em bé` : ''}</span>
+                      <span>{thuCung >= 1 ? `, ${thuCung} thú cưng` : ''}</span>
+                    </p>
                   </button>
                 </h2>
                 <div
@@ -74,9 +96,13 @@ export default function BookRoom({}: Props) {
                         <p className="guest_text-regular">Từ 13 tuổi trở lên</p>
                       </div>
                       <div className="detail_guest-item-number">
-                        <button className="guest_btn">+</button>
-                        <p>1</p>
-                        <button className="guest_btn">-</button>
+                        <button onClick={() => countGuest(true, 'nguoiLon')} className="guest_btn">
+                          +
+                        </button>
+                        <p>{nguoiLon}</p>
+                        <button onClick={() => countGuest(false, 'nguoiLon')} className="guest_btn">
+                          -
+                        </button>
                       </div>
                     </div>
 
@@ -86,9 +112,13 @@ export default function BookRoom({}: Props) {
                         <p className="guest_text-regular">Độ tuổi 2 - 12</p>
                       </div>
                       <div className="detail_guest-item-number">
-                        <button className="guest_btn">+</button>
-                        <p>1</p>
-                        <button className="guest_btn">-</button>
+                        <button onClick={() => countGuest(true, 'treEm')} className="guest_btn">
+                          +
+                        </button>
+                        <p>{treEm}</p>
+                        <button onClick={() => countGuest(false, 'treEm')} className="guest_btn">
+                          -
+                        </button>
                       </div>
                     </div>
 
@@ -98,9 +128,14 @@ export default function BookRoom({}: Props) {
                         <p className="guest_text-regular">Dưới 2 tuổi</p>
                       </div>
                       <div className="detail_guest-item-number">
-                        <button className="guest_btn">+</button>
-                        <p>1</p>
-                        <button className="guest_btn">-</button>
+                        <button onClick={() => countGuest(true, 'emBe')} className="guest_btn">
+                          +
+                        </button>
+                        <p>{emBe}</p>
+
+                        <button onClick={() => countGuest(false, 'emBe')} className="guest_btn">
+                          -
+                        </button>
                       </div>
                     </div>
 
@@ -109,9 +144,14 @@ export default function BookRoom({}: Props) {
                         <p className="guest_text-bold">Thú cưng</p>
                       </div>
                       <div className="detail_guest-item-number">
-                        <button className="guest_btn">+</button>
-                        <p>1</p>
-                        <button className="guest_btn">-</button>
+                        <button onClick={() => countGuest(true, 'thuCung')} className="guest_btn">
+                          +
+                        </button>
+                        <p>{thuCung}</p>
+
+                        <button onClick={() => countGuest(false, 'thuCung')} className="guest_btn">
+                          -
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -126,7 +166,7 @@ export default function BookRoom({}: Props) {
 
             <div className="detail_book-body-des d-flex justify-content-between">
               <div>
-                <span>$28 x 5 đêm</span>
+                <span>${bookRoom?.giaTien} x 5 đêm</span>
               </div>
               <p>$140</p>
             </div>

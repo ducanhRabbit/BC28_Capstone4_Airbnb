@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, current, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { AppDispatch } from '../configStore';
+import { AppDispatch, RootState } from '../configStore';
 import { http } from '../../util/setting';
 
 export interface Room {
@@ -37,6 +37,7 @@ export interface BookRoom {
 export interface RoomState {
   room: Room[];
   bookRoom: BookRoom[];
+  arrBookRoom: BookRoom[];
   guestNumber: {
     nguoiLon: number;
     treEm: number;
@@ -48,6 +49,7 @@ export interface RoomState {
 const initialState: RoomState = {
   room: [],
   bookRoom: [],
+  arrBookRoom: [],
   guestNumber: {
     nguoiLon: 1,
     treEm: 0,
@@ -66,14 +68,19 @@ const phongThueReducer = createSlice({
     amountGuest: (state, action: PayloadAction<{ value: boolean; text: string }>) => {
       let value1 = action.payload.value;
       let value2 = action.payload.text;
+      let [roomDetail] = [...state.room];
 
       if (value1) {
         switch (value2) {
           case 'nguoiLon':
-            state.guestNumber.nguoiLon += 1;
+            if (state.guestNumber.nguoiLon < roomDetail.khach - state.guestNumber.treEm) {
+              state.guestNumber.nguoiLon += 1;
+            }
             break;
           case 'treEm':
-            state.guestNumber.treEm += 1;
+            if (state.guestNumber.treEm < roomDetail.khach - state.guestNumber.nguoiLon) {
+              state.guestNumber.treEm += 1;
+            }
             break;
           case 'emBe':
             state.guestNumber.emBe += 1;
@@ -97,10 +104,22 @@ const phongThueReducer = createSlice({
         }
       }
     },
+    filterRoomBooked: (state, action: PayloadAction<BookRoom[]>) => {
+      state.arrBookRoom = action.payload;
+
+      console.log(state.arrBookRoom);
+
+      let [roomDetail] = [...state.room];
+
+      let arrBooked = state.arrBookRoom.filter((item: BookRoom) => item.maPhong == roomDetail?.id);
+      // state.arrBookRoom = arrBooked;
+
+      // console.log(arrBooked);
+    },
   },
 });
 
-export const { getRoomDetail, amountGuest } = phongThueReducer.actions;
+export const { getRoomDetail, amountGuest, filterRoomBooked } = phongThueReducer.actions;
 
 export default phongThueReducer.reducer;
 
@@ -117,7 +136,6 @@ export const getRoomDetailApi = (id: string) => {
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA',
         },
       });
-      console.log(result);
       const action = getRoomDetail(result.data.content);
       dispatch(action);
     } catch (err) {
@@ -137,27 +155,35 @@ export const getBookRoomApi = () => {
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA',
         },
       });
-      console.log(result);
+      const action = filterRoomBooked(result.data.content);
+      dispatch(action);
+      // console.log(result.data.content);
     } catch (err) {
       console.log(err);
     }
   };
 };
 
-export const postBookRoomApi = () => {
+export const postBookRoomApi = (room: BookRoom) => {
   return async (dispatch: AppDispatch) => {
     try {
       const result = await axios({
         url: 'https://airbnbnew.cybersoft.edu.vn/api/dat-phong',
         method: 'POST',
+        data: room,
         headers: {
           tokenCybersoft:
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA',
         },
       });
-      console.log(result);
     } catch (err) {
       console.log(err);
     }
   };
 };
+
+// export const handleDate = (data: BookRoom) =>{
+//   let booked = data.filter((item)=>{
+
+//   })
+// }

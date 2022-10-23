@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import type { DatePickerProps, RadioChangeEvent } from 'antd';
 import { DatePicker, Radio } from 'antd';
 import type { RangePickerProps } from 'antd/es/date-picker';
@@ -11,33 +11,61 @@ import { AppDispatch, RootState } from '../redux/configStore';
 const { RangePicker } = DatePicker;
 
 type Props = {
-  bookRoom: Room;
+  roomDetail: Room;
 };
 
-export default function BookRoom({ bookRoom }: Props) {
+export default function BookRoom({ roomDetail }: Props) {
   let dispatch: AppDispatch = useDispatch();
+  const [date, setDate] = useState({ ngayDen: '', ngayDi: '' });
+
   const { nguoiLon, treEm, emBe, thuCung } = useSelector((state: RootState) => state.phongThueReducer.guestNumber);
-
-  const [placement, SetPlacement] = useState<DatePickerProps['placement']>('bottomRight');
-
-  const placementChange = (e: RadioChangeEvent) => {
-    SetPlacement(e.target.value);
-  };
+  const { bookRoom, guestNumber } = useSelector((state: RootState) => state.phongThueReducer);
+  let [bookRoomDetail] = [...bookRoom];
+  // console.log(guestNumber);
 
   const disabledDate: RangePickerProps['disabledDate'] = (current) => {
     // Can not select days before today and today
+    // console.log(moment().endOf('day'));
     return current && current < moment().endOf('day');
   };
+
+  const onChange: RangePickerProps['onChange'] = (dates, dateStrings) => {
+    if (dates) {
+      // console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
+      let test = moment(dateStrings[0]).format();
+      setDate({
+        ngayDen: moment(dateStrings[0]).format(),
+        ngayDi: moment(dateStrings[1]).format(),
+      });
+    } else {
+      console.log('Clear');
+    }
+  };
+  // console.log(date);
 
   const countGuest = (value: boolean, text: string) => {
     const action = amountGuest({ value, text });
     dispatch(action);
   };
 
+  const submitBookRoom = () => {
+    let obj = {
+      id: Date.now(),
+      maPhong: roomDetail?.id,
+      ngayDen: date.ngayDen,
+      ngayDi: date.ngayDi,
+      soLuongKhach: guestNumber.nguoiLon + guestNumber.treEm,
+      maNguoiDung: 1,
+    };
+
+    console.log(obj);
+    // bookRoomDetsil.maPhong =
+  };
+
   useEffect(() => {
     const action = getBookRoomApi();
     dispatch(action);
-  }, []);
+  }, [roomDetail?.id]);
 
   return (
     <div className="col-4">
@@ -45,7 +73,7 @@ export default function BookRoom({ bookRoom }: Props) {
         <div className="detail_book-layout">
           <div className="detail_book-header">
             <div className="detail_book-header-price">
-              <span className="header_price">${bookRoom?.giaTien}</span> <span>đêm</span>
+              <span className="header_price">${roomDetail?.giaTien}</span> <span>đêm</span>
             </div>
             <div className="detail_book-header-rate">
               <span>
@@ -61,7 +89,7 @@ export default function BookRoom({ bookRoom }: Props) {
 
           <div className="detail_book-body">
             <div className="detail_book-body-date">
-              <RangePicker placement={placement} disabledDate={disabledDate} />
+              <RangePicker placement="bottomRight" disabledDate={disabledDate} onChange={onChange} />
             </div>
 
             <div className="detail_book-body-guest accordion accordion-flush" id="accordionFlushExample">
@@ -160,13 +188,15 @@ export default function BookRoom({ bookRoom }: Props) {
             </div>
 
             <div>
-              <button className="detail_book-body-btnSubmit">Đặt phòng</button>
+              <button onClick={submitBookRoom} className="detail_book-body-btnSubmit">
+                Đặt phòng
+              </button>
             </div>
             <p className="detail_book-body-note">Bạn vẫn chưa bị trừ tiền</p>
 
             <div className="detail_book-body-des d-flex justify-content-between">
               <div>
-                <span>${bookRoom?.giaTien} x 5 đêm</span>
+                <span>${roomDetail?.giaTien} x 5 đêm</span>
               </div>
               <p>$140</p>
             </div>

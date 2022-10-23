@@ -17,6 +17,7 @@ type Props = {};
 export default function AirbnbDetail({}: Props) {
   const params = useParams();
   let { room } = useAppSelector((state) => state.phongThueReducer);
+
   let [roomDetail] = [...room];
 
   let { viTri } = useSelector((state: RootState) => state.locationDetailReducer);
@@ -115,7 +116,7 @@ export default function AirbnbDetail({}: Props) {
             </div>
           </div>
 
-          <BookRoom bookRoom={roomDetail} />
+          <BookRoom roomDetail={roomDetail} />
         </div>
       </div>
     );

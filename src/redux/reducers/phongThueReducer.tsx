@@ -107,7 +107,7 @@ const phongThueReducer = createSlice({
     filterRoomBooked: (state, action: PayloadAction<BookRoom[]>) => {
       state.arrBookRoom = action.payload;
 
-      console.log(state.arrBookRoom);
+      // console.log(state.arrBookRoom);
 
       let [roomDetail] = [...state.room];
 
@@ -181,9 +181,3 @@ export const postBookRoomApi = (room: BookRoom) => {
     }
   };
 };
-
-// export const handleDate = (data: BookRoom) =>{
-//   let booked = data.filter((item)=>{
-
-//   })
-// }

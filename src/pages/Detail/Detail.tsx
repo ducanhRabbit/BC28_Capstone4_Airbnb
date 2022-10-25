@@ -17,6 +17,7 @@ type Props = {};
 export default function AirbnbDetail({}: Props) {
   const params = useParams();
   let { room } = useAppSelector((state) => state.phongThueReducer);
+  const { arrCommentId } = useSelector((state: RootState) => state.commentReducer);
 
   let [roomDetail] = [...room];
 
@@ -70,7 +71,7 @@ export default function AirbnbDetail({}: Props) {
           </span>
           <li className="ms-2">
             <a className="detail_rate-note" href="#detailComment">
-              222 đánh giá
+              {arrCommentId.length} đánh giá
             </a>
           </li>
           <li className="ms-2">
@@ -128,7 +129,7 @@ export default function AirbnbDetail({}: Props) {
         {renderRoomDetail()}
 
         <hr />
-        <Comments />
+        <Comments roomDetail={roomDetail} />
       </div>
     </div>
   );

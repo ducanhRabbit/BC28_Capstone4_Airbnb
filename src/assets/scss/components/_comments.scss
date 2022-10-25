@@ -38,4 +38,37 @@
       @include text(16px, 400, rgba(34, 34, 34, 0.8));
     }
   }
+
+  &-write {
+    margin-top: 30px;
+    &-img {
+      img {
+        border-radius: 50%;
+      }
+    }
+    &-input {
+      width: 100%;
+      padding-left: 14px;
+      .comment_content {
+      }
+      .comment_textarea {
+        height: 100px;
+        width: 100%;
+        padding: 10px 20px;
+        border-radius: 5px;
+        &:focus-visible {
+          // outline: #ff395c;
+          border: 1px solid #ff395c;
+        }
+        &::selection {
+          // border: 1px solid #ff395c;
+          // background: #ff395c;
+        }
+      }
+      .comment_btn-submit {
+        width: 120px;
+        padding: 10px;
+      }
+    }
+  }
 }

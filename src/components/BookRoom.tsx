@@ -20,6 +20,8 @@ export default function BookRoom({ roomDetail }: Props) {
 
   const { nguoiLon, treEm, emBe, thuCung } = useSelector((state: RootState) => state.phongThueReducer.guestNumber);
   const { bookRoom, guestNumber } = useSelector((state: RootState) => state.phongThueReducer);
+  const { arrCommentId } = useSelector((state: RootState) => state.commentReducer);
+
   let [bookRoomDetail] = [...bookRoom];
   // console.log(guestNumber);
 
@@ -81,7 +83,7 @@ export default function BookRoom({ roomDetail }: Props) {
               </span>
               <li className="ms-2">
                 <NavLink className="detail_rate-note" to="/">
-                  222 đánh giá
+                  {arrCommentId.length} đánh giá
                 </NavLink>
               </li>
             </div>

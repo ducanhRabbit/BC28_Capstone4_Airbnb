@@ -1,117 +1,97 @@
-import React, { useState, createElement } from 'react';
-import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons';
+import React, { useState, createElement, useEffect } from 'react';
 import { Avatar, Comment, Tooltip } from 'antd';
-import { Button, Form, Input, List } from 'antd';
 import { Rate } from 'antd';
 import moment from 'moment';
+import { filterComment, getAllCommentApi, postCommentApi } from '../redux/reducers/commentReducer';
+import { AppDispatch, RootState } from '../redux/configStore';
+import { useDispatch, useSelector } from 'react-redux';
+import { Room } from '../redux/reducers/phongThueReducer';
+import { getGuestDetailApi } from '../redux/reducers/guestDetailReducer';
 
-type Props = {};
+type Props = {
+  roomDetail: Room;
+};
 
-export default function Comments({}: Props) {
-  const [likes, setLikes] = useState(0);
-  const [dislikes, setDislikes] = useState(0);
-  const [action, setAction] = useState<string | null>(null);
+export default function Comments({ roomDetail }: Props) {
+  const { arrComment, arrCommentId } = useSelector((state: RootState) => state.commentReducer);
+  const { arrGuest } = useSelector((state: RootState) => state.guestDetailReducer);
+  const [state, setState] = useState('');
+  // console.log(arrComment);
 
-  const like = () => {
-    setLikes(1);
-    setDislikes(0);
-    setAction('liked');
+  const dispatch: AppDispatch = useDispatch();
+  // let arr = arrComment.filter((comment) => comment.maPhong == roomDetail?.id);
+
+  const filterUerComment = (id: number) => {
+    let arr = arrGuest.filter((user) => user.id == id);
+
+    return arr[0];
   };
 
-  const dislike = () => {
-    setLikes(0);
-    setDislikes(1);
-    setAction('disliked');
+  const renderComment = () => {
+    return arrCommentId.map((comment, index) => {
+      if (comment.noiDung != '' && comment.ngayBinhLuan.toString() != '') {
+        let test = comment.ngayBinhLuan.toString();
+
+        let guestComment = filterUerComment(comment?.maNguoiBinhLuan);
+
+        return (
+          <div className="col-6" key={index}>
+            <Comment
+              className="detail_comment-item"
+              author={<a className="detail_comment-item-name">{guestComment?.name}</a>}
+              avatar={<Avatar src={`https://i.pravatar.cc?u=${comment?.id}`} alt="avatar" />}
+              content={<p className="detail_comment-item-text">{comment?.noiDung}</p>}
+              datetime={
+                <Tooltip title={test}>
+                  <span>{test}</span>
+                </Tooltip>
+              }
+            />
+          </div>
+        );
+      }
+    });
   };
 
-  const actions = [
-    <Tooltip key="comment-basic-like" title="Like">
-      <span onClick={like}>
-        {createElement(action === 'liked' ? LikeFilled : LikeOutlined)}
-        <span className="comment-action">{likes}</span>
-      </span>
-    </Tooltip>,
-    <Tooltip key="comment-basic-dislike" title="Dislike">
-      <span onClick={dislike}>
-        {React.createElement(action === 'disliked' ? DislikeFilled : DislikeOutlined)}
-        <span className="comment-action">{dislikes}</span>
-      </span>
-    </Tooltip>,
-    <span key="comment-basic-reply-to">Reply to</span>,
-  ];
-
-  const { TextArea } = Input;
-
-  interface CommentItem {
-    author: string;
-    avatar: string;
-    content: React.ReactNode;
-    datetime: string;
-  }
-
-  interface EditorProps {
-    onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-    onSubmit: () => void;
-    submitting: boolean;
-    value: string;
-  }
-
-  const CommentList = ({ comments }: { comments: CommentItem[] }) => (
-    <List
-      dataSource={comments}
-      header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
-      itemLayout="horizontal"
-      renderItem={(props) => <Comment {...props} />}
-    />
-  );
-
-  const Editor = ({ onChange, onSubmit, submitting, value }: EditorProps) => (
-    <>
-      <Form.Item>
-        <TextArea rows={4} onChange={onChange} value={value} />
-      </Form.Item>
-      <Form.Item>
-        <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
-          Add Comment
-        </Button>
-      </Form.Item>
-    </>
-  );
-
-  const [comments, setComments] = useState<CommentItem[]>([]);
-  const [submitting, setSubmitting] = useState(false);
-  const [value, setValue] = useState('');
-
-  const handleSubmit = () => {
-    if (!value) return;
-
-    setSubmitting(true);
-
-    setTimeout(() => {
-      setSubmitting(false);
-      setValue('');
-      setComments([
-        ...comments,
-        {
-          author: 'Han Solo',
-          avatar: 'https://joeschmoe.io/api/v1/random',
-          content: <p>{value}</p>,
-          datetime: moment('2016-11-22').fromNow(),
-        },
-      ]);
-    }, 1000);
+  const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setState(value);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
+  const handleSubmitComment = () => {
+    let userCommentApi = {
+      id: 456,
+      maPhong: roomDetail?.id,
+      maNguoiBinhLuan: 1210,
+      ngayBinhLuan: moment().format('DD-MM-YYYY'),
+      noiDung: state,
+      saoBinhLuan: 5,
+    };
+    if (state != '') {
+      const action = postCommentApi(userCommentApi);
+      dispatch(action);
+      setState('');
+    }
   };
+
+  useEffect(() => {
+    const action = getAllCommentApi(roomDetail?.id);
+    dispatch(action);
+    const action2 = getGuestDetailApi();
+    dispatch(action2);
+  }, []);
+
+  useEffect(() => {
+    const action3 = filterComment(roomDetail?.id);
+    dispatch(action3);
+  }, [roomDetail?.id]);
 
   return (
     <div className="detail_comment row" id="detailComment">
       <div className="detail_comment-rate">
         <Rate className="detail_rate-star" allowHalf defaultValue={4.8} />
         <span className="ms-2 rate_title">4,80</span>
-        <li className="ms-3 rate_title">222 đánh giá</li>
+        <li className="ms-3 rate_title">{arrCommentId.length} đánh giá</li>
       </div>
       <div className="col-6">
         <div className="detail_comment-process">
@@ -211,31 +191,33 @@ export default function Comments({}: Props) {
         </div>
       </div>
 
-      <div className="col-6">
-        <Comment
-          className="detail_comment-item"
-          actions={actions}
-          author={<a className="detail_comment-item-name">Han Solo</a>}
-          avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
-          content={
-            <p className="detail_comment-item-text">
-              We supply a series of design principles, practical patterns and high quality design resources (Sketch and
-              Axure), to help people create their product prototypes beautifully and efficiently.
-            </p>
-          }
-          datetime={
-            <Tooltip title="2022-10-01 11:22:33">
-              <span>8 hours ago</span>
-            </Tooltip>
-          }
-        />
-      </div>
+      <div className="row">{renderComment()}</div>
 
-      {comments.length > 0 && <CommentList comments={comments} />}
-      <Comment
-        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
-        content={<Editor onChange={handleChange} onSubmit={handleSubmit} submitting={submitting} value={value} />}
-      />
+      <div className="detail_comment-write">
+        <div className="d-flex">
+          <div className="detail_comment-write-img">
+            <img src="https://i.pravatar.cc/40" alt="host" />
+          </div>
+          <div className="detail_comment-write-input">
+            <div className="comment_content">
+              <textarea
+                value={state}
+                className="comment_textarea"
+                name="comment"
+                id="content"
+                cols={30}
+                rows={10}
+                onChange={handleChangeComment}
+              ></textarea>
+            </div>
+            <div className="comment_btn">
+              <button onClick={handleSubmitComment} className="detail_book-body-btnSubmit comment_btn-submit">
+                Bình luận
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

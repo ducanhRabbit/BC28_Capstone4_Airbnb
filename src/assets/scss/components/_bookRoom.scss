@@ -27,6 +27,22 @@
       border-radius: 10px 10px 0 0;
     }
 
+    .ant-picker {
+      border: 1px solid #b0b0b0;
+    }
+    .ant-picker-input > input {
+      @include text(14px, 500, #222222);
+    }
+    .ant-picker-input > input::placeholder {
+      @include text(14px, 600, #222222);
+    }
+
+    .ant-picker-focused {
+      border: 2px solid #222222;
+      box-shadow: none;
+      color: #222222;
+    }
+
     .detail_book-body-guest {
       position: relative;
 
@@ -73,9 +89,6 @@
         align-items: center;
 
         &-text {
-          .guest_text-bold {
-            @include text(16px, 600, rgb(34, 34, 34));
-          }
           .guest_text-regular {
             @include text(14px, 400, #222222);
           }
@@ -105,6 +118,24 @@
             }
           }
         }
+      }
+      .close_tab {
+        display: none;
+      }
+      .detail_guest-btn-close {
+        @include text(16px, 600, rgb(34, 34, 34));
+        background-color: #f7f7f7;
+        border: none;
+        padding: 10px 14px;
+        border-radius: 8px;
+        transition: all 0.2s;
+
+        &:hover {
+          background-color: #e5e4e4;
+        }
+      }
+      .guest_text-bold {
+        @include text(16px, 600, rgb(34, 34, 34));
       }
     }
 

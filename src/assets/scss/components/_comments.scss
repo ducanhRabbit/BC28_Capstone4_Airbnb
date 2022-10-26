@@ -41,6 +41,18 @@
 
   &-write {
     margin-top: 30px;
+
+    &-rate {
+      margin: 0 0 20px 55px;
+
+      .rate_text {
+        @include text(22px, 500, #222222);
+      }
+      .rate_star {
+        font-size: 20px !important;
+        margin-left: 20px;
+      }
+    }
     &-img {
       img {
         border-radius: 50%;

@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from '../redux/configStore';
 import { useDispatch, useSelector } from 'react-redux';
 import { Room } from '../redux/reducers/phongThueReducer';
 import { getGuestDetailApi } from '../redux/reducers/guestDetailReducer';
+import { Button, message } from 'antd';
 
 type Props = {
   roomDetail: Room;
@@ -16,10 +17,9 @@ export default function Comments({ roomDetail }: Props) {
   const { arrComment, arrCommentId } = useSelector((state: RootState) => state.commentReducer);
   const { arrGuest } = useSelector((state: RootState) => state.guestDetailReducer);
   const [state, setState] = useState('');
-  // console.log(arrComment);
+  const [rate, setRate] = useState(5);
 
   const dispatch: AppDispatch = useDispatch();
-  // let arr = arrComment.filter((comment) => comment.maPhong == roomDetail?.id);
 
   const filterUerComment = (id: number) => {
     let arr = arrGuest.filter((user) => user.id == id);
@@ -65,7 +65,7 @@ export default function Comments({ roomDetail }: Props) {
       maNguoiBinhLuan: 1210,
       ngayBinhLuan: moment().format('DD-MM-YYYY'),
       noiDung: state,
-      saoBinhLuan: 5,
+      saoBinhLuan: rate,
     };
     if (state != '') {
       const action = postCommentApi(userCommentApi);
@@ -77,9 +77,12 @@ export default function Comments({ roomDetail }: Props) {
   useEffect(() => {
     const action = getAllCommentApi(roomDetail?.id);
     dispatch(action);
+  }, [roomDetail?.id]);
+
+  useEffect(() => {
     const action2 = getGuestDetailApi();
     dispatch(action2);
-  }, []);
+  }, [roomDetail?.id]);
 
   useEffect(() => {
     const action3 = filterComment(roomDetail?.id);
@@ -89,7 +92,7 @@ export default function Comments({ roomDetail }: Props) {
   return (
     <div className="detail_comment row" id="detailComment">
       <div className="detail_comment-rate">
-        <Rate className="detail_rate-star" allowHalf defaultValue={4.8} />
+        <Rate className="detail_rate-star" allowHalf defaultValue={4.8} disabled />
         <span className="ms-2 rate_title">4,80</span>
         <li className="ms-3 rate_title">{arrCommentId.length} đánh giá</li>
       </div>
@@ -145,7 +148,7 @@ export default function Comments({ roomDetail }: Props) {
       <div className="col-6">
         <div className="detail_comment-process">
           <div className="detail_comment-process-item">
-            <p className="m-0 process-text">Mức độ sạch sẽ</p>
+            <p className="m-0 process-text">Độ chính xác</p>
             <div className="progress process-item">
               <div
                 className="progress-bar process-item-bar"
@@ -160,7 +163,7 @@ export default function Comments({ roomDetail }: Props) {
           </div>
 
           <div className="detail_comment-process-item">
-            <p className="m-0 process-text">Giao tiếp</p>
+            <p className="m-0 process-text">Vị trí</p>
             <div className="progress process-item">
               <div
                 className="progress-bar process-item-bar"
@@ -175,7 +178,7 @@ export default function Comments({ roomDetail }: Props) {
           </div>
 
           <div className="detail_comment-process-item">
-            <p className="m-0 process-text">Nhận phòng</p>
+            <p className="m-0 process-text">Giá trị</p>
             <div className="progress process-item">
               <div
                 className="progress-bar process-item-bar"
@@ -194,6 +197,11 @@ export default function Comments({ roomDetail }: Props) {
       <div className="row">{renderComment()}</div>
 
       <div className="detail_comment-write">
+        <div className="detail_comment-write-rate">
+          <span className="rate_text">Chất lượng phòng</span>
+          <Rate className="detail_rate-star rate_star" defaultValue={rate} onChange={(value) => setRate(value)} />
+        </div>
+
         <div className="d-flex">
           <div className="detail_comment-write-img">
             <img src="https://i.pravatar.cc/40" alt="host" />

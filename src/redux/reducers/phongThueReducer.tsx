@@ -28,8 +28,8 @@ export interface Room {
 export interface BookRoom {
   id: number;
   maPhong: number;
-  ngayDen: Date;
-  ngayDi: Date;
+  ngayDen: string;
+  ngayDi: string;
   soLuongKhach: number;
   maNguoiDung: number;
 }
@@ -104,22 +104,23 @@ const phongThueReducer = createSlice({
         }
       }
     },
-    filterRoomBooked: (state, action: PayloadAction<BookRoom[]>) => {
-      state.arrBookRoom = action.payload;
+    filterBookedRoom: (state, action: PayloadAction<BookRoom[]>) => {
+      // state.arrBookRoom = action.payload;
 
       // console.log(state.arrBookRoom);
 
       let [roomDetail] = [...state.room];
 
-      let arrBooked = state.arrBookRoom.filter((item: BookRoom) => item.maPhong == roomDetail?.id);
+      let result = action.payload.filter((item: BookRoom) => item.maPhong == roomDetail?.id);
+      state.arrBookRoom = result;
       // state.arrBookRoom = arrBooked;
 
-      // console.log(arrBooked);
+      // console.log(state.arrBookRoom);
     },
   },
 });
 
-export const { getRoomDetail, amountGuest, filterRoomBooked } = phongThueReducer.actions;
+export const { getRoomDetail, amountGuest, filterBookedRoom } = phongThueReducer.actions;
 
 export default phongThueReducer.reducer;
 
@@ -155,7 +156,7 @@ export const getBookRoomApi = () => {
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA',
         },
       });
-      const action = filterRoomBooked(result.data.content);
+      const action = filterBookedRoom(result.data.content);
       dispatch(action);
       // console.log(result.data.content);
     } catch (err) {
@@ -176,6 +177,7 @@ export const postBookRoomApi = (room: BookRoom) => {
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA',
         },
       });
+      console.log(result.data);
     } catch (err) {
       console.log(err);
     }

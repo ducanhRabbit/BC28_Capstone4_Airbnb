@@ -2,8 +2,15 @@
 @import './base/variables';
 @import './base/base';
 //Components
+
 @import './components/Popper/popperWrapper';
 @import './components/Menu/userMenu';
 @import './components/header';
-@import './components/Footer/footer'
+
 //Pages
+@import './components/Footer/footer'
+@import './pages/login';
+@import './pages/register';
+@import './pages/profile';
+@import './pages/mobileProfile'
+

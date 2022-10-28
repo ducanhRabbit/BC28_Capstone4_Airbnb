@@ -1,52 +1,62 @@
-import axios from 'axios'
-import { history } from '../index';
-
+import axios from "axios";
+import { history } from "../index";
 
 export const configs = {
-    setStore: (name:string,values:any)=>{
-        localStorage.setItem(name,values);
-    },
-    getStore: (name:string)=>{
-        return localStorage.getItem(name);
-    },
-    setStoreJSON: (name:string,values:any)=>{
-        // Biến thành chuỗi
-        values = JSON.stringify(values);
-        // Lưu vào store
-        localStorage.setItem(name,values);
-    },
-    getStoreJSON: (name:string,values:any)=>{
-        if(localStorage.getItem(name)){
-            let value:any = localStorage.getItem(name)
-            let content = JSON.parse(value);
-            return content;
-        }
-        return null;
-    },
+  setStore: (name: string, values: any) => {
+    localStorage.setItem(name, values);
+  },
+  getStore: (name: string) => {
+    return localStorage.getItem(name);
+  },
+  setStoreJSON: (name: string, values: any) => {
+    // Biến thành chuỗi
+    values = JSON.stringify(values);
+    // Lưu vào store
+    localStorage.setItem(name, values);
+  },
+  getStoreJSON: (name: string) => {
+    if (localStorage.getItem(name)) {
+      let value: any = localStorage.getItem(name);
+      let content = JSON.parse(value);
+      return content;
+    }
+    return null;
+  },
 
-    clearLocalStorage:(name:string)=>{
-        localStorage.removeItem(name)
-    },
-    ACCESS_TOKEN:'accessToken',
-    USER_LOGIN:'userLogin'
+  clearLocalStorage: (name: string) => {
+    localStorage.removeItem(name);
+  },
+  ACCESS_TOKEN: "accessToken",
+  USER_LOGIN: "userLogin",
+};
 
-}
+export const {
+  ACCESS_TOKEN,
+  USER_LOGIN,
+  setStore,
+  getStore,
+  setStoreJSON,
+  getStoreJSON,
+} = configs;
 
-export const {ACCESS_TOKEN,USER_LOGIN,setStore,getStore,setStoreJSON,getStoreJSON} = configs;
 
-const TOKEN_CYBERSOFT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA';
+export const TOKEN_CYBERSOFT =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA";
 
 //Cấu hình interceptor {Cấu hình cho các request và response}
 export const http = axios.create({
-    baseURL: 'https://airbnbnew.cybersoft.edu.vn/api',
-    timeout: 60000
-})
+  baseURL: `https://airbnbnew.cybersoft.edu.vn/api`,
+  timeout: 6000,
+});
 
-//Cấu hình request 
 
-http.interceptors.request.use((configs)=>{
+//Cấu hình request
+
+http.interceptors.request.use(
+  (configs) => {
     // Cấu hình tất cả header add thêm thuộc tính Authorization
     configs.headers = {
+
         ...configs.headers,
         ['tokenCybersoft']: TOKEN_CYBERSOFT
     }
@@ -54,6 +64,7 @@ http.interceptors.request.use((configs)=>{
 },(err)=>{
     return Promise.reject(err)
 })
+
 
 /*
     StatusCode: Mã kết quả trả về do backend qui định
@@ -66,18 +77,26 @@ http.interceptors.request.use((configs)=>{
     500(Error in server): Lỗi xảy ra trên server (Nguyên do do FE hoặc BE tùy tình huống)
 */
 
-// Cấu hình kết quả trả về
-http.interceptors.response.use((response)=>{
-    return response;
-}, err =>{
-    console.log(err.response.status);
-    if(err.response.status === 400 || err.response.status === 404){
-        history.push('/')
-        return Promise.reject(err);
-    }
-    if(err.response.status === 401 || err.response.status === 403){
-        alert('Token Không hợp lệ! Vui lòng đăng nhập lại')
-        history.push('/login')
-        return Promise.reject(err)
-    }
-})
+
+// // Cấu hình kết quả trả về
+// http.interceptors.response.use(
+//   (response) => {
+//     console.log(response);
+//     return response;
+//   },
+//   (err) => {
+//     console.log(err.response.status);
+//     if (err.response.status === 400 || err.response.status === 404) {
+//       // history.push("/");
+//       window.location.href = "/";
+//       return Promise.reject(err);
+//     }
+//     if (err.response.status === 401 || err.response.status === 403) {
+//       alert("Token Không hợp lệ! Vui lòng đăng nhập lại");
+//       // history.push("/login");
+//       // window.location.href = "/";
+//       return Promise.reject(err);
+//     }
+//   }
+// );
+

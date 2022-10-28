@@ -22,6 +22,8 @@ import Register from "./pages/Register/Register";
 import Profile from "./pages/Profile/Profile";
 import MobileProfile from "./pages/Profile/MobileProfile";
 import ResponsiveItem from "./hoc/ResponsiveItem";
+import AdminTemplate from "./template/admin/AdminTemplate";
+import User from "./template/admin/User";
 
 
 
@@ -35,6 +37,7 @@ root.render(
   <Provider store={store}>
     <HistoryRouter history={history}>
       <Routes>
+        
         <Route path="" element={<UserTemplate />}>
           <Route index element={<Home />}></Route>
           <Route path="/roomlist" >
@@ -53,6 +56,9 @@ root.render(
           ></Route>
 
           <Route path="*" element={<Navigate to="" />}></Route>
+        </Route>
+        <Route path="/admin" element={<AdminTemplate/>}>
+          <Route index element={<User/>}></Route>
         </Route>
       </Routes>
     </HistoryRouter>

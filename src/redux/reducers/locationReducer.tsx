@@ -3,7 +3,7 @@ import { http } from "../../util/setting";
 import { AppDispatch } from "../configStore";
 
 // Define a type for the slice state
-interface Location {
+export interface Location {
   id: number;
   tenViTri: string;
   tinhThanh: string;

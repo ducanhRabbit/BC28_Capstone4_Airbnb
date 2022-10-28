@@ -108,7 +108,7 @@ export default function Header({}: Props) {
   return (
     <header>
       <div className="container h-100">
-        <div className="d-flex justify-content-between align-items-center h-100">
+        <div className="header-wrap d-flex justify-content-between align-items-center h-100">
           <div className="left-header">
             <NavLink to={"/"} className="logo-brand d-flex align-items-center">
               <span className="logo me-1">
@@ -138,45 +138,49 @@ export default function Header({}: Props) {
                     }}
                   />
                 </div>
-                {activeSearch && <SearchHeader/>}
+                {activeSearch && <SearchHeader />}
                 <span className="search-icon">
                   <i className="fas fa-search"></i>
                 </span>
               </button>
             </div>
           </div>
-          <div className="right-header d-flex align-items-center">
-            <div className="host-language d-flex align-items-center me-2">
-              <div className="host">Become a host</div>
-              <div className="language">
-                <i className="fas fa-globe"></i>
+          <div className="right-header">
+            <div className="d-flex align-items-center">
+              <div className="host-language d-flex align-items-center me-2">
+                <div className="host">Become a host</div>
+                <div className="language">
+                  <i className="fas fa-globe"></i>
+                </div>
               </div>
-            </div>
-            <div className="profile">
-              <Tippy
-                trigger="click"
-                interactive={true}
-                render={(attrs) => (
-                  <div className="profile-popper" tabIndex={-1} {...attrs}>
-                    <PopperWrapper>
-                      <div className="menu-content">{renderMenuProfile()}</div>
-                    </PopperWrapper>
-                  </div>
-                )}
-              >
-                <button className="wrapper d-flex align-items-center">
-                  <div className="burger-menu me-3">
-                    <i className="fas fa-bars"></i>
-                  </div>
-                  <div className="user-info">
-                    <img
-                      src="https://www.tutorsvalley.com/public/storage/uploads/tutor/1574383712-1AB5217C-5A13-4888-A5A1-BE0BCADBC655.png"
-                      alt=""
-                      className="user-img w-100"
-                    />
-                  </div>
-                </button>
-              </Tippy>
+              <div className="profile">
+                <Tippy
+                  trigger="click"
+                  interactive={true}
+                  render={(attrs) => (
+                    <div className="profile-popper" tabIndex={-1} {...attrs}>
+                      <PopperWrapper>
+                        <div className="menu-content">
+                          {renderMenuProfile()}
+                        </div>
+                      </PopperWrapper>
+                    </div>
+                  )}
+                >
+                  <button className="wrapper d-flex align-items-center">
+                    <div className="burger-menu me-3">
+                      <i className="fas fa-bars"></i>
+                    </div>
+                    <div className="user-info">
+                      <img
+                        src="https://www.tutorsvalley.com/public/storage/uploads/tutor/1574383712-1AB5217C-5A13-4888-A5A1-BE0BCADBC655.png"
+                        alt=""
+                        className="user-img w-100"
+                      />
+                    </div>
+                  </button>
+                </Tippy>
+              </div>
             </div>
           </div>
         </div>

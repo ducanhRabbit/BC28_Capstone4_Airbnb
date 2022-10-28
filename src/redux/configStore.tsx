@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import locationReducer from './reducers/locationReducer'
+import roomReducer from './reducers/roomReducer'
 // ...
 
 export const store = configureStore({
   reducer: {
     locationReducer: locationReducer,
+    roomReducer: roomReducer
   }
 })
 

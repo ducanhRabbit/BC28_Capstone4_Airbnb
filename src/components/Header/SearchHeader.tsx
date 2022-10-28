@@ -35,7 +35,7 @@ export default function SearchHeader({}: Props) {
           <PopperWrapper>
             <div className="search-content">
               {arrLocation?.filter((item,index) => item.tenViTri.toLowerCase().includes(searchValue.toLowerCase())).map((item,index)=>{
-                return <NavLink to={'/login'} className="search-item d-flex align-items-center justify-content-between" key={item.id} >
+                return <NavLink to={`/roomlist/${item.id}`} className="search-item d-flex align-items-center justify-content-between" key={item.id} onClick={handleHideResult} >
                 <span className="location-icon d-flex align-items-center justify-content-center">
                   <i className="fas fa-map-marker-alt"></i>
                 </span>

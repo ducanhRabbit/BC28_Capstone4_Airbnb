@@ -14,24 +14,29 @@ import {
   unstable_HistoryRouter as HistoryRouter,
 } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import './assets/scss/style.scss';
+import "./assets/scss/style.scss";
+import MUIThemeProvider from "./themes/MUIThemeProvider";
+import RoomList from "./pages/RoomList/RoomList";
 
 export const history = createBrowserHistory();
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <HistoryRouter history={history}>
-        <Routes>
-          <Route path="" element={<UserTemplate />}>
-            <Route index element={<Home />}></Route>
-          </Route>
-        </Routes>
-      </HistoryRouter>
-    </Provider>
-  </React.StrictMode>
+
+      <Provider store={store}>
+        <HistoryRouter history={history}>
+          <Routes>
+            <Route path="" element={<UserTemplate />}>
+              <Route index element={<Home />}></Route>
+              <Route path="/roomlist" >
+                <Route path=':id' element={<RoomList/>}></Route>
+              </Route>
+            </Route>
+          </Routes>
+        </HistoryRouter>
+      </Provider>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

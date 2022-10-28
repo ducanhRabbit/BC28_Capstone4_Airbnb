@@ -2,6 +2,11 @@
 @import './base/variables';
 @import './base/base';
 //Components
+@import './components/header';
+@import './components/BookRoom/bookRoom';
+@import './components/Comments/comments';
+@import './components/Convenient/convenient';
+@import './components/BookRoom/bookRoomMobile';
 
 @import './components/Popper/popperWrapper';
 @import './components/Menu/userMenu';
@@ -12,5 +17,5 @@
 @import './pages/login';
 @import './pages/register';
 @import './pages/profile';
-@import './pages/mobileProfile'
-
+@import './pages/mobileProfile';
+@import './pages/detail';

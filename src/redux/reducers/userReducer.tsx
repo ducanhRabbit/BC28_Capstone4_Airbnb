@@ -42,7 +42,8 @@ const userReducer = createSlice({
   initialState,
   reducers: {
     setUserLogin: (state: userLoginState, action: PayloadAction<userLogin>) => {
-      state.userLogin = action.payload;
+      let userLogin = action.payload;
+      state.userLogin = userLogin;
     },
   },
 });
@@ -74,8 +75,9 @@ export const postSignin = (data: userLogin) => {
       console.log({ result });
       //LƯU TOKEN VÀO LOCALSTORE
       setStore(ACCESS_TOKEN, result.data.content.token);
-      // Lưu lại email
+      // Lưu lại user_Login
       setStoreJSON(USER_LOGIN, result.data.content);
+      history.push("/profile");
     } catch (error: any) {
       let err = error.response.data.content;
       alert(err);
@@ -84,23 +86,26 @@ export const postSignin = (data: userLogin) => {
   };
 };
 // Call api get user
-export const getUserAPi = (id: number) => {
+export const getUserAPi = () => {
   return async (dispatch: AppDispatch) => {
     try {
-      let result = await http.get(`/users/${id}`);
+      let result = await http.get(`/users/${getStoreJSON(USER_LOGIN).user.id}`);
       console.log({ result });
       let action = setUserLogin(result.data.content);
       dispatch(action);
     } catch (err) {
       console.log({ err });
+      history.push("/login");
     }
   };
 };
-export const getDatphongApi = (id: number) => {
+export const getDatphongApi = () => {
   return async (dispatch: AppDispatch) => {
     try {
-      let result = await http.get(`/dat-phong/lay-theo-nguoi-dung/${id}`);
-      console.log({ result });
+      let result = await http.get(
+        `/dat-phong/lay-theo-nguoi-dung/${getStoreJSON(USER_LOGIN).user.id}`
+      );
+      console.log("getDatPhonng:", result);
     } catch (error) {
       console.log({ error });
     }

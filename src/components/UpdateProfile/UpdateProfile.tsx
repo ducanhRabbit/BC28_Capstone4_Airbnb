@@ -1,9 +1,9 @@
 import { Field, Form, Formik } from "formik";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/configStore";
+import { AppDispatch, RootState } from "../../redux/configStore";
 import * as Yup from "yup";
-import { putUseApi } from "../redux/reducers/userReducer";
+import { putUseApi } from "../../redux/reducers/userReducer";
 
 type Props = {};
 type UpdateProfile = {

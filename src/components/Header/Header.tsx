@@ -15,12 +15,12 @@ export default function Header({}: Props) {
         {
           id: 1,
           content: "Đăng nhập",
-          link: "/",
+          link: "/login",
         },
         {
           id: 2,
           content: "Đăng ký",
-          link: "/",
+          link: "/register",
         },
         {
           id: 3,

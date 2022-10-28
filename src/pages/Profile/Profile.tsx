@@ -4,7 +4,7 @@ import { Action } from "history";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import UpdateProfile from "../../components/UpdateProfile/UpdateProfile";
+import UpdateProfile "../../HOC/HocModalnts/UpdateProfile/UpdateProfile";
 import HocModal from "../../HOC/HocModal";
 
 import { AppDispatch, RootState } from "../../redux/configStore";

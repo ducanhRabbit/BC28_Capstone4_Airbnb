@@ -94,7 +94,7 @@ export default function UserMenu({custom}: customAsProps) {
           ],
         },
       ];
-    const user = true;
+    const user = false;
 
     const obj = profileMenu.find((item) => item.login === !!user);
     const menuList = obj?.menu;
@@ -102,7 +102,7 @@ export default function UserMenu({custom}: customAsProps) {
     <>
     {menuList?.map((menu, index) => {
         return (
-          <NavLink to={menu.link}>
+          <NavLink to={menu.link} key={index}>
             <Box sx={custom}>
 
             {menu.content}

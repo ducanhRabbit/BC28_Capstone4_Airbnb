@@ -5,7 +5,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { FaRegHeart, FaHome } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import UserMenu from "../Menu/UserMenu";
-import logo from "../../assets/img/airbnb-logo.png";
+// import logo from "../../assets/img";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -84,7 +84,7 @@ export default function FooterMobile() {
         >  
           <Box sx={{display: 'flex', justifyContent:'center',marginBottom:'12px'}}>
 
-          <Box component={"img"} src={logo} sx={{
+          <Box component={"img"} src={require('../../assets/img/airbnb-logo.png')} sx={{
             width: '120px',
             height: '60px',
             objectFit: 'cover',

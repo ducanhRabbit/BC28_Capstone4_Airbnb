@@ -19,11 +19,10 @@ import RoomList from "./pages/RoomList/RoomList";
 
 import Loign from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-import DemoFormik from "./pages/Register/DemoFormik";
 import Profile from "./pages/Profile/Profile";
-import DemoHOCLogin from "./pages/Login/DemoHOCLogin";
 import MobileProfile from "./pages/Profile/MobileProfile";
-import ResponsiveItem from "./HOC/ResponsiveItem";
+import ResponsiveItem from "./hoc/ResponsiveItem";
+
 
 
 export const history = createBrowserHistory();

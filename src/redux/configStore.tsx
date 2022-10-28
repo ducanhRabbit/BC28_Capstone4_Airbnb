@@ -3,12 +3,15 @@ import { configureStore } from "@reduxjs/toolkit";
 import modalReducer from "./reducers/modalReducer";
 import userReducer from "./reducers/userReducer";
 import locationReducer from './reducers/locationReducer'
+import roomReducer from './reducers/roomReducer'
+
 
 export const store = configureStore({
   reducer: {
     userReducer: userReducer,
     modalReducer: modalReducer,
-     locationReducer: locationReducer,
+    locationReducer: locationReducer,
+    roomReducer: roomReducer,
   },
 });
 
@@ -16,3 +19,4 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {pots: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;
+

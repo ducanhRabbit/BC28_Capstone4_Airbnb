@@ -34,7 +34,6 @@ root.render(
           <Route index element={<Home />}></Route>
           <Route path="/login" element={<Loign />}></Route>
           <Route path="/register" element={<Register />}></Route>
-          <Route path="/formik" element={<DemoFormik />}></Route>
           <Route
             path="/profile"
             element={
@@ -44,7 +43,6 @@ root.render(
               />
             }
           ></Route>
-          <Route path="/demohoc" element={<DemoHOCLogin />}></Route>
 
           <Route path="*" element={<Navigate to="" />}></Route>
         </Route>

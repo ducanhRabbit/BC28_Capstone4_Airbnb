@@ -1,14 +1,19 @@
 import { act } from "@testing-library/react";
+import { type } from "@testing-library/user-event/dist/type";
 import { Action } from "history";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import UpdateProfile from "../../Component/UpdateProfile";
+import UpdateProfile from "../../components/UpdateProfile/UpdateProfile";
 import HocModal from "../../HOC/HocModal";
 
 import { AppDispatch, RootState } from "../../redux/configStore";
 import { setModalAction } from "../../redux/reducers/modalReducer";
-import { getDatphongApi, getUserAPi } from "../../redux/reducers/userReducer";
+import {
+  getDatphongApi,
+  getUserAPi,
+  userLoginState,
+} from "../../redux/reducers/userReducer";
 import { getStoreJSON, USER_LOGIN } from "../../util/setting";
 
 type Props = {};
@@ -17,11 +22,12 @@ export default function Profile({}: Props) {
   let userLogin = useSelector(
     (state: RootState) => state.userReducer.userLogin
   );
+  console.log({ userLogin });
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    let action = getUserAPi(1);
+    let action = getUserAPi();
     dispatch(action);
-    let action2 = getDatphongApi(1);
+    let action2 = getDatphongApi();
     dispatch(action2);
   }, []);
   return (

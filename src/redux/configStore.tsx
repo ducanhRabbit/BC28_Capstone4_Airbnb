@@ -1,27 +1,27 @@
 import { configureStore } from '@reduxjs/toolkit';
+import modalReducer from './reducers/modalReducer';
+import userReducer from './reducers/userReducer';
+import locationReducer from './reducers/locationReducer';
+import roomReducer from './reducers/roomReducer';
 import commentReducer from './reducers/commentReducer';
 import locationDetailReducer from './reducers/locationDetailReducer';
 import guestDetailReducer from './reducers/guestDetailReducer';
 import roomDetailReducer from './reducers/roomDetailReducer';
-// import logger from 'redux-logger'
-// ...
 
 export const store = configureStore({
   reducer: {
+    userReducer: userReducer,
+    modalReducer: modalReducer,
+    locationReducer: locationReducer,
+    roomReducer: roomReducer,
     roomDetailReducer: roomDetailReducer,
     locationDetailReducer: locationDetailReducer,
     commentReducer: commentReducer,
     guestDetailReducer: guestDetailReducer,
   },
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({
-  //     immutableCheck: false,
-  //     serializableCheck: false,
-  //   }),
-  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+// Inferred type: {pots: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

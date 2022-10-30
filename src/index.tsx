@@ -15,9 +15,7 @@ import { createBrowserHistory } from "history";
 import "./assets/scss/style.scss";
 import Loign from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-import DemoFormik from "./pages/Register/DemoFormik";
 import Profile from "./pages/Profile/Profile";
-import DemoHOCLogin from "./pages/Login/DemoHOCLogin";
 import MobileProfile from "./pages/Profile/MobileProfile";
 import ResponsiveItem from "./HOC/ResponsiveItem";
 

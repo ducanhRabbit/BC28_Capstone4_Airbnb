@@ -76,6 +76,7 @@ export const postSignin = (data: userLogin) => {
       setStore(ACCESS_TOKEN, result.data.content.token);
       // Lưu lại email
       setStoreJSON(USER_LOGIN, result.data.content);
+      history.push("/profile");
     } catch (error: any) {
       let err = error.response.data.content;
       alert(err);

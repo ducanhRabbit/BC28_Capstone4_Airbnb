@@ -7,8 +7,10 @@
     font-family: 'Inter', 'Arial', sans-serif;
 }
 
-.container {
-    max-width: 1189px !important;
+
+.container{
+    max-width: 1309px!important;
+
 }
 
 a {
@@ -20,4 +22,11 @@ a {
 a:hover {
     text-decoration: none;
     color: unset;
+}
+
+.stroke-cus{
+    path{
+        stroke-width: 2px;
+        stroke: #fff;
+    }
 }

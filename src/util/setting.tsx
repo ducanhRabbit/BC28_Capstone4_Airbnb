@@ -39,6 +39,7 @@ export const {
   getStoreJSON,
 } = configs;
 
+
 export const TOKEN_CYBERSOFT =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA";
 
@@ -48,22 +49,22 @@ export const http = axios.create({
   timeout: 6000,
 });
 
+
 //Cấu hình request
 
 http.interceptors.request.use(
   (configs) => {
     // Cấu hình tất cả header add thêm thuộc tính Authorization
     configs.headers = {
-      ...configs.headers,
-      // ["Authorization"]: `Bearer ${getStore(ACCESS_TOKEN)}`,
-      ["tokenCybersoft"]: TOKEN_CYBERSOFT,
-    };
-    return configs;
-  },
-  (err) => {
-    return Promise.reject(err);
-  }
-);
+
+        ...configs.headers,
+        ['tokenCybersoft']: TOKEN_CYBERSOFT
+    }
+    return configs
+},(err)=>{
+    return Promise.reject(err)
+})
+
 
 /*
     StatusCode: Mã kết quả trả về do backend qui định
@@ -75,6 +76,7 @@ http.interceptors.request.use(
     403(Forbiden): Token chưa đủ quyền truy cập
     500(Error in server): Lỗi xảy ra trên server (Nguyên do do FE hoặc BE tùy tình huống)
 */
+
 
 // // Cấu hình kết quả trả về
 // http.interceptors.response.use(
@@ -97,3 +99,4 @@ http.interceptors.request.use(
 //     }
 //   }
 // );
+

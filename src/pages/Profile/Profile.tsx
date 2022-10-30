@@ -5,12 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import UpdateProfile from "../../Component/UpdateProfile";
 import HocModal from "../../HOC/HocModal";
-// import HocModal from "../../HOC/HocModal";
+
 import { AppDispatch, RootState } from "../../redux/configStore";
 import { setModalAction } from "../../redux/reducers/modalReducer";
 import { getDatphongApi, getUserAPi } from "../../redux/reducers/userReducer";
 import { getStoreJSON, USER_LOGIN } from "../../util/setting";
-import Loign from "../Login/Login";
 
 type Props = {};
 

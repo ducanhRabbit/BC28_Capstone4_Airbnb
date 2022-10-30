@@ -1,0 +1,262 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", "Arial", sans-serif;
+}
+
+.container {
+  max-width: 1309px !important;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+  display: inline-block;
+}
+
+a:hover {
+  text-decoration: none;
+  color: unset;
+}
+
+.stroke-cus path {
+  stroke-width: 2px;
+  stroke: #fff;
+}
+
+.popper-wrapper {
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+  padding: 8px 0;
+  border-radius: 5px;
+  width: 100%;
+  background-color: #fff;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  height: 80px;
+  background-color: #fff;
+  z-index: 10;
+}
+@media (max-width: 768px) {
+  header .left-header {
+    display: none;
+  }
+}
+header .left-header .logo-brand .logo svg {
+  font-size: 2.4rem;
+  color: #FF385C;
+}
+header .left-header .logo-brand .brand-name {
+  font-family: "Poppins";
+  font-weight: 600;
+  color: #FF385C;
+  font-size: 1.5rem;
+  letter-spacing: -1.5px;
+}
+header .middle-header .search .wrapper {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
+  position: relative;
+  padding: 12px 16px;
+  border-radius: 30px;
+  min-width: 400px;
+  text-align: start;
+  border: 1px solid #DDDDDD;
+  background-color: #fff;
+  border: 1.5px solid transparent;
+}
+header .middle-header .search .wrapper:focus-within {
+  border: 1.5px solid rgba(22, 24, 35, 0.2);
+}
+header .middle-header .search .wrapper .auto-typing.active {
+  display: none;
+}
+header .middle-header .search .wrapper .auto-typing .typer-wrapper {
+  color: #202020;
+}
+header .middle-header .search .wrapper .search-bar .search-input {
+  position: relative;
+  border: none;
+  outline: none;
+  width: 90%;
+}
+header .middle-header .search .wrapper .search-bar .close-btn {
+  position: absolute;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  top: 50%;
+  right: 50px;
+  transform: translateY(-50%);
+}
+header .middle-header .search .wrapper .search-bar .close-btn svg {
+  color: rgba(0, 0, 0, 0.3);
+}
+header .middle-header .search .wrapper .search-icon {
+  background-color: #FF385C;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+}
+header .middle-header .search .wrapper .search-icon svg {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  color: #fff;
+}
+header .middle-header .search .wrapper .search-popper {
+  width: 400px;
+  margin-top: 12px;
+}
+header .middle-header .search .wrapper .search-popper .search-content {
+  max-height: 400px;
+  overflow: auto;
+}
+header .middle-header .search .wrapper .search-popper .search-content .search-item {
+  gap: 20px;
+  padding: 8px 32px;
+}
+header .middle-header .search .wrapper .search-popper .search-content .search-item:hover {
+  background-color: #DDDDDD;
+}
+header .middle-header .search .wrapper .search-popper .search-content .search-item:hover .location-icon {
+  background-color: #fff;
+}
+header .middle-header .search .wrapper .search-popper .search-content .search-item .location-icon {
+  background-color: rgb(235, 235, 235);
+  border-radius: 10px;
+  overflow: hidden;
+  width: 48px;
+  height: 48px;
+}
+header .middle-header .search .wrapper .search-popper .search-content .search-item .location-icon svg {
+  font-size: 20px;
+}
+header .middle-header .search .wrapper .search-popper .search-content .search-item .location-result {
+  flex: 1;
+}
+@media (max-width: 768px) {
+  header .right-header {
+    display: none;
+  }
+}
+header .right-header .host-language {
+  gap: 10px;
+}
+header .right-header .host-language .host {
+  padding: 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+header .right-header .host-language .host:hover {
+  background-color: #f8f8f8;
+}
+header .right-header .host-language .language {
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 50%;
+}
+header .right-header .host-language .language:hover {
+  background-color: #f8f8f8;
+}
+header .right-header .host-language .language svg {
+  font-size: 1.1rem;
+}
+header .right-header .profile .menu-content {
+  min-width: 240px;
+  overflow-y: auto;
+  max-height: 50vh;
+}
+header .right-header .profile .menu-content .menu-item {
+  font-size: 14px;
+  padding: 12px 16px;
+  display: block;
+}
+header .right-header .profile .menu-content .menu-item:hover {
+  background-color: #DDDDDD;
+}
+header .right-header .profile .wrapper {
+  border: 1px solid #DDDDDD;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 5px 5px 5px 12px;
+}
+header .right-header .profile .wrapper .user-info {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+header .right-header .profile .wrapper .user-info img {
+  object-fit: cover;
+}
+
+footer {
+  background-color: #fff;
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  padding: 14px 0;
+  font-size: 14px;
+  color: #222222;
+}
+footer .footer-wrapper .left-footer {
+  line-height: 18px;
+}
+footer .footer-wrapper .left-footer .copyright .copyright-icon {
+  font-size: 12px;
+  margin-right: 4px;
+}
+footer .footer-wrapper .left-footer .privacy:hover, footer .footer-wrapper .left-footer .terms:hover, footer .footer-wrapper .left-footer .sitemap:hover, footer .footer-wrapper .left-footer .destination:hover {
+  text-decoration: underline;
+}
+footer .footer-wrapper .left-footer .dot {
+  display: inline-block;
+  width: 19px;
+  line-height: 18px;
+  text-align: center;
+  height: 18px;
+  transform: translateY(-4px);
+  font-weight: 600;
+}
+footer .footer-wrapper .right-footer {
+  gap: 20px;
+}
+footer .footer-wrapper .right-footer .language {
+  cursor: pointer;
+}
+footer .footer-wrapper .right-footer .language .language-icon {
+  margin-right: 4px;
+}
+footer .footer-wrapper .right-footer .language .current-lang:hover {
+  text-decoration: underline;
+}
+footer .footer-wrapper .right-footer .currency {
+  cursor: pointer;
+}
+footer .footer-wrapper .right-footer .currency .currency-icon {
+  margin-right: 4px;
+}
+footer .footer-wrapper .right-footer .currency .current-currency:hover {
+  text-decoration: underline;
+}
+footer .footer-wrapper .right-footer .support {
+  cursor: pointer;
+}
+footer .footer-wrapper .right-footer .support:hover {
+  text-decoration: underline;
+}
+footer .footer-wrapper .right-footer .support .support-icon {
+  margin-left: 8px;
+}

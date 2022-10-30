@@ -39,7 +39,14 @@ export default function Profile({}: Props) {
             <div className="col-4">
               <div className="card">
                 <div className="card_img">
-                  <img src={userLogin?.avatar} alt="" />
+                  <img
+                    src={
+                      userLogin?.avatar
+                        ? userLogin.avatar
+                        : "https://www.tutorsvalley.com/public/storage/uploads/tutor/1574383712-1AB5217C-5A13-4888-A5A1-BE0BCADBC655.png"
+                    }
+                    alt=""
+                  />
                   <a href="#">Cập nhập ảnh</a>
                 </div>
                 <div>
@@ -89,6 +96,7 @@ export default function Profile({}: Props) {
               <div className="my-2">
                 <p>Phòng đã thuê</p>
               </div>
+              <hr />
             </div>
           </div>
         </div>

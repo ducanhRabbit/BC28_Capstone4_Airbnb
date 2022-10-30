@@ -11,17 +11,6 @@ export default function HocModal({}: Props) {
   );
   return (
     <div>
-      {/* Modal trigger button */}
-      {/* <button
-        type="button"
-        className="btn btn-primary btn-lg"
-        data-bs-toggle="modal"
-        data-bs-target={"#modal"}
-      >
-        Launch
-      </button> */}
-      {/* Modal Body */}
-      {/* if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard */}
       <div
         className="modal fade"
         id="modal"
@@ -33,7 +22,7 @@ export default function HocModal({}: Props) {
         aria-hidden="true"
       >
         <div
-          className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl"
+          className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
           role="document"
         >
           <div className="modal-content">
@@ -54,7 +43,6 @@ export default function HocModal({}: Props) {
           </div>
         </div>
       </div>
-      {/* Optional: Place to the bottom of scripts */}
     </div>
   );
 }

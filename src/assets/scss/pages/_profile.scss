@@ -1,11 +1,15 @@
 .profile {
     .container {
+        max-width: 1032px !important;
+
         .row {
             .col-4 {
+
                 .card {
                     padding: 24px;
                     border-radius: 12px;
                     max-width: 308px;
+                    margin-right: 20px;
 
                     .card_img {
                         margin: 0 auto;
@@ -20,6 +24,7 @@
 
                         a {
                             text-decoration: revert;
+                            color: $text-c1-dark ;
                         }
                     }
 
@@ -78,6 +83,9 @@
             }
 
             .col-8 {
+                margin-left: auto;
+                max-width: 632px;
+
                 h1 {
                     @include text ($text-3xl, $text-bold, $text-c1-dark);
 
@@ -91,6 +99,7 @@
 
                 a {
                     text-decoration: revert;
+                    color: $text-c1-dark ;
                 }
 
                 div {

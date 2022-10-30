@@ -1,5 +1,5 @@
 import React from 'react';
-import { Room } from '../redux/reducers/phongThueReducer';
+import { Room } from '../../redux/reducers/roomDetailReducer';
 
 type Props = {
   item: Room;

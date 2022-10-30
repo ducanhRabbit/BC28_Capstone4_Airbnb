@@ -3,7 +3,7 @@ import { Comment } from 'antd';
 import axios from 'axios';
 import { http } from '../../util/setting';
 import { AppDispatch, RootState } from '../configStore';
-import { getRoomDetail } from './phongThueReducer';
+import { getRoomDetail } from './roomDetailReducer';
 
 export interface Comment {
   id: number;

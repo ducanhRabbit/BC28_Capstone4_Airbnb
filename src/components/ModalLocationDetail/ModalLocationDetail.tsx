@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViTri } from '../redux/reducers/locationDetailReducer';
+import { ViTri } from '../../redux/reducers/locationDetailReducer';
 
 type Props = {
   location: ViTri;
@@ -15,7 +15,7 @@ export default function Modal({ location }: Props) {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog modal-dialog-centered modal-xl">
+        <div className="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-lg-down">
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModalLabel">

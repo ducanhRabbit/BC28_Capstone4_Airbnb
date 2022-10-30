@@ -1,17 +1,24 @@
 import { configureStore } from '@reduxjs/toolkit';
 import commentReducer from './reducers/commentReducer';
 import locationDetailReducer from './reducers/locationDetailReducer';
-import phongThueReducer from './reducers/phongThueReducer';
 import guestDetailReducer from './reducers/guestDetailReducer';
+import roomDetailReducer from './reducers/roomDetailReducer';
+// import logger from 'redux-logger'
 // ...
 
 export const store = configureStore({
   reducer: {
-    phongThueReducer: phongThueReducer,
+    roomDetailReducer: roomDetailReducer,
     locationDetailReducer: locationDetailReducer,
     commentReducer: commentReducer,
     guestDetailReducer: guestDetailReducer,
   },
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware({
+  //     immutableCheck: false,
+  //     serializableCheck: false,
+  //   }),
+  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

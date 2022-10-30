@@ -3,9 +3,10 @@
 @import './base/base';
 //Components
 @import './components/header';
-@import './components/bookRoom';
-@import './components/comments';
-@import './components/convenient';
+@import './components/BookRoom/bookRoom';
+@import './components/Comments/comments';
+@import './components/Convenient/convenient';
+@import './components/BookRoom/bookRoomMobile';
 
 //Pages
 @import './pages/detail';

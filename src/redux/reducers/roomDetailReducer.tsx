@@ -58,8 +58,8 @@ const initialState: RoomState = {
   },
 };
 
-const phongThueReducer = createSlice({
-  name: 'phongThueReducer',
+const roomDetailReducer = createSlice({
+  name: 'roomDetailReducer',
   initialState,
   reducers: {
     getRoomDetail: (state, action: PayloadAction<Room>) => {
@@ -120,9 +120,9 @@ const phongThueReducer = createSlice({
   },
 });
 
-export const { getRoomDetail, amountGuest, filterBookedRoom } = phongThueReducer.actions;
+export const { getRoomDetail, amountGuest, filterBookedRoom } = roomDetailReducer.actions;
 
-export default phongThueReducer.reducer;
+export default roomDetailReducer.reducer;
 
 //----------------api--------------------------
 export const getRoomDetailApi = (id: string) => {

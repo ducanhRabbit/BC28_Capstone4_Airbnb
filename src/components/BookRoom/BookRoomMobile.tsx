@@ -2,24 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { DatePicker } from 'antd';
 import type { RangePickerProps } from 'antd/es/date-picker';
 import moment from 'moment';
-import { amountGuest, getBookRoomApi, postBookRoomApi, Room } from '../redux/reducers/phongThueReducer';
+import { amountGuest, getBookRoomApi, postBookRoomApi, Room } from '../../redux/reducers/roomDetailReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../redux/configStore';
+import { AppDispatch, RootState } from '../../redux/configStore';
+import { useAppSelector } from '../../redux/hooks';
 
 const { RangePicker } = DatePicker;
 
-type Props = {
-  roomDetail: Room;
-};
+type Props = {};
 
-export default function BookRoom({ roomDetail }: Props) {
+export default function BookRoomMobile({}: Props) {
   const [close, setClose] = useState(false);
   let dispatch: AppDispatch = useDispatch();
   const [date, setDate] = useState({ ngayDen: '', ngayDi: '' });
   const [totalDate, setTotalDate] = useState(0);
+  let { room } = useAppSelector((state) => state.roomDetailReducer);
+  let [roomDetail] = [...room];
 
-  const { nguoiLon, treEm, emBe, thuCung } = useSelector((state: RootState) => state.phongThueReducer.guestNumber);
-  const { bookRoom, arrBookRoom, guestNumber } = useSelector((state: RootState) => state.phongThueReducer);
+  const { nguoiLon, treEm, emBe, thuCung } = useSelector((state: RootState) => state.roomDetailReducer.guestNumber);
+  const { bookRoom, arrBookRoom, guestNumber } = useSelector((state: RootState) => state.roomDetailReducer);
   const { arrCommentId } = useSelector((state: RootState) => state.commentReducer);
 
   let dates = [
@@ -95,6 +96,7 @@ export default function BookRoom({ roomDetail }: Props) {
     const action = getBookRoomApi();
     dispatch(action);
   }, [roomDetail?.id]);
+  console.log('filter mobile');
 
   const handleCloseTab = () => {
     setClose(!close);
@@ -102,7 +104,19 @@ export default function BookRoom({ roomDetail }: Props) {
   return (
     <div className="col-4">
       <div className="detail_book">
-        <div className="detail_book-layout">
+        <div className="book_mobile">
+          <div>
+            <div className="detail_book-header-price">
+              <span className="header_price">${roomDetail?.giaTien}</span> <span>đêm</span>
+            </div>
+            <div>
+              <button onClick={submitBookRoom} className="detail_book-body-btnSubmit">
+                Đặt phòng
+              </button>
+            </div>
+          </div>
+        </div>
+        {/* <div className="detail_book-layout">
           <div className="detail_book-header">
             <div className="detail_book-header-price">
               <span className="header_price">${roomDetail?.giaTien}</span> <span>đêm</span>
@@ -272,7 +286,7 @@ export default function BookRoom({ roomDetail }: Props) {
             <p>Tổng trước thuế</p>
             <p>${roomDetail?.giaTien * totalDate}</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

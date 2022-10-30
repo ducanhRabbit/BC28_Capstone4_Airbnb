@@ -2,11 +2,11 @@ import React, { useState, createElement, useEffect } from 'react';
 import { Avatar, Comment, Tooltip } from 'antd';
 import { Rate } from 'antd';
 import moment from 'moment';
-import { filterComment, getAllCommentApi, postCommentApi } from '../redux/reducers/commentReducer';
-import { AppDispatch, RootState } from '../redux/configStore';
+import { filterComment, getAllCommentApi, postCommentApi } from '../../redux/reducers/commentReducer';
+import { AppDispatch, RootState } from '../../redux/configStore';
 import { useDispatch, useSelector } from 'react-redux';
-import { Room } from '../redux/reducers/phongThueReducer';
-import { getGuestDetailApi } from '../redux/reducers/guestDetailReducer';
+import { Room } from '../../redux/reducers/roomDetailReducer';
+import { getGuestDetailApi } from '../../redux/reducers/guestDetailReducer';
 import { Button, message } from 'antd';
 
 type Props = {
@@ -35,7 +35,7 @@ export default function Comments({ roomDetail }: Props) {
         let guestComment = filterUerComment(comment?.maNguoiBinhLuan);
 
         return (
-          <div className="col-6" key={index}>
+          <div className="col-md-6 col-12" key={index}>
             <Comment
               className="detail_comment-item"
               author={<a className="detail_comment-item-name">{guestComment?.name}</a>}
@@ -96,99 +96,123 @@ export default function Comments({ roomDetail }: Props) {
         <span className="ms-2 rate_title">4,80</span>
         <li className="ms-3 rate_title">{arrCommentId.length} đánh giá</li>
       </div>
-      <div className="col-6">
+      <div className="col-md-6 col-12">
         <div className="detail_comment-process">
           <div className="detail_comment-process-item">
-            <p className="m-0 process-text">Mức độ sạch sẽ</p>
-            <div className="progress process-item">
-              <div
-                className="progress-bar process-item-bar"
-                role="progressbar"
-                aria-label="Basic example"
-                style={{ width: '95%' }}
-                aria-valuenow={25}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              />
+            <div className="col-6">
+              <p className="m-0 process-text">Mức độ sạch sẽ</p>
+            </div>
+            <div className="col-6">
+              <div className="progress process-item">
+                <div
+                  className="progress-bar process-item-bar"
+                  role="progressbar"
+                  aria-label="Basic example"
+                  style={{ width: '95%' }}
+                  aria-valuenow={25}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                />
+              </div>
             </div>
           </div>
 
           <div className="detail_comment-process-item">
-            <p className="m-0 process-text">Giao tiếp</p>
-            <div className="progress process-item">
-              <div
-                className="progress-bar process-item-bar"
-                role="progressbar"
-                aria-label="Basic example"
-                style={{ width: '100%' }}
-                aria-valuenow={25}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              />
+            <div className="col-6">
+              <p className="m-0 process-text">Giao tiếp</p>
+            </div>
+            <div className="col-6">
+              <div className="progress process-item">
+                <div
+                  className="progress-bar process-item-bar"
+                  role="progressbar"
+                  aria-label="Basic example"
+                  style={{ width: '100%' }}
+                  aria-valuenow={25}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                />
+              </div>
             </div>
           </div>
 
           <div className="detail_comment-process-item">
-            <p className="m-0 process-text">Nhận phòng</p>
-            <div className="progress process-item">
-              <div
-                className="progress-bar process-item-bar"
-                role="progressbar"
-                aria-label="Basic example"
-                style={{ width: '80%' }}
-                aria-valuenow={25}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              />
+            <div className="col-6">
+              <p className="m-0 process-text">Nhận phòng</p>
+            </div>
+            <div className="col-6">
+              <div className="progress process-item">
+                <div
+                  className="progress-bar process-item-bar"
+                  role="progressbar"
+                  aria-label="Basic example"
+                  style={{ width: '80%' }}
+                  aria-valuenow={25}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="col-6">
+      <div className="col-md-6 col-12">
         <div className="detail_comment-process">
           <div className="detail_comment-process-item">
-            <p className="m-0 process-text">Độ chính xác</p>
-            <div className="progress process-item">
-              <div
-                className="progress-bar process-item-bar"
-                role="progressbar"
-                aria-label="Basic example"
-                style={{ width: '95%' }}
-                aria-valuenow={25}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              />
+            <div className="col-6">
+              <p className="m-0 process-text">Độ chính xác</p>
+            </div>
+            <div className="col-6">
+              <div className="progress process-item">
+                <div
+                  className="progress-bar process-item-bar"
+                  role="progressbar"
+                  aria-label="Basic example"
+                  style={{ width: '95%' }}
+                  aria-valuenow={25}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                />
+              </div>
             </div>
           </div>
 
           <div className="detail_comment-process-item">
-            <p className="m-0 process-text">Vị trí</p>
-            <div className="progress process-item">
-              <div
-                className="progress-bar process-item-bar"
-                role="progressbar"
-                aria-label="Basic example"
-                style={{ width: '100%' }}
-                aria-valuenow={25}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              />
+            <div className="col-6">
+              <p className="m-0 process-text">Vị trí</p>
+            </div>
+            <div className="col-6">
+              <div className="progress process-item">
+                <div
+                  className="progress-bar process-item-bar"
+                  role="progressbar"
+                  aria-label="Basic example"
+                  style={{ width: '100%' }}
+                  aria-valuenow={25}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                />
+              </div>
             </div>
           </div>
 
           <div className="detail_comment-process-item">
-            <p className="m-0 process-text">Giá trị</p>
-            <div className="progress process-item">
-              <div
-                className="progress-bar process-item-bar"
-                role="progressbar"
-                aria-label="Basic example"
-                style={{ width: '80%' }}
-                aria-valuenow={25}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              />
+            <div className="col-6">
+              <p className="m-0 process-text">Giá trị</p>
+            </div>
+            <div className="col-6">
+              <div className="progress process-item">
+                <div
+                  className="progress-bar process-item-bar"
+                  role="progressbar"
+                  aria-label="Basic example"
+                  style={{ width: '80%' }}
+                  aria-valuenow={25}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                />
+              </div>
             </div>
           </div>
         </div>

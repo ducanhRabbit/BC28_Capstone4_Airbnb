@@ -1,22 +1,25 @@
 import React, { useEffect } from 'react';
 import { NavLink, useLoaderData, useParams } from 'react-router-dom';
 import 'antd/dist/antd.css';
-import BookRoom from '../../components/BookRoom';
-import Comments from '../../components/Comments';
-import { getRoomDetailApi } from '../../redux/reducers/phongThueReducer';
+import BookRoom from '../../components/BookRoom/BookRoom';
+import Comments from '../../components/Comments/Comments';
+import { getRoomDetailApi } from '../../redux/reducers/roomDetailReducer';
 import { AppDispatch, RootState } from '../../redux/configStore';
 import { useDispatch, useSelector } from 'react-redux';
 import { number } from 'yup';
 import { useAppSelector } from '../../redux/hooks';
-import Convenient from '../../components/Convenient';
+import Convenient from '../../components/Convenient/Convenient';
 import { getLocationDetailApi } from '../../redux/reducers/locationDetailReducer';
-import Modal from '../../components/Modal';
+import Modal from '../../components/ModalLocationDetail/ModalLocationDetail';
+import ResponsiveItem from '../../HOC/ResponsiveItem';
+import BookRoomMobile from '../../components/BookRoom/BookRoomMobile';
+import ResponsiveTest from '../../HOC/ResponsiveTest';
 
 type Props = {};
 
 export default function AirbnbDetail({}: Props) {
   const params = useParams();
-  let { room } = useAppSelector((state) => state.phongThueReducer);
+  let { room } = useAppSelector((state) => state.roomDetailReducer);
   const { arrCommentId } = useSelector((state: RootState) => state.commentReducer);
 
   let [roomDetail] = [...room];
@@ -116,8 +119,12 @@ export default function AirbnbDetail({}: Props) {
               <Convenient item={roomDetail} />
             </div>
           </div>
-
-          <BookRoom roomDetail={roomDetail} />
+          <ResponsiveItem Component={BookRoom} ComponentMobile={BookRoomMobile} />
+          {/* <ResponsiveTest
+            Component={<BookRoom roomDetail={roomDetail} />}
+            ComponentMobile={<BookRoomMobile roomDetail={roomDetail} />}
+          /> */}
+          {/* <BookRoom roomDetail={roomDetail} /> */}
         </div>
       </div>
     );

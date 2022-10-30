@@ -14,32 +14,26 @@ import {
 import { createBrowserHistory } from "history";
 import "./assets/scss/style.scss";
 
-import MUIThemeProvider from "./themes/MUIThemeProvider";
-import RoomList from "./pages/RoomList/RoomList";
-
 import Loign from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Profile from "./pages/Profile/Profile";
 import MobileProfile from "./pages/Profile/MobileProfile";
-import ResponsiveItem from "./hoc/ResponsiveItem";
-
-
+import ResponsiveItem from "./HOC/ResponsiveItem";
+import RoomList from "./pages/RoomList/RoomList";
 
 export const history = createBrowserHistory();
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-
-
   <Provider store={store}>
     <HistoryRouter history={history}>
       <Routes>
         <Route path="" element={<UserTemplate />}>
           <Route index element={<Home />}></Route>
-          <Route path="/roomlist" >
-                <Route path=':id' element={<RoomList/>}></Route>
-              </Route>
+          <Route path="/roomlist">
+            <Route path=":id" element={<RoomList />}></Route>
+          </Route>
           <Route path="/login" element={<Loign />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route
@@ -57,7 +51,6 @@ root.render(
       </Routes>
     </HistoryRouter>
   </Provider>
-
 );
 
 // If you want to start measuring performance in your app, pass a function

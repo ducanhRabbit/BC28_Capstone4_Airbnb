@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 type Props = {
-  Component: React.FC;
-  ComponentMobile: React.FC | undefined;
+  Component: JSX.Element;
+  ComponentMobile: JSX.Element | undefined;
 };
 type Screen = {
   width: number;
@@ -30,7 +30,7 @@ export default function ResponsiveItem({ Component, ComponentMobile }: Props): J
     };
   }, []);
   if (screen.width <= 768 && ComponentMobile) {
-    return <ComponentMobile />;
+    return ComponentMobile;
   }
-  return <Component />;
+  return Component;
 }

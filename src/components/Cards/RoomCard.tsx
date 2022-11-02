@@ -3,10 +3,10 @@ import { Box } from '@mui/system'
 import {BsDot} from 'react-icons/bs'
 import React from 'react'
 import { grey } from '@mui/material/colors'
-import { RoomInfo } from '../../redux/reducers/roomReducer'
+import { Room } from '../../redux/reducers/roomDetailReducer'
 
 interface RoomTypeAsProp{
-  roomInfo:RoomInfo
+  roomInfo:Room
 }
 export default function RoomCard({roomInfo}:RoomTypeAsProp) {
   const amentities = Object.keys(roomInfo);
@@ -124,7 +124,8 @@ export default function RoomCard({roomInfo}:RoomTypeAsProp) {
           <Box className="room-price" sx={{
             position: 'absolute',
             right: '20px',
-            bottom: 0
+            bottom: 0,
+            fontSize: '18px'
           }}>
             <strong>${roomInfo.giaTien} </strong>
           </Box>

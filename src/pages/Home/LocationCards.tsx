@@ -4,11 +4,11 @@ import { http } from '../../util/setting'
 import {FaHeart} from 'react-icons/fa'
 import {AiFillStar} from 'react-icons/ai'
 import { NavLink } from 'react-router-dom'
-import { Location } from '../../redux/reducers/locationReducer'
+import { ViTri } from '../../redux/reducers/locationDetailReducer'
 type Props = {}
 
 export default function LocationCards({}: Props) {
-  const [locationArr, setLocationArr] = useState<Location[]>([])
+  const [locationArr, setLocationArr] = useState<ViTri[]>([])
   const [page , setPage] = useState(1)
   const handleScroll = ():void=>{
 

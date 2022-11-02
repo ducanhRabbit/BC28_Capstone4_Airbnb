@@ -29,10 +29,18 @@
   }
 
   &-item {
+<<<<<<< HEAD
     padding-right: 90px;
     margin-top: 30px;
     &-name {
       @include text(16px, 500, #222222);
+=======
+    // padding-right: 90px;
+    margin-top: 30px;
+    &-name {
+      @include text(16px, 600, #222222);
+      color: #222222 !important;
+>>>>>>> 2d2d2fcdbbdeae5bb29de120348d7547b8b6e38b
     }
     &-text {
       @include text(16px, 400, rgba(34, 34, 34, 0.8));
@@ -40,13 +48,21 @@
   }
 
   &-write {
+<<<<<<< HEAD
     margin-top: 30px;
+=======
+    margin-top: 50px;
+>>>>>>> 2d2d2fcdbbdeae5bb29de120348d7547b8b6e38b
 
     &-rate {
       margin: 0 0 20px 55px;
 
       .rate_text {
+<<<<<<< HEAD
         @include text(22px, 500, #222222);
+=======
+        @include text(20px, 600, #222222);
+>>>>>>> 2d2d2fcdbbdeae5bb29de120348d7547b8b6e38b
       }
       .rate_star {
         font-size: 20px !important;
@@ -83,11 +99,27 @@
       }
     }
   }
+<<<<<<< HEAD
+=======
+  .comment_btn-show {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #222222;
+    @include text(16px, 600, #222222);
+    margin-top: 20px;
+    transition: all 0.2s;
+    &:hover {
+      background-color: #f7f7f7;
+    }
+  }
+>>>>>>> 2d2d2fcdbbdeae5bb29de120348d7547b8b6e38b
 }
 
 //responsive
 @media (max-width: 768px) {
   .detail_comment {
+<<<<<<< HEAD
     &-process {
       padding-right: 0px;
     }
@@ -145,6 +177,49 @@
           padding: 10px;
         }
       }
+=======
+    &-rate {
+      .rate_title {
+        font-size: 18px;
+      }
+    }
+    &-process {
+      padding-right: 0px;
+    }
+
+    &-write {
+      &-rate {
+        .rate_text {
+          @include text(18px, 600, #222222);
+        }
+        .rate_star {
+          font-size: 18px !important;
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 375px) {
+  .detail_comment {
+    &-rate {
+      .rate_title {
+        font-size: 14px;
+      }
+    }
+
+    &-write {
+      &-rate {
+        .rate_text {
+          @include text(16px, 600, #222222);
+        }
+        .rate_star {
+          font-size: 16px !important;
+          margin-left: 20px;
+        }
+      }
+>>>>>>> 2d2d2fcdbbdeae5bb29de120348d7547b8b6e38b
     }
   }
 }

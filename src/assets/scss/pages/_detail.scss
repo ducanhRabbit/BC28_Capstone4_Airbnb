@@ -63,7 +63,11 @@
 
 .detail_rate-star {
   color: #ff395c;
+<<<<<<< HEAD
   font-size: 16px;
+=======
+  font-size: 14px;
+>>>>>>> 2d2d2fcdbbdeae5bb29de120348d7547b8b6e38b
 }
 
 .detail_rate-note {
@@ -92,3 +96,14 @@
     }
   }
 }
+<<<<<<< HEAD
+=======
+
+@media (max-width: 576px) {
+  .detail {
+    .detail_title {
+      @include text(22px, 500, #222222);
+    }
+  }
+}
+>>>>>>> 2d2d2fcdbbdeae5bb29de120348d7547b8b6e38b

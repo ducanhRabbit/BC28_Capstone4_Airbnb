@@ -1,11 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { DatePicker } from 'antd';
-import type { RangePickerProps } from 'antd/es/date-picker';
-import moment from 'moment';
-import { amountGuest, getBookRoomApi, postBookRoomApi, Room } from '../../redux/reducers/roomDetailReducer';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/configStore';
-import { useAppSelector } from '../../redux/hooks';
+import React, { useEffect, useState } from "react";
+import { DatePicker } from "antd";
+import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
+import moment from "moment";
+import {
+  amountGuest,
+  getBookRoomApi,
+  postBookRoomApi,
+  Room,
+} from "../../redux/reducers/roomDetailReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/configStore";
+import { useAppSelector } from "../../redux/hooks";
+import ResponsiveItem from "../../HOC/ResponsiveItem";
 
 const { RangePicker } = DatePicker;
 
@@ -14,19 +20,25 @@ type Props = {};
 export default function BookRoom({}: Props) {
   const [close, setClose] = useState(false);
   let dispatch: AppDispatch = useDispatch();
-  const [date, setDate] = useState({ ngayDen: '', ngayDi: '' });
+  const [date, setDate] = useState({ ngayDen: "", ngayDi: "" });
   const [totalDate, setTotalDate] = useState(0);
   let { room } = useAppSelector((state) => state.roomDetailReducer);
   let [roomDetail] = [...room];
 
-  const { nguoiLon, treEm, emBe, thuCung } = useSelector((state: RootState) => state.roomDetailReducer.guestNumber);
-  const { bookRoom, arrBookRoom, guestNumber } = useSelector((state: RootState) => state.roomDetailReducer);
-  const { arrCommentId } = useSelector((state: RootState) => state.commentReducer);
+  const { nguoiLon, treEm, emBe, thuCung } = useSelector(
+    (state: RootState) => state.roomDetailReducer.guestNumber
+  );
+  const { bookRoom, arrBookRoom, guestNumber } = useSelector(
+    (state: RootState) => state.roomDetailReducer
+  );
+  const { arrCommentId } = useSelector(
+    (state: RootState) => state.commentReducer
+  );
 
   let dates = [
     {
-      ngayDen: '2022-10-01',
-      ngayDi: '2022-10-02',
+      ngayDen: "2022-10-01",
+      ngayDi: "2022-10-02",
     },
   ];
 
@@ -44,31 +56,43 @@ export default function BookRoom({}: Props) {
       datess = [];
 
     while (now.isSameOrBefore(endDate)) {
-      datess.push(now.format('YYYY-MM-DD'));
-      now.add(1, 'days');
+      datess.push(now.format("YYYY-MM-DD"));
+      now.add(1, "days");
     }
     return datess;
   };
-  let dateList = dates.map((day) => getDaysBetweenDates(moment(day.ngayDen), moment(day.ngayDi)));
+  let dateList = dates.map((day) =>
+    getDaysBetweenDates(moment(day.ngayDen), moment(day.ngayDi))
+  );
 
   let arrDayDisable = dateList.flatMap((a) => a);
 
-  const disabledDate: RangePickerProps['disabledDate'] = (current) => {
-    let index = arrDayDisable.findIndex((date) => date === moment(current).format('YYYY-MM-DD'));
-    return (current && current < moment().endOf('day')) || (index !== -1 && true);
+  const disabledDate: RangePickerProps["disabledDate"] = (current) => {
+    let index = arrDayDisable.findIndex(
+      (date) => date === moment(current).format("YYYY-MM-DD")
+    );
+    return (
+      (current && current < moment().endOf("day")) || (index !== -1 && true)
+    );
   };
 
-  const onChange: RangePickerProps['onChange'] = (dates, dateStrings) => {
+  const onChange: RangePickerProps["onChange"] = (dates, dateStrings) => {
     if (dates) {
       setDate({
-        ngayDen: moment.utc(dateStrings[0], 'YYYY-MM-DD').format('YYYY-MM-DD'),
-        ngayDi: moment.utc(dateStrings[1], 'YYYY-MM-DD').format('YYYY-MM-DD'),
+        ngayDen: moment.utc(dateStrings[0], "YYYY-MM-DD").format("YYYY-MM-DD"),
+        ngayDi: moment.utc(dateStrings[1], "YYYY-MM-DD").format("YYYY-MM-DD"),
       });
       setTotalDate(
-        moment.duration(moment(dateStrings[1], 'YYYY-MM-DD').diff(moment(dateStrings[0], 'YYYY-MM-DD'))).asDays()
+        moment
+          .duration(
+            moment(dateStrings[1], "YYYY-MM-DD").diff(
+              moment(dateStrings[0], "YYYY-MM-DD")
+            )
+          )
+          .asDays()
       );
     } else {
-      console.log('Clear');
+      console.log("Clear");
     }
   };
 
@@ -87,7 +111,6 @@ export default function BookRoom({}: Props) {
       maNguoiDung: 1,
     };
 
-    // console.log(date);
     const action = postBookRoomApi(booked);
     dispatch(action);
   };
@@ -96,22 +119,23 @@ export default function BookRoom({}: Props) {
     const action = getBookRoomApi();
     dispatch(action);
   }, [roomDetail?.id, dispatch]);
-  console.log('filter');
 
   const handleCloseTab = () => {
     setClose(!close);
   };
   return (
-    <div className="col-4">
+    <div className="col-md-4 col-12">
       <div className="detail_book">
         <div className="detail_book-layout">
           <div className="detail_book-header">
             <div className="detail_book-header-price">
-              <span className="header_price">${roomDetail?.giaTien}</span> <span>đêm</span>
+              <span className="header_price">${roomDetail?.giaTien}</span>{" "}
+              <span>đêm</span>
             </div>
             <div className="detail_book-header-rate">
               <span>
-                <i className="fas fa-star detail_rate-star"></i> <span>4,80</span>
+                <i className="fas fa-star detail_rate-star"></i>{" "}
+                <span>4,80</span>
               </span>
               <li className="ms-2">
                 <a className="detail_rate-note" href="#detailComment">
@@ -123,15 +147,19 @@ export default function BookRoom({}: Props) {
 
           <div className="detail_book-body">
             <div className="detail_book-body-date">
+              {/* <ResponsiveItem Component={datePC} ComponentMobile={dateMobile} /> */}
               <RangePicker
-                placeholder={['Nhận phòng', 'Trả phòng']}
+                placeholder={["Nhận phòng", "Trả phòng"]}
                 placement="bottomRight"
                 disabledDate={disabledDate}
                 onChange={onChange}
               />
             </div>
 
-            <div className="detail_book-body-guest accordion accordion-flush" id="accordionFlushExample">
+            <div
+              className="detail_book-body-guest accordion accordion-flush"
+              id="accordionFlushExample"
+            >
               <div className="accordion-item">
                 <h2 className="accordion-header" id="flush-headingOne">
                   <button
@@ -145,14 +173,16 @@ export default function BookRoom({}: Props) {
                     <p className="guest_text-bold">Khách</p>
                     <p className="detail_guest-btn-amount">
                       {nguoiLon + treEm} khách
-                      <span>{emBe >= 1 ? `, ${emBe} em bé` : ''}</span>
-                      <span>{thuCung >= 1 ? `, ${thuCung} thú cưng` : ''}</span>
+                      <span>{emBe >= 1 ? `, ${emBe} em bé` : ""}</span>
+                      <span>{thuCung >= 1 ? `, ${thuCung} thú cưng` : ""}</span>
                     </p>
                   </button>
                 </h2>
                 <div
                   id="flush-collapseOne"
-                  className={`${'close_tab' && close} detail_guest-layout accordion-collapse collapse`}
+                  className={`${
+                    "close_tab" && close
+                  } detail_guest-layout accordion-collapse collapse`}
                   aria-labelledby="flush-headingOne"
                   data-bs-parent="#accordionFlushExample"
                 >
@@ -163,11 +193,17 @@ export default function BookRoom({}: Props) {
                         <p className="guest_text-regular">Từ 13 tuổi trở lên</p>
                       </div>
                       <div className="detail_guest-item-number">
-                        <button onClick={() => countGuest(true, 'nguoiLon')} className="guest_btn">
+                        <button
+                          onClick={() => countGuest(true, "nguoiLon")}
+                          className="guest_btn"
+                        >
                           +
                         </button>
                         <p>{nguoiLon}</p>
-                        <button onClick={() => countGuest(false, 'nguoiLon')} className="guest_btn">
+                        <button
+                          onClick={() => countGuest(false, "nguoiLon")}
+                          className="guest_btn"
+                        >
                           -
                         </button>
                       </div>
@@ -179,11 +215,17 @@ export default function BookRoom({}: Props) {
                         <p className="guest_text-regular">Độ tuổi 2 - 12</p>
                       </div>
                       <div className="detail_guest-item-number">
-                        <button onClick={() => countGuest(true, 'treEm')} className="guest_btn">
+                        <button
+                          onClick={() => countGuest(true, "treEm")}
+                          className="guest_btn"
+                        >
                           +
                         </button>
                         <p>{treEm}</p>
-                        <button onClick={() => countGuest(false, 'treEm')} className="guest_btn">
+                        <button
+                          onClick={() => countGuest(false, "treEm")}
+                          className="guest_btn"
+                        >
                           -
                         </button>
                       </div>
@@ -195,12 +237,18 @@ export default function BookRoom({}: Props) {
                         <p className="guest_text-regular">Dưới 2 tuổi</p>
                       </div>
                       <div className="detail_guest-item-number">
-                        <button onClick={() => countGuest(true, 'emBe')} className="guest_btn">
+                        <button
+                          onClick={() => countGuest(true, "emBe")}
+                          className="guest_btn"
+                        >
                           +
                         </button>
                         <p>{emBe}</p>
 
-                        <button onClick={() => countGuest(false, 'emBe')} className="guest_btn">
+                        <button
+                          onClick={() => countGuest(false, "emBe")}
+                          className="guest_btn"
+                        >
                           -
                         </button>
                       </div>
@@ -211,24 +259,33 @@ export default function BookRoom({}: Props) {
                         <p className="guest_text-bold">Thú cưng</p>
                       </div>
                       <div className="detail_guest-item-number">
-                        <button onClick={() => countGuest(true, 'thuCung')} className="guest_btn">
+                        <button
+                          onClick={() => countGuest(true, "thuCung")}
+                          className="guest_btn"
+                        >
                           +
                         </button>
                         <p>{thuCung}</p>
 
-                        <button onClick={() => countGuest(false, 'thuCung')} className="guest_btn">
+                        <button
+                          onClick={() => countGuest(false, "thuCung")}
+                          className="guest_btn"
+                        >
                           -
                         </button>
                       </div>
                     </div>
                     <div>
                       <p className="mt-4">
-                        Chỗ ở này cho phép tối đa {roomDetail?.khach} khách, không tính em bé. Được phép mang theo thú
-                        cưng.
+                        Chỗ ở này cho phép tối đa {roomDetail?.khach} khách,
+                        không tính em bé. Được phép mang theo thú cưng.
                       </p>
                     </div>
                     <div className="d-flex justify-content-end">
-                      <button className="detail_guest-btn-close" onClick={handleCloseTab}>
+                      <button
+                        className="detail_guest-btn-close"
+                        onClick={handleCloseTab}
+                      >
                         Đóng
                       </button>
                     </div>
@@ -238,7 +295,10 @@ export default function BookRoom({}: Props) {
             </div>
 
             <div>
-              <button onClick={submitBookRoom} className="detail_book-body-btnSubmit">
+              <button
+                onClick={submitBookRoom}
+                className="detail_book-body-btnSubmit"
+              >
                 Đặt phòng
               </button>
             </div>

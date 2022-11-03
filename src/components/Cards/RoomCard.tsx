@@ -1,3 +1,4 @@
+
 import { Divider, Stack, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import {BsDot} from 'react-icons/bs'
@@ -7,76 +8,86 @@ import { Room } from '../../redux/reducers/roomDetailReducer'
 
 interface RoomTypeAsProp{
   roomInfo:Room
+
 }
-export default function RoomCard({roomInfo}:RoomTypeAsProp) {
+export default function RoomCard({ roomInfo }: RoomTypeAsProp) {
   const amentities = Object.keys(roomInfo);
-  let result = amentities.map((item,index)=>{
-    switch(item){
-      case 'wifi': 
-        return (roomInfo[item]? "Wifi": undefined)
+  let result = amentities.map((item, index) => {
+    switch (item) {
+      case 'wifi':
+        return roomInfo[item] ? 'Wifi' : undefined;
       case 'bep':
-        return (roomInfo[item]? "Bếp":undefined)
+        return roomInfo[item] ? 'Bếp' : undefined;
       case 'mayGiat':
-        return (roomInfo[item]? "Máy giặt":undefined)
-      
+        return roomInfo[item] ? 'Máy giặt' : undefined;
+
       case 'banLa':
-        return (roomInfo[item]? "Bàn là":undefined)
-      
+        return roomInfo[item] ? 'Bàn là' : undefined;
+
       case 'tivi':
-        return (roomInfo[item]? "TV":undefined)
-      
+        return roomInfo[item] ? 'TV' : undefined;
+
       case 'dieuHoa':
-        return (roomInfo[item]? "Điều hòa":undefined)
-      
+        return roomInfo[item] ? 'Điều hòa' : undefined;
+
       case 'doXe':
-        return (roomInfo[item]? "Đỗ xe":undefined)
-      
+        return roomInfo[item] ? 'Đỗ xe' : undefined;
+
       case 'hoBoi':
-        return (roomInfo[item]? "Hồ bơi":undefined)
-      
+        return roomInfo[item] ? 'Hồ bơi' : undefined;
+
       case 'banUi':
-        return (roomInfo[item]? "Bàn ủi":undefined)
-      
+        return roomInfo[item] ? 'Bàn ủi' : undefined;
     }
-  })
+  });
 
-  let result1 = result.filter((item,index)=>{
-    return item
-  })
-  
-  
+  let result1 = result.filter((item, index) => {
+    return item;
+  });
+
   return (
-    <Box sx={{
-      cursor: 'pointer',
-      py: '16px',
-      minHeight: {
-        xs: 450,
-        md: 'unset'
-      }
-    }}>
-      <Stack direction={{
-        md:'row',
-        xs: 'column'
-
-      }} sx={{
-        position: 'relative',
-      }}>
-        <Box sx={{
-          width: {
-            xs: '100%',
-            md: '50%',
-
+    <NavLink to={`/detail/${roomInfo?.id}`}>
+      <Box
+        sx={{
+          cursor: 'pointer',
+          py: '16px',
+          minHeight: {
+            xs: 450,
+            md: 'unset',
           },
-          borderRadius:'15px',
-          marginRight: '12px',
-          overflow: 'hidden'
-        }}>
-          <Box component={'img'} src={roomInfo.hinhAnh} sx={{
-            width: '100%',
-            minHeight: '250px',
-            objectFit: 'cover'
-          }}>
+        }}
+      >
+        <Stack
+          direction={{
+            md: 'row',
+            xs: 'column',
+          }}
+          sx={{
+            position: 'relative',
+          }}
+        >
+          <Box
+            sx={{
+              width: {
+                xs: '100%',
+                md: '50%',
+              },
+              borderRadius: '15px',
+              marginRight: '12px',
+              overflow: 'hidden',
+            }}
+          >
+            <Box
+              component={'img'}
+              src={roomInfo.hinhAnh}
+              sx={{
+                width: '100%',
+                minHeight: '250px',
+                objectFit: 'cover',
+              }}
+            ></Box>
           </Box>
+
         </Box>
         <Box sx={{
           marginTop:{
@@ -128,9 +139,10 @@ export default function RoomCard({roomInfo}:RoomTypeAsProp) {
             fontSize: '18px'
           }}>
             <strong>${roomInfo.giaTien} </strong>
+
           </Box>
-        </Box>
-      </Stack>
-    </Box>
-  )
+        </Stack>
+      </Box>
+    </NavLink>
+  );
 }

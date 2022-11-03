@@ -121,11 +121,15 @@ const roomDetailReducer = createSlice({
       );
       state.arrBookRoom = result;
     },
+    setRoomList: (state,action)=>{
+      state.room = action.payload
+  }
   },
 });
 
-export const { getRoomDetail, amountGuest, filterBookedRoom } =
-  roomDetailReducer.actions;
+
+export const { getRoomDetail, amountGuest, filterBookedRoom, setRoomList } = roomDetailReducer.actions;
+
 
 export default roomDetailReducer.reducer;
 
@@ -187,3 +191,16 @@ export const postBookRoomApi = (room: BookRoom) => {
     }
   };
 };
+
+export const getRoomListByLocation = (locationId: string | undefined)=>{
+  return async (dispatch:AppDispatch)=>{
+      try{
+          let result = await http.get(`/phong-thue/lay-phong-theo-vi-tri?maViTri=${locationId}`)
+          const action = setRoomList(result.data.content);
+          dispatch(action)
+      }
+      catch(err){
+          console.log(err)
+      }
+  }
+}

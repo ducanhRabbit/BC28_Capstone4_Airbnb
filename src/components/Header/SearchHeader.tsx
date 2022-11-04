@@ -3,15 +3,15 @@ import Tippy from "@tippyjs/react/headless";
 import PopperWrapper from "../Popper/Popper";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/configStore";
-import { getLocationAPI, LocationState } from "../../redux/reducers/locationReducer";
 import { NavLink } from "react-router-dom";
+import { getLocationAPI, ViTriState } from "../../redux/reducers/locationDetailReducer";
 type Props = {};
 
 export default function SearchHeader({}: Props) {
   const [searchValue, setSearchValue] = useState("");
   const [showResult,setShowResult] = useState(true)
 
-  const {arrLocation} = useSelector<RootState,LocationState>((state) => state.locationReducer)
+  const {viTri} = useSelector<RootState,ViTriState>((state) => state.locationDetailReducer)
   const dispatch:AppDispatch = useDispatch()
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -27,14 +27,14 @@ export default function SearchHeader({}: Props) {
   
   return (
     <Tippy
-      visible={showResult && !!arrLocation}
+      visible={showResult && !!viTri}
       interactive={true}
       onClickOutside = {handleHideResult}
       render={(attrs) => (
         <div className="search-popper" tabIndex={-1} {...attrs}>
           <PopperWrapper>
             <div className="search-content">
-              {arrLocation?.filter((item,index) => item.tenViTri.toLowerCase().includes(searchValue.toLowerCase())).map((item,index)=>{
+              {viTri?.filter((item,index) => item.tenViTri.toLowerCase().includes(searchValue.toLowerCase())).map((item,index)=>{
                 return <NavLink to={`/roomlist/${item.id}`} className="search-item d-flex align-items-center justify-content-between" key={item.id} onClick={handleHideResult} >
                 <span className="location-icon d-flex align-items-center justify-content-center">
                   <i className="fas fa-map-marker-alt"></i>

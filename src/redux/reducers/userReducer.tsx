@@ -32,9 +32,11 @@ type UpdateUser = {
 };
 export interface userLoginState {
   userLogin: userLogin;
+  userData: userLogin[];
 }
 const initialState = {
   userLogin: getStoreJSON(USER_LOGIN),
+  userData: []
 };
 
 const userReducer = createSlice({
@@ -45,10 +47,13 @@ const userReducer = createSlice({
       let userLogin = action.payload;
       state.userLogin = userLogin;
     },
+    getUserData:(state: userLoginState,action: PayloadAction<userLogin[]>)=>{
+      state.userData = action.payload;
+    }
   },
 });
 
-export const { setUserLogin } = userReducer.actions;
+export const { setUserLogin, getUserData } = userReducer.actions;
 
 export default userReducer.reducer;
 
@@ -127,3 +132,18 @@ export const putUseApi = (id: number, data: UpdateUser) => {
     }
   };
 };
+
+export const getPaginationUserAPI = (index:number,pageSize:number)=>{
+  return async (dispatch:AppDispatch) =>{
+    try{
+      let result = await http.get(`/users/phan-trang-tim-kiem?pageIndex=${index}&pageSize=${pageSize}`)
+      const action = getUserData(result.data.content);
+      dispatch(action)
+      console.log(action);
+  
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+}

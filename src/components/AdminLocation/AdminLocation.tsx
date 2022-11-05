@@ -3,7 +3,7 @@ import { Pagination } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import 'antd/dist/antd.css';
-import { getLocationAPI, getLocationPageApi } from '../../redux/reducers/locationReducer';
+import { getLocationAPI, getLocationPageApi } from '../../redux/reducers/locationDetailReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/configStore';
 import ModalAdminLocation from './ModalAdminLocation';
@@ -11,8 +11,8 @@ import ModalAdminLocation from './ModalAdminLocation';
 type Props = {};
 
 export default function AdminLocation({}: Props) {
-  const { arrLocation, arrPageLocation } = useSelector((state: RootState) => state.locationReducer);
-  console.log(arrLocation);
+  const { viTri, arrPageLocation } = useSelector((state: RootState) => state.locationDetailReducer);
+  console.log(viTri);
 
   const [page, setPage] = useState(1);
   const [pageSize] = useState(4);
@@ -87,7 +87,7 @@ export default function AdminLocation({}: Props) {
               current={page}
               defaultPageSize={4}
               onChange={onChange}
-              total={arrLocation.length}
+              total={viTri.length}
             />
           </div>
         </div>

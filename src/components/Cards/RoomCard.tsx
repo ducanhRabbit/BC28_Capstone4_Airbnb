@@ -5,6 +5,7 @@ import {BsDot} from 'react-icons/bs'
 import React from 'react'
 import { grey } from '@mui/material/colors'
 import { Room } from '../../redux/reducers/roomDetailReducer'
+import { NavLink } from 'react-router-dom'
 
 interface RoomTypeAsProp{
   roomInfo:Room

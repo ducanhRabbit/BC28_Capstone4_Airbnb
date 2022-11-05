@@ -17,6 +17,9 @@ import ResponsiveItem from './HOC/ResponsiveItem';
 import RoomList from './pages/RoomList/RoomList';
 import Detail from './pages/Detail/Detail';
 import AdminLocation from './components/AdminLocation/AdminLocation';
+import AdminTemplate from './template/admin/AdminTemplate';
+import User from './template/admin/User';
+import Test1 from './pages/Admin/Test1';
 
 export const history = createBrowserHistory();
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -39,7 +42,15 @@ root.render(
             element={<ResponsiveItem Component={Profile} ComponentMobile={MobileProfile} />}
           ></Route>
 
-          <Route path="*" element={<Navigate to="" />}></Route>
+          {/* <Route path="*" element={<Navigate to="" />}></Route> */}
+        </Route>
+        <Route path="/admin" element={<AdminTemplate />}>
+          {/* Thêm route page admin. Ex: <Route path='string' element={<Element/>}></Route> */}
+          <Route index element={<User />}></Route>
+          <Route path="1" element={<Test1 />}></Route>
+          <Route path="2" element={<Test1 />}></Route>
+          <Route path="3" element={<Test1 />}></Route>
+          <Route path="4" element={<Test1 />}></Route>
         </Route>
         <Route path="admin" element={<AdminLocation />}></Route>
       </Routes>

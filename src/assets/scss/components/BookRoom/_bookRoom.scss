@@ -10,11 +10,13 @@
     flex-wrap: wrap;
     justify-content: space-between;
     margin-bottom: 30px;
+
     &-price {
       .header_price {
         @include text(20px, 600, rgb(34, 34, 34));
       }
     }
+
     &-rate {
       display: flex;
       align-items: center;
@@ -31,10 +33,12 @@
     .ant-picker {
       border: 1px solid #b0b0b0;
     }
-    .ant-picker-input > input {
+
+    .ant-picker-input>input {
       @include text(14px, 500, #222222);
     }
-    .ant-picker-input > input::placeholder {
+
+    .ant-picker-input>input::placeholder {
       @include text(14px, 600, #222222);
     }
 
@@ -54,25 +58,30 @@
         flex-direction: column;
         justify-content: space-between;
         align-items: flex-start;
+
         &:focus {
           border: 2px solid #222222;
           box-shadow: none;
           color: #222222;
         }
+
         &::after {
           position: absolute;
           bottom: 44px;
           right: 16px;
         }
+
         &:not(.collapsed) {
           color: #222222;
         }
+
         &:not(.collapsed)::after {
           background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
         }
-        &-amount {
-        }
+
+        &-amount {}
       }
+
       .detail_guest-layout {
         position: absolute;
         right: 0;
@@ -85,6 +94,7 @@
         -webkit-box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.75);
         -moz-box-shadow: 0px 1px 10px -2px rgba(0, 0, 0, 0.75);
       }
+
       .detail_guest-item {
         display: flex;
         justify-content: space-between;
@@ -121,9 +131,11 @@
           }
         }
       }
+
       .close_tab {
         display: none;
       }
+
       .detail_guest-btn-close {
         @include text(16px, 600, rgb(34, 34, 34));
         background-color: #f7f7f7;
@@ -136,6 +148,7 @@
           background-color: #e5e4e4;
         }
       }
+
       .guest_text-bold {
         @include text(16px, 600, rgb(34, 34, 34));
       }
@@ -156,6 +169,7 @@
   padding: 12px 0;
   margin: 20px 0;
   background: linear-gradient(to right, rgb(230, 30, 77) 0%, rgb(227, 28, 95) 50%, rgb(215, 4, 102) 100%);
+
   &:hover {
     background: linear-gradient(to right, #f12f5d 0%, #f60254 50%, #cb0561 100%);
   }

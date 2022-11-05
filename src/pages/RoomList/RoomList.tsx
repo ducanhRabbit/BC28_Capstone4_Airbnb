@@ -1,18 +1,16 @@
 import { Hidden, Box, Stack, Typography, Button, Grid } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import zIndex from "@mui/material/styles/zIndex";
-import { Container } from "@mui/system";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import RoomCard from "../../components/Cards/RoomCard";
 import { AppDispatch, RootState } from "../../redux/configStore";
-import { getLocationAPI } from "../../redux/reducers/locationReducer";
-import {
-  getRoomListByLocation,
-  RoomInfo,
-  RoomState,
-} from "../../redux/reducers/roomReducer";
+import { getRoomListByLocation, Room } from "../../redux/reducers/roomDetailReducer";
+// import {
+//   getRoomListByLocation,
+//   RoomInfo,
+//   RoomState,
+// } from "../../redux/reducers/roomReducer";
 import GoogleMap from "./GoogleMap";
 
 type Props = {};
@@ -20,7 +18,7 @@ type Props = {};
 export default function RoomList({}: Props) {
   const dispatch: AppDispatch = useDispatch();
   const { id } = useParams();
-  const { listRoom } = useSelector((state: RootState) => state.roomReducer);
+  const { room } = useSelector((state: RootState) => state.roomDetailReducer);
 
   useEffect(() => {
     const actionthunk = getRoomListByLocation(id);
@@ -58,7 +56,7 @@ export default function RoomList({}: Props) {
               <Button variant="outlined">More</Button>
             </Box>
             <Box className="mt-2 pb-3">
-              {listRoom?.map((item: RoomInfo) => {
+              {room?.map((item: Room) => {
                 return <RoomCard roomInfo={item}></RoomCard>;
               })}
             </Box>

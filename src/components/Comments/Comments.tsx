@@ -19,11 +19,14 @@ export default function Comments({ roomDetail }: Props) {
   const { arrGuest } = useSelector((state: RootState) => state.guestDetailReducer);
   const [state, setState] = useState('');
   const [rate, setRate] = useState(5);
+  // console.log(arrGuest);
+  // console.log(arrCommentId);
 
   const dispatch: AppDispatch = useDispatch();
 
   const filterUerComment = (id: number) => {
     let arr = arrGuest.filter((user) => user.id == id);
+    // console.log(arr);
 
     return arr[0];
   };

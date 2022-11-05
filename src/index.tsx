@@ -16,6 +16,7 @@ import MobileProfile from './pages/Profile/MobileProfile';
 import ResponsiveItem from './HOC/ResponsiveItem';
 import RoomList from './pages/RoomList/RoomList';
 import Detail from './pages/Detail/Detail';
+import AdminLocation from './components/AdminLocation/AdminLocation';
 
 export const history = createBrowserHistory();
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -40,6 +41,7 @@ root.render(
 
           <Route path="*" element={<Navigate to="" />}></Route>
         </Route>
+        <Route path="admin" element={<AdminLocation />}></Route>
       </Routes>
     </HistoryRouter>
   </Provider>

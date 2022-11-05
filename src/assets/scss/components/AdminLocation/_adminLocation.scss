@@ -1,0 +1,67 @@
+.admin_location {
+  &-layout {
+    position: relative;
+    margin-top: 20px;
+  }
+  &-title {
+    @include text(20px, 600, #0d0c22);
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: none;
+      // background-color: grey;
+    }
+  }
+
+  &-btn-add {
+    border: none;
+  }
+  .ant-pagination-item-link {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+  &-table {
+    text-align: center;
+    &-th {
+      width: 150px;
+    }
+    &-tdImg {
+      width: 300px;
+      height: 200px;
+    }
+    &-img {
+      width: 100%;
+      object-fit: cover;
+      height: 100%;
+    }
+  }
+
+  &-page {
+    position: absolute;
+    right: 0;
+  }
+
+  &-btn {
+    @include text(14px, 600, #fff);
+    background-color: #eb5757;
+    transition: all 0.2s;
+    border: none;
+    border-radius: 5px;
+    height: 36px;
+    width: 50px;
+
+    &:hover {
+      background-color: #c93737;
+    }
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba(#ae18e2, 0.5);
+      background-color: #8c15b5;
+    }
+  }
+
+  .btn_update {
+    margin-left: 20px;
+  }
+}

@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/configStore";
-// import { getLocationAPI } from "../../../redux/reducers/locationReducer";
+import { getLocationAPI } from "../../../redux/reducers/locationDetailReducer";
 import { getRoomApi } from "../../../redux/reducers/roomReducer";
 
 type Props = {};
 
 export default function QuanLyThongTinPhong({}: Props) {
   const listRoom = useSelector(
-    (state: RootState) => state.roomReducer.listRoom
+    (state: RootState) => state.roomDetailReducer.room
   );
   const arrLocation = useSelector(
-    (state: RootState) => state.locationReducer.arrLocation
+    (state: RootState) => state.locationDetailReducer.viTri
   );
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {

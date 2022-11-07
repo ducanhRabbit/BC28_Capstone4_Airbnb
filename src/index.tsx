@@ -21,6 +21,8 @@ import MobileProfile from "./pages/Profile/MobileProfile";
 import ResponsiveItem from "./HOC/ResponsiveItem";
 import RoomList from "./pages/RoomList/RoomList";
 import Detail from "./pages/Detail/Detail";
+import AdminTemplate from "./template/Admin/AdminTemplate";
+import QuanLyThongTinPhong from "./pages/Admin/QuanLyThongTinPhong/QuanLyThongTinPhong";
 
 export const history = createBrowserHistory();
 const root = ReactDOM.createRoot(
@@ -49,8 +51,11 @@ root.render(
               />
             }
           ></Route>
-
           <Route path="*" element={<Navigate to="" />}></Route>
+        </Route>
+        <Route path="admin" element={<AdminTemplate />}>
+          <Route path="*" element={<Navigate to="" />}></Route>
+          <Route path="thongtinphong" element={<QuanLyThongTinPhong />}></Route>
         </Route>
       </Routes>
     </HistoryRouter>

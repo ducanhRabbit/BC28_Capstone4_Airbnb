@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/configStore";
 import { getLocationAPI } from "../../../redux/reducers/locationDetailReducer";
-import { getRoomApi } from "../../../redux/reducers/roomReducer";
+import { getRoomALLApi } from "../../../redux/reducers/roomDetailReducer";
 
 type Props = {};
 
@@ -15,7 +15,7 @@ export default function QuanLyThongTinPhong({}: Props) {
   );
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    let action = getRoomApi();
+    let action = getRoomALLApi();
     dispatch(action);
     let action2 = getLocationAPI();
     dispatch(action2);

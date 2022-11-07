@@ -121,15 +121,14 @@ const roomDetailReducer = createSlice({
       );
       state.arrBookRoom = result;
     },
-    setRoomList: (state,action)=>{
-      state.room = action.payload
-  }
+    setRoomList: (state, action) => {
+      state.room = action.payload;
+    },
   },
 });
 
-
-export const { getRoomDetail, amountGuest, filterBookedRoom, setRoomList } = roomDetailReducer.actions;
-
+export const { getRoomDetail, amountGuest, filterBookedRoom, setRoomList } =
+  roomDetailReducer.actions;
 
 export default roomDetailReducer.reducer;
 
@@ -192,15 +191,30 @@ export const postBookRoomApi = (room: BookRoom) => {
   };
 };
 
-export const getRoomListByLocation = (locationId: string | undefined)=>{
-  return async (dispatch:AppDispatch)=>{
-      try{
-          let result = await http.get(`/phong-thue/lay-phong-theo-vi-tri?maViTri=${locationId}`)
-          const action = setRoomList(result.data.content);
-          dispatch(action)
-      }
-      catch(err){
-          console.log(err)
-      }
-  }
-}
+export const getRoomListByLocation = (locationId: string | undefined) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.get(
+        `/phong-thue/lay-phong-theo-vi-tri?maViTri=${locationId}`
+      );
+      const action = setRoomList(result.data.content);
+      dispatch(action);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+// Call api lấy danh sách phòng để dàn layout page Quản lý thông tin phòng
+export const getRoomALLApi = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.get("/phong-thue");
+      console.log({ result });
+      // đưa lên redux (setRoomList)
+      let action = setRoomList(result.data.content);
+      dispatch(action);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};

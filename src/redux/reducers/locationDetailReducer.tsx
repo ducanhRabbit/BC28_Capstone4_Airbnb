@@ -26,10 +26,13 @@ const vitriDetailReducer = createSlice({
     getLocationDetail: (state, action) => {
       state.viTri = [...state.viTri, action.payload];
     },
+    setArrLocation: (state,action) =>{
+      state.viTri = action.payload;        
+  }
   },
 });
 
-export const { getLocationDetail } = vitriDetailReducer.actions;
+export const { getLocationDetail, setArrLocation } = vitriDetailReducer.actions;
 
 export default vitriDetailReducer.reducer;
 
@@ -54,3 +57,16 @@ export const getLocationDetailApi = (maVitri: number) => {
     }
   };
 };
+
+export const getLocationAPI = ()=>{
+  return async (dispatch:AppDispatch) =>{
+    try{
+      let result = await http.get('/vi-tri');
+      const action = setArrLocation(result.data.content);
+      dispatch(action)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+}

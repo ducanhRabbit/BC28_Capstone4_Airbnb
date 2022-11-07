@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/configStore";
-import { getLocationAPI } from "../../../redux/reducers/locationReducer";
+// import { getLocationAPI } from "../../../redux/reducers/locationReducer";
 import { getRoomApi } from "../../../redux/reducers/roomReducer";
 
 type Props = {};

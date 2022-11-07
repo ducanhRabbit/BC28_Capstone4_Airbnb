@@ -1,8 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import modalReducer from './reducers/modalReducer';
 import userReducer from './reducers/userReducer';
-import locationReducer from './reducers/locationReducer';
-import roomReducer from './reducers/roomReducer';
+
 import commentReducer from './reducers/commentReducer';
 import locationDetailReducer from './reducers/locationDetailReducer';
 import guestDetailReducer from './reducers/guestDetailReducer';
@@ -12,8 +11,6 @@ export const store = configureStore({
   reducer: {
     userReducer: userReducer,
     modalReducer: modalReducer,
-    locationReducer: locationReducer,
-    roomReducer: roomReducer,
     roomDetailReducer: roomDetailReducer,
     locationDetailReducer: locationDetailReducer,
     commentReducer: commentReducer,

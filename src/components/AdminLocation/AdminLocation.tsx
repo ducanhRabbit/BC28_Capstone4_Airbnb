@@ -3,24 +3,47 @@ import { Pagination } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import 'antd/dist/antd.css';
-import { getLocationAPI, getLocationPageApi } from '../../redux/reducers/locationDetailReducer';
+import { deleteLocationAdminApi, getLocationAPI, getLocationPageApi } from '../../redux/reducers/locationDetailReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/configStore';
-import ModalAdminLocation from './ModalAdminLocation';
+import ModalAddAdminLocation from './ModalAddAdminLocation';
 
 type Props = {};
 
+export interface Location {
+  id: number;
+  tenViTri: string;
+  tinhThanh: string;
+  quocGia: string;
+  hinhAnh: string;
+}
+
 export default function AdminLocation({}: Props) {
   const { viTri, arrPageLocation } = useSelector((state: RootState) => state.locationDetailReducer);
-  console.log(viTri);
 
   const [page, setPage] = useState(1);
   const [pageSize] = useState(4);
+  const [itemClick, setItemClick] = useState<Location>({
+    id: 0,
+    tenViTri: '',
+    tinhThanh: '',
+    quocGia: '',
+    hinhAnh: '',
+  });
 
   const dispatch: AppDispatch = useDispatch();
 
   const onChange: PaginationProps['onChange'] = (page) => {
     setPage(page);
+  };
+
+  function del(id: number): any {
+    const action = deleteLocationAdminApi(id, page, pageSize);
+    dispatch(action);
+  }
+
+  const updateLocation = (item: Location) => {
+    setItemClick(item);
   };
 
   const renderTable = () => {
@@ -35,11 +58,16 @@ export default function AdminLocation({}: Props) {
             <img className="admin_location-table-img" src={item?.hinhAnh} alt="img" />
           </td>
           <td>
-            <button className="admin_location-btn">
+            <button className="admin_location-btn" onClick={() => del(item?.id)}>
               <i className="fas fa-trash-alt"></i>
             </button>
 
-            <button className="admin_location-btn btn_update">
+            <button
+              className="admin_location-btn btn_update"
+              onClick={() => updateLocation(item)}
+              data-bs-toggle="modal"
+              data-bs-target="#adminLocationModal"
+            >
               <i className="fas fa-pencil-alt"></i>
             </button>
           </td>
@@ -62,10 +90,15 @@ export default function AdminLocation({}: Props) {
     <div className="admin_location">
       <div className="container admin_location-layout">
         <div>
-          <span className="admin_location-title" data-bs-toggle="modal" data-bs-target="#adminLocationModal">
+          <span
+            className="admin_location-title"
+            onClick={() => setItemClick({ id: 0, tenViTri: '', tinhThanh: '', quocGia: '', hinhAnh: '' })}
+            data-bs-toggle="modal"
+            data-bs-target="#adminLocationModal"
+          >
             Thêm vị trí
           </span>
-          <ModalAdminLocation />
+          <ModalAddAdminLocation page={page} pageSize={pageSize} itemClick={itemClick} />
         </div>
         <div className="mt-3">
           <table className="table table-bordered align-middle admin_location-table">

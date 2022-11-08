@@ -48,11 +48,10 @@ root.render(
           {/* Thêm route page admin. Ex: <Route path='string' element={<Element/>}></Route> */}
           <Route index element={<User />}></Route>
           <Route path="1" element={<Test1 />}></Route>
-          <Route path="2" element={<Test1 />}></Route>
+          <Route path="2" element={<AdminLocation />}></Route>
           <Route path="3" element={<Test1 />}></Route>
           <Route path="4" element={<Test1 />}></Route>
         </Route>
-        <Route path="admin" element={<AdminLocation />}></Route>
       </Routes>
     </HistoryRouter>
   </Provider>

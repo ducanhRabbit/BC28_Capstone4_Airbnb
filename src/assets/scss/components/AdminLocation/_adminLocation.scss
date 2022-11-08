@@ -56,12 +56,20 @@
       background-color: #c93737;
     }
     &:focus {
-      box-shadow: 0 0 0 0.2rem rgba(#ae18e2, 0.5);
-      background-color: #8c15b5;
+      box-shadow: 0 0 0 0.2rem rgba(#fb6294, 0.5);
+      background-color: #eb5770;
     }
   }
 
   .btn_update {
     margin-left: 20px;
+    background-color: #24a0ed;
+    &:hover {
+      background-color: #0970b1;
+    }
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba(#36a9d9, 0.5);
+      background-color: #189dd5;
+    }
   }
 }

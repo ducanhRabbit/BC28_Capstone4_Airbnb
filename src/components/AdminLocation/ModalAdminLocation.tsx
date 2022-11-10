@@ -1,10 +1,9 @@
-import { FormikConfig, useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/configStore';
-import { updateLocationAdminApi, ViTri } from '../../redux/reducers/locationDetailReducer';
+import { AppDispatch } from '../../redux/configStore';
+import { updateLocationAdminApi } from '../../redux/reducers/locationDetailReducer';
 import { postLocationAdminApi } from '../../redux/reducers/locationDetailReducer';
-import { Formik, FormikHelpers, FormikProps, Form, Field, FieldProps } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
 export interface Location {
@@ -16,13 +15,12 @@ export interface Location {
 }
 
 type Props = {
-  //   location: ViTri;
   page: number;
   pageSize: number;
   itemClick: Location;
 };
 
-export default function ModalAddAdminLocation({ page, pageSize, itemClick }: Props) {
+export default function ModalAdminLocation({ page, pageSize, itemClick }: Props) {
   const image = require('../../assets/img/uploadImg.png');
   const [img, setImg] = useState<any>(image);
   let randomString = Math.random().toString(36);
@@ -42,7 +40,14 @@ export default function ModalAddAdminLocation({ page, pageSize, itemClick }: Pro
     tenViTri: Yup.string().required('Không được bỏ trống!'),
     tinhThanh: Yup.string().required('Không được bỏ trống!'),
     quocGia: Yup.string().required('Không được bỏ trống!'),
-    hinhAnh: Yup.string().required('Không được bỏ trống!'),
+    hinhAnh: Yup.mixed()
+      .required('Không được bỏ trống!')
+      .test('FILE_SIZE', 'Dung lượng hình phải dưới 1Mb', (value) => value && value.size < 1000000)
+      .test(
+        'FILE_TYPE',
+        'Chỉ cho phép định dạng (jpg, jpeg, png, gif)',
+        (value) => value && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'].includes(value.type)
+      ),
   });
 
   useEffect(() => {
@@ -56,7 +61,6 @@ export default function ModalAddAdminLocation({ page, pageSize, itemClick }: Pro
     setValueUpdate(values);
   }, [itemClick.id]);
 
-  console.log(itemClick);
   return (
     <div>
       <div
@@ -129,29 +133,34 @@ export default function ModalAddAdminLocation({ page, pageSize, itemClick }: Pro
                           Hình ảnh
                         </label>
                         <input
-                          // onChange={(files: any) => handleFile(files.target.files)}
                           onChange={(e: any) => {
-                            // setFieldValue('hinhAnh', URL.createObjectURL(e.target.files[0]));
+                            setFieldValue('hinhAnh', e.target.files[0]);
 
                             let reader = new FileReader();
                             reader.onload = () => {
                               if (reader.readyState === 2) {
-                                setFieldValue('hinhAnh', reader.result);
                                 setImg(reader.result);
                               }
                             };
                             reader.readAsDataURL(e.target.files[0]);
+
+                            // let reader = new FileReader();
+                            // reader.onload = () => {
+                            //   if (reader.readyState === 2) {
+                            //     setFieldValue('hinhAnh', reader.result);
+                            //     setImg(reader.result);
+                            //   }
+                            // };
+                            // reader.readAsDataURL(e.target.files[0]);
                           }}
                           key={inputKey || ''}
                           type="file"
                           id="hinhAnh"
                           name="hinhAnh"
                           className="form-control modal_ad-input"
-                          // onInput={(files: any) => handleFile(files.target.files)}
                         />
                         {errors.hinhAnh && touched.hinhAnh ? <p className="text-danger">{errors.hinhAnh}</p> : ''}
                       </div>
-                      {/* <input type="file" onInput={(files: any) => handleFile(files.target.files)} /> */}
                     </div>
 
                     <div className="col-6 d-flex align-items-center justify-content-center">

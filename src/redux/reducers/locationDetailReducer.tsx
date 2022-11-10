@@ -3,6 +3,7 @@ import axios from 'axios';
 import { http } from '../../util/setting';
 import { AppDispatch } from '../configStore';
 import { message } from 'antd';
+import { InterfaceType } from 'typescript';
 
 export interface ViTri {
   id: number;
@@ -31,7 +32,6 @@ const vitriDetailReducer = createSlice({
     },
     setArrLocation: (state, action) => {
       state.viTri = action.payload;
-      console.log(state.viTri);
     },
     setArrPageLocation: (state: any, action: any) => {
       state.arrPageLocation = action.payload;
@@ -81,8 +81,6 @@ export const getLocationPageApi = (page: number, pageSize: number) => {
   return async (dispatch: AppDispatch) => {
     try {
       let result = await http.get(`/vi-tri/phan-trang-tim-kiem?pageIndex=${page}&pageSize=${pageSize}`);
-      console.log(result);
-      // console.log(result.data.content.totalRow);
 
       const action = setArrPageLocation(result.data.content.data);
       dispatch(action);
@@ -95,10 +93,18 @@ export const getLocationPageApi = (page: number, pageSize: number) => {
 export const postLocationAdminApi = (location: ViTri, page: number, pageSize: number) => {
   return async (dispatch: AppDispatch) => {
     try {
+      const value = {
+        id: 0,
+        tenViTri: location.tenViTri,
+        tinhThanh: location.tinhThanh,
+        quocGia: location.quocGia,
+        hinhAnh: '',
+      };
+
       const result = await axios({
         url: 'https://airbnbnew.cybersoft.edu.vn/api/vi-tri',
         method: 'POST',
-        data: location,
+        data: value,
         headers: {
           token:
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMTciLCJlbWFpbCI6InNlbjc4OUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJuYmYiOjE2Njc0MDA3MjMsImV4cCI6MTY2ODAwNTUyM30.Id3QH0wh5LIG1VqccHkrsrQT8Tf8Hn2t4CKmOY6Xjzw',
@@ -106,10 +112,9 @@ export const postLocationAdminApi = (location: ViTri, page: number, pageSize: nu
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA',
         },
       });
-      console.log(result);
 
-      // uploadImgLocationApi(result.data.content.id, location.hinhAnh);
-      // setArrPageLocation(result.data.content);
+      await dispatch(uploadImgLocationApi(result.data.content.id, location.hinhAnh));
+
       dispatch(getLocationPageApi(page, pageSize));
       dispatch(getLocationAPI());
       message.success(result.data.message);
@@ -121,15 +126,13 @@ export const postLocationAdminApi = (location: ViTri, page: number, pageSize: nu
 
 export const uploadImgLocationApi = (idLoction: number, img: string) => {
   return async () => {
+    const formData = new FormData();
+    formData.append('formFile', img);
     try {
-      const params = {
-        maVitri: idLoction,
-        formFile: img,
-      };
       const result = await axios({
-        url: 'https://airbnbnew.cybersoft.edu.vn/api/vi-tri/upload-hinh-vitri?maViTri=1109',
+        url: `https://airbnbnew.cybersoft.edu.vn/api/vi-tri/upload-hinh-vitri?maViTri=${idLoction}`,
         method: 'POST',
-        data: params,
+        data: formData,
         headers: {
           token:
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMTciLCJlbWFpbCI6InNlbjc4OUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJuYmYiOjE2Njc0MDA3MjMsImV4cCI6MTY2ODAwNTUyM30.Id3QH0wh5LIG1VqccHkrsrQT8Tf8Hn2t4CKmOY6Xjzw',
@@ -137,7 +140,6 @@ export const uploadImgLocationApi = (idLoction: number, img: string) => {
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA',
         },
       });
-      console.log(result);
     } catch (err) {
       console.log(err);
     }
@@ -157,9 +159,7 @@ export const deleteLocationAdminApi = (id: number, page: number, pageSize: numbe
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA',
         },
       });
-      console.log(result);
       message.success(result.data.message);
-      // setArrPageLocation(result.data.content);
       dispatch(getLocationAPI());
       dispatch(getLocationPageApi(page, pageSize));
     } catch (err) {
@@ -170,11 +170,18 @@ export const deleteLocationAdminApi = (id: number, page: number, pageSize: numbe
 
 export const updateLocationAdminApi = (id: number, locationUpdate: ViTri, page: number, pageSize: number) => {
   return async (dispatch: AppDispatch) => {
+    const value = {
+      id: id,
+      tenViTri: locationUpdate.tenViTri,
+      tinhThanh: locationUpdate.tinhThanh,
+      quocGia: locationUpdate.quocGia,
+      hinhAnh: '',
+    };
     try {
       const result = await axios({
         url: `https://airbnbnew.cybersoft.edu.vn/api/vi-tri/${id}`,
         method: 'PUT',
-        data: locationUpdate,
+        data: value,
         headers: {
           token:
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEzMTciLCJlbWFpbCI6InNlbjc4OUBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJuYmYiOjE2Njc0MDA3MjMsImV4cCI6MTY2ODAwNTUyM30.Id3QH0wh5LIG1VqccHkrsrQT8Tf8Hn2t4CKmOY6Xjzw',
@@ -182,10 +189,22 @@ export const updateLocationAdminApi = (id: number, locationUpdate: ViTri, page: 
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA',
         },
       });
-      console.log(result);
+      await dispatch(uploadImgLocationApi(id, locationUpdate.hinhAnh));
+
       dispatch(getLocationAPI());
       dispatch(getLocationPageApi(page, pageSize));
       message.success(result.data.message);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export const searchLocationAdminApi = (search: string | number | undefined, page: number, pageSize: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const result = await http.get(`/vi-tri/phan-trang-tim-kiem?pageIndex=1&pageSize=${pageSize}&keyword=${search}`);
+      dispatch(setArrPageLocation(result.data.content.data));
     } catch (err) {
       console.log(err);
     }

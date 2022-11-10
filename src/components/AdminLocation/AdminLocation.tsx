@@ -3,12 +3,19 @@ import { Pagination } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 import 'antd/dist/antd.css';
-import { deleteLocationAdminApi, getLocationAPI, getLocationPageApi } from '../../redux/reducers/locationDetailReducer';
+import {
+  deleteLocationAdminApi,
+  getLocationAPI,
+  getLocationPageApi,
+  searchLocationAdminApi,
+} from '../../redux/reducers/locationDetailReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/configStore';
-import ModalAddAdminLocation from './ModalAddAdminLocation';
+import ModalAdminLocation from './ModalAdminLocation';
 
 type Props = {};
+
+let timeout: any = null;
 
 export interface Location {
   id: number;
@@ -20,9 +27,9 @@ export interface Location {
 
 export default function AdminLocation({}: Props) {
   const { viTri, arrPageLocation } = useSelector((state: RootState) => state.locationDetailReducer);
-
+  const [search, setSearch] = useState<string | number | undefined>('');
   const [page, setPage] = useState(1);
-  const [pageSize] = useState(4);
+  const pageSize = 4;
   const [itemClick, setItemClick] = useState<Location>({
     id: 0,
     tenViTri: '',
@@ -86,19 +93,54 @@ export default function AdminLocation({}: Props) {
     dispatch(action1);
   }, []);
 
+  useEffect(() => {
+    timeout = setTimeout(() => {
+      dispatch(searchLocationAdminApi(search, page, pageSize));
+    }, 1000);
+    return () => {
+      if (timeout !== null) {
+        clearTimeout(timeout);
+      }
+    };
+  }, [search]);
+
   return (
     <div className="admin_location">
       <div className="container admin_location-layout">
-        <div>
-          <span
+        <div className="d-flex admin_location-header">
+          {/* <span
             className="admin_location-title"
             onClick={() => setItemClick({ id: 0, tenViTri: '', tinhThanh: '', quocGia: '', hinhAnh: '' })}
             data-bs-toggle="modal"
             data-bs-target="#adminLocationModal"
           >
             Thêm vị trí
-          </span>
-          <ModalAddAdminLocation page={page} pageSize={pageSize} itemClick={itemClick} />
+          </span> */}
+          <div className="admin_location-header-add">
+            <button
+              className="btn_update admin_location-btn add_btn"
+              onClick={() => setItemClick({ id: 0, tenViTri: '', tinhThanh: '', quocGia: '', hinhAnh: '' })}
+              data-bs-toggle="modal"
+              data-bs-target="#adminLocationModal"
+            >
+              <span className="me-2">Thêm vị trí</span>
+              <i className="fas fa-plus-circle"></i>
+            </button>
+          </div>
+          <ModalAdminLocation page={page} pageSize={pageSize} itemClick={itemClick} />
+
+          <form className="d-flex admin_location-header-search" role="search">
+            <input
+              className="form-control me-2 search_input"
+              type="search"
+              placeholder="Địa điểm cần tìm?"
+              aria-label="Search"
+              onInput={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
+            />
+            <span className="search-icon">
+              <i className="fas fa-search"></i>
+            </span>
+          </form>
         </div>
         <div className="mt-3">
           <table className="table table-bordered align-middle admin_location-table">
@@ -120,7 +162,7 @@ export default function AdminLocation({}: Props) {
               current={page}
               defaultPageSize={4}
               onChange={onChange}
-              total={viTri.length}
+              total={search == '' ? viTri.length : arrPageLocation.length}
             />
           </div>
         </div>

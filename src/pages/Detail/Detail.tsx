@@ -1,27 +1,31 @@
-import React, { useEffect } from 'react';
-import { NavLink, useLoaderData, useParams } from 'react-router-dom';
-import 'antd/dist/antd.css';
-import BookRoom from '../../components/BookRoom/BookRoom';
-import Comments from '../../components/Comments/Comments';
-import { getRoomDetailApi } from '../../redux/reducers/roomDetailReducer';
-import { AppDispatch, RootState } from '../../redux/configStore';
-import { useDispatch, useSelector } from 'react-redux';
-import { number } from 'yup';
-import { useAppSelector } from '../../redux/hooks';
-import Convenient from '../../components/Convenient/Convenient';
-import { getLocationDetailApi } from '../../redux/reducers/locationDetailReducer';
-import Modal from '../../components/ModalLocationDetail/ModalLocationDetail';
+import React, { useEffect } from "react";
+import { NavLink, useLoaderData, useParams } from "react-router-dom";
+import "antd/dist/antd.css";
+import BookRoom from "../../components/BookRoom/BookRoom";
+import Comments from "../../components/Comments/Comments";
+import { getRoomDetailApi } from "../../redux/reducers/roomDetailReducer";
+import { AppDispatch, RootState } from "../../redux/configStore";
+import { useDispatch, useSelector } from "react-redux";
+import { number } from "yup";
+import { useAppSelector } from "../../redux/hooks";
+import Convenient from "../../components/Convenient/Convenient";
+import { getLocationDetailApi } from "../../redux/reducers/locationDetailReducer";
+import Modal from "../../components/ModalLocationDetail/ModalLocationDetail";
 
 type Props = {};
 
 export default function AirbnbDetail({}: Props) {
   const params = useParams();
   let { room } = useAppSelector((state) => state.roomDetailReducer);
-  const { arrCommentId } = useSelector((state: RootState) => state.commentReducer);
+  const { arrCommentId } = useSelector(
+    (state: RootState) => state.commentReducer
+  );
 
   let [roomDetail] = [...room];
 
-  let { viTri } = useSelector((state: RootState) => state.locationDetailReducer);
+  let { viTri } = useSelector(
+    (state: RootState) => state.locationDetailReducer
+  );
   let [viTriDetail] = [...viTri];
 
   const dispatch: AppDispatch = useDispatch();
@@ -40,11 +44,11 @@ export default function AirbnbDetail({}: Props) {
     }
   }, [roomDetail?.maViTri]);
 
-  let desc = roomDetail?.moTa.split('.\r\n');
+  let desc = roomDetail?.moTa.split(".\r\n");
 
   const renderDes = () => {
     return desc?.map((text, index) => {
-      let descDetail = text.split('\r\n');
+      let descDetail = text.split("\r\n");
 
       return (
         <div className="detail_content--des-middle" key={index}>
@@ -75,7 +79,11 @@ export default function AirbnbDetail({}: Props) {
             </a>
           </li>
           <li className="ms-2">
-            <span className="detail_rate-note" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <span
+              className="detail_rate-note"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
               <span>{viTriDetail?.tenViTri}, </span>
               <span>{viTriDetail?.tinhThanh}, </span>
               <span>{viTriDetail?.quocGia}</span>
@@ -90,7 +98,9 @@ export default function AirbnbDetail({}: Props) {
             <div className="detail_content--des">
               <div className="detail_content--des-top">
                 <div className="top_name">
-                  <h4 className="top_name-title">Toàn bộ căn hộ. Phòng riêng tại nhà nghỉ dưỡng</h4>
+                  <h4 className="top_name-title">
+                    Toàn bộ căn hộ. Phòng riêng tại nhà nghỉ dưỡng
+                  </h4>
                   <div className="top_name-info">
                     <span>{roomDetail?.khach} khách</span>
                     <li className="ms-2">

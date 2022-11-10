@@ -1,15 +1,12 @@
 //Variable
-@import './base/variables';
 @import './base/base';
+@import './base/variables';
 //Components
 @import './components/header';
 @import './components/BookRoom/bookRoom';
 @import './components/Comments/comments';
 @import './components/Convenient/convenient';
 @import './components/BookRoom/bookRoomMobile';
-@import './components/ModalComment/modalComment';
-@import './components/Popper/popperWrapper';
-@import './components/Menu/userMenu';
 @import './components/header';
 @import './components/AdminLocation/adminLocation';
 @import './components/AdminLocation/modalAdminLocation';

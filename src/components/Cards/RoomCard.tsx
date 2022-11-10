@@ -1,10 +1,10 @@
-import { Divider, Stack, Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import { BsDot } from "react-icons/bs";
-import React from "react";
-import { grey } from "@mui/material/colors";
-import { Room } from "../../redux/reducers/roomDetailReducer";
-import { NavLink } from "react-router-dom";
+import { Divider, Stack, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import { BsDot } from 'react-icons/bs';
+import React from 'react';
+import { grey } from '@mui/material/colors';
+import { Room } from '../../redux/reducers/roomDetailReducer';
+import { NavLink } from 'react-router-dom';
 
 interface RoomTypeAsProp {
   roomInfo: Room;
@@ -13,30 +13,30 @@ export default function RoomCard({ roomInfo }: RoomTypeAsProp) {
   const amentities = Object.keys(roomInfo);
   let result = amentities.map((item, index) => {
     switch (item) {
-      case "wifi":
-        return roomInfo[item] ? "Wifi" : undefined;
-      case "bep":
-        return roomInfo[item] ? "Bếp" : undefined;
-      case "mayGiat":
-        return roomInfo[item] ? "Máy giặt" : undefined;
+      case 'wifi':
+        return roomInfo[item] ? 'Wifi' : undefined;
+      case 'bep':
+        return roomInfo[item] ? 'Bếp' : undefined;
+      case 'mayGiat':
+        return roomInfo[item] ? 'Máy giặt' : undefined;
 
-      case "banLa":
-        return roomInfo[item] ? "Bàn là" : undefined;
+      case 'banLa':
+        return roomInfo[item] ? 'Bàn là' : undefined;
 
-      case "tivi":
-        return roomInfo[item] ? "TV" : undefined;
+      case 'tivi':
+        return roomInfo[item] ? 'TV' : undefined;
 
-      case "dieuHoa":
-        return roomInfo[item] ? "Điều hòa" : undefined;
+      case 'dieuHoa':
+        return roomInfo[item] ? 'Điều hòa' : undefined;
 
-      case "doXe":
-        return roomInfo[item] ? "Đỗ xe" : undefined;
+      case 'doXe':
+        return roomInfo[item] ? 'Đỗ xe' : undefined;
 
-      case "hoBoi":
-        return roomInfo[item] ? "Hồ bơi" : undefined;
+      case 'hoBoi':
+        return roomInfo[item] ? 'Hồ bơi' : undefined;
 
-      case "banUi":
-        return roomInfo[item] ? "Bàn ủi" : undefined;
+      case 'banUi':
+        return roomInfo[item] ? 'Bàn ủi' : undefined;
     }
   });
 
@@ -48,111 +48,111 @@ export default function RoomCard({ roomInfo }: RoomTypeAsProp) {
     <NavLink to={`/detail/${roomInfo?.id}`}>
       <Box
         sx={{
-          cursor: "pointer",
-          py: "16px",
+          cursor: 'pointer',
+          py: '16px',
           minHeight: {
             xs: 450,
-            md: "unset",
+            md: 'unset',
           },
         }}
       >
         <Stack
           direction={{
-            md: "row",
-            xs: "column",
+            md: 'row',
+            xs: 'column',
           }}
           sx={{
-            position: "relative",
+            position: 'relative',
           }}
-        >    
+        >
+          <Box
+            sx={{
+              width: {
+                xs: '100%',
+                md: '50%',
+              },
+              borderRadius: '15px',
+              marginRight: '12px',
+              overflow: 'hidden',
+            }}
+          >
             <Box
+              component={'img'}
+              src={roomInfo.hinhAnh}
               sx={{
-                width: {
-                  xs: "100%",
-                  md: "50%",
-                },
-                borderRadius: "15px",
-                marginRight: "12px",
-                overflow: "hidden",
+                width: '100%',
+                minHeight: '250px',
+                objectFit: 'cover',
               }}
-            >
-              <Box
-                component={"img"}
-                src={roomInfo.hinhAnh}
-                sx={{
-                  width: "100%",
-                  minHeight: "250px",
-                  objectFit: "cover",
-                }}
-              ></Box>
-            </Box>
+            ></Box>
+          </Box>
           <Box
             sx={{
               marginTop: {
-                xs: "12px",
+                xs: '12px',
                 md: 0,
               },
               width: {
-                xs: "100%",
-                md: "50%",
+                xs: '100%',
+                md: '50%',
               },
               paddingBottom: {
-                xs: "30px",
+                xs: '30px',
                 md: 0,
               },
             }}
           >
             <Typography
-              component={"h4"}
+              component={'h4'}
               sx={{
-                fontSize: "0.8rem",
+                fontSize: '0.8rem',
                 color: grey[500],
               }}
             >
               Toàn bộ căn hộ dịch vụ
             </Typography>
             <Typography
-              component={"h3"}
+              component={'h3'}
               sx={{
                 fontWeight: 500,
-                fontSize: "1.2rem",
-                overflow: "hidden",
+                fontSize: '1.2rem',
+                overflow: 'hidden',
                 lineClamp: 1,
-                textOverflow: "ellipsis",
-                boxOrient: "vertical",
+                textOverflow: 'ellipsis',
+                boxOrient: 'vertical',
               }}
             >
               {roomInfo.tenPhong}
             </Typography>
             <Divider
               sx={{
-                width: "4em",
-                my: "10px",
+                width: '4em',
+                my: '10px',
               }}
             ></Divider>
             <Typography
-              component={"h4"}
+              component={'h4'}
               sx={{
                 color: grey[600],
-                fontSize: "0.9rem",
+                fontSize: '0.9rem',
               }}
             >
               {roomInfo.khach} khách
               <BsDot size={12} />
               {roomInfo.phongNgu} phòng ngủ
               <BsDot size={12} />
-              {roomInfo.phongTam} phòng tắm{" "}
+              {roomInfo.phongTam} phòng tắm{' '}
             </Typography>
             <Typography
-              component={"h4"}
+              component={'h4'}
               sx={{
                 color: grey[600],
-                fontSize: "0.9rem",
+                fontSize: '0.9rem',
               }}
             >
               {result1.map((item, index) => {
                 return (
-                  <Box component={"span"}>
+                  <Box component={'span'}>
                     {item}
                     <BsDot size={12} />
                   </Box>
@@ -162,17 +162,17 @@ export default function RoomCard({ roomInfo }: RoomTypeAsProp) {
             <Box
               className="room-price"
               sx={{
-                position: "absolute",
-                right: "20px",
+                position: 'absolute',
+                right: '20px',
                 bottom: 0,
-                fontSize: "18px",
+                fontSize: '18px',
               }}
             >
               <strong>${roomInfo.giaTien} </strong>
             </Box>
           </Box>
         </Stack>
-        </Box>
+      </Box>
     </NavLink>
   );
 }

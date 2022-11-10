@@ -30,7 +30,7 @@ root.render(
         <Route path="" element={<UserTemplate />}>
           <Route index element={<Home />}></Route>
           <Route path="detail">
-            <Route path=":id" element={<Detail />}></Route>
+            <Route path=":idDetail" element={<Detail />}></Route>
           </Route>
           <Route path="/roomlist">
             <Route path=":id" element={<RoomList />}></Route>

@@ -12,7 +12,7 @@ import {
 } from "../../util/setting";
 import { AppDispatch } from "../configStore";
 
-interface userLogin {
+export interface userLogin {
   id?: number;
   name?: string;
   email?: string;
@@ -32,9 +32,13 @@ type UpdateUser = {
 };
 export interface userLoginState {
   userLogin: userLogin;
+  userData: userLogin[];
+  totalRow:number
 }
 const initialState = {
   userLogin: getStoreJSON(USER_LOGIN),
+  userData: [],
+  totalRow:0
 };
 
 const userReducer = createSlice({
@@ -45,10 +49,19 @@ const userReducer = createSlice({
       let userLogin = action.payload;
       state.userLogin = userLogin;
     },
+    getUserData:(state: userLoginState,action: PayloadAction<userLogin[]>)=>{
+      state.userData = action.payload;
+    },
+    setTotalRows:(state: userLoginState,action: PayloadAction<number>)=>{
+      state.totalRow = action.payload
+    },
+    handleDelUser:(state: userLoginState,action:PayloadAction<number>)=>{
+      state.totalRow -= 1
+    }
   },
 });
 
-export const { setUserLogin } = userReducer.actions;
+export const { setUserLogin, getUserData, setTotalRows,handleDelUser } = userReducer.actions;
 
 export default userReducer.reducer;
 
@@ -127,3 +140,34 @@ export const putUseApi = (id: number, data: UpdateUser) => {
     }
   };
 };
+
+export const getPaginationUserAPI = (index:number,pageSize:number)=>{
+  return async (dispatch:AppDispatch) =>{
+    try{
+      let result = await http.get(`/users/phan-trang-tim-kiem?pageIndex=${index}&pageSize=${pageSize}`)
+      const action = getUserData(result.data.content.data);
+      dispatch(action)
+      const totalrowsAction = setTotalRows(result.data.content.totalRow);
+      dispatch(totalrowsAction)
+  
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+}
+
+// Call API delete user 
+
+export const delUserAPI = (idUser:any)=>{
+  return async (dispatch: AppDispatch)=>{
+    try{
+      await http.delete(`/users?id=${idUser}`)
+      let action = handleDelUser(idUser)
+      dispatch(action)
+    }catch(err){
+      console.log(err);
+    }
+
+  }
+}

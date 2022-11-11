@@ -11,9 +11,6 @@ import { useAppSelector } from '../../redux/hooks';
 import Convenient from '../../components/Convenient/Convenient';
 import { getLocationDetailApi } from '../../redux/reducers/locationDetailReducer';
 import Modal from '../../components/ModalLocationDetail/ModalLocationDetail';
-import ResponsiveItem from '../../HOC/ResponsiveItem';
-import BookRoomMobile from '../../components/BookRoom/BookRoomMobile';
-import ResponsiveTest from '../../HOC/ResponsiveTest';
 
 type Props = {};
 
@@ -24,17 +21,17 @@ export default function AirbnbDetail({}: Props) {
 
   let [roomDetail] = [...room];
 
-  let { viTri } = useSelector((state: RootState) => state.locationDetailReducer);
-  let [viTriDetail] = [...viTri];
+  let { locationDetail } = useSelector((state: RootState) => state.locationDetailReducer);
+  let [viTriDetail] = [...locationDetail];
 
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    if (params.id) {
-      const action = getRoomDetailApi(params.id);
+    if (params.idDetail) {
+      const action = getRoomDetailApi(params?.idDetail);
       dispatch(action);
     }
-  }, [params.id]);
+  }, [params?.idDetail]);
 
   useEffect(() => {
     if (roomDetail?.maViTri) {
@@ -89,7 +86,7 @@ export default function AirbnbDetail({}: Props) {
           <img src={roomDetail?.hinhAnh} alt="" />
         </div>
         <div className="detail_content row">
-          <div className="col-8">
+          <div className="col-md-8 col-12">
             <div className="detail_content--des">
               <div className="detail_content--des-top">
                 <div className="top_name">
@@ -119,12 +116,8 @@ export default function AirbnbDetail({}: Props) {
               <Convenient item={roomDetail} />
             </div>
           </div>
-          <ResponsiveItem Component={BookRoom} ComponentMobile={BookRoomMobile} />
-          {/* <ResponsiveTest
-            Component={<BookRoom roomDetail={roomDetail} />}
-            ComponentMobile={<BookRoomMobile roomDetail={roomDetail} />}
-          /> */}
-          {/* <BookRoom roomDetail={roomDetail} /> */}
+
+          <BookRoom />
         </div>
       </div>
     );

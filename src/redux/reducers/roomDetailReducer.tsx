@@ -63,7 +63,8 @@ const roomDetailReducer = createSlice({
   initialState,
   reducers: {
     getRoomDetail: (state, action: PayloadAction<Room>) => {
-      state.room = [...state.room, action.payload];
+      state.room = [action.payload];
+      console.log(state.room);
     },
     amountGuest: (state, action: PayloadAction<{ value: boolean; text: string }>) => {
       let value1 = action.payload.value;
@@ -105,21 +106,14 @@ const roomDetailReducer = createSlice({
       }
     },
     filterBookedRoom: (state, action: PayloadAction<BookRoom[]>) => {
-      // state.arrBookRoom = action.payload;
-
-      // console.log(state.arrBookRoom);
-
       let [roomDetail] = [...state.room];
 
       let result = action.payload.filter((item: BookRoom) => item.maPhong == roomDetail?.id);
       state.arrBookRoom = result;
-      // state.arrBookRoom = arrBooked;
-
-      // console.log(state.arrBookRoom);
     },
-    setRoomList: (state,action)=>{
-      state.room = action.payload
-  }
+    setRoomList: (state, action) => {
+      state.room = action.payload;
+    },
   },
 });
 
@@ -161,7 +155,6 @@ export const getBookRoomApi = () => {
       });
       const action = filterBookedRoom(result.data.content);
       dispatch(action);
-      // console.log(result.data.content);
     } catch (err) {
       console.log(err);
     }
@@ -187,15 +180,14 @@ export const postBookRoomApi = (room: BookRoom) => {
   };
 };
 
-export const getRoomListByLocation = (locationId: string | undefined)=>{
-  return async (dispatch:AppDispatch)=>{
-      try{
-          let result = await http.get(`/phong-thue/lay-phong-theo-vi-tri?maViTri=${locationId}`)
-          const action = setRoomList(result.data.content);
-          dispatch(action)
-      }
-      catch(err){
-          console.log(err)
-      }
-  }
-}
+export const getRoomListByLocation = (locationId: string | undefined) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.get(`/phong-thue/lay-phong-theo-vi-tri?maViTri=${locationId}`);
+      const action = setRoomList(result.data.content);
+      dispatch(action);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};

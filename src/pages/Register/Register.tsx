@@ -34,10 +34,10 @@ export default function Register({}: Props) {
   const registerSchema = Yup.object().shape({
     password: Yup.string()
       .required("Không được bỏ trống!")
-      .min(6, "Password nhiều hơn 6 ký tự!"),
+      .min(3, "Password nhiều hơn 3 ký tự!"),
     passwordConfirm: Yup.string()
       .required("Không được bỏ trống!")
-      .min(6, "Password nhiều hơn 6 ký tự!"),
+      .min(3, "Password nhiều hơn 3 ký tự!"),
     email: Yup.string()
       .required("Không được bỏ trống!")
       .email("Email không hợp lệ"),
@@ -46,6 +46,7 @@ export default function Register({}: Props) {
       .length(10, "Nhập lại số điện thoại !")
       .required("Không được bỏ trống!"),
   });
+
   return (
     <div className="register">
       <div className="container">
@@ -79,7 +80,9 @@ export default function Register({}: Props) {
                   name="name"
                   id="name"
                 />
-                {errors.name && touched.name ? <p>{errors.name}</p> : null}
+                {errors.name && touched.name ? (
+                  <p className="text-danger">{errors.name}</p>
+                ) : null}
               </div>
               <div className="form-group">
                 <p>Email</p>
@@ -89,7 +92,9 @@ export default function Register({}: Props) {
                   name="email"
                   id="email"
                 />
-                {errors.email && touched.email ? <p>{errors.email}</p> : null}
+                {errors.email && touched.email ? (
+                  <p className="text-danger">{errors.email}</p>
+                ) : null}
               </div>
               <div className="form-group">
                 <p>Mật khẩu</p>
@@ -100,7 +105,7 @@ export default function Register({}: Props) {
                   id="password"
                 />
                 {errors.password && touched.password ? (
-                  <p>{errors.password}</p>
+                  <p className="text-danger">{errors.password}</p>
                 ) : null}
               </div>
               <div className="form-group">
@@ -112,7 +117,9 @@ export default function Register({}: Props) {
                   id="passwordConfirm"
                 />
                 {errors.passwordConfirm && touched.passwordConfirm ? (
-                  <p id="err">{errors.passwordConfirm}</p>
+                  <p id="err" className="text-danger">
+                    {errors.passwordConfirm}
+                  </p>
                 ) : null}
               </div>
 
@@ -124,7 +131,9 @@ export default function Register({}: Props) {
                   name="phone"
                   id="phone"
                 />
-                {errors.phone && touched.phone ? <p>{errors.phone}</p> : null}
+                {errors.phone && touched.phone ? (
+                  <p className="text-danger">{errors.phone}</p>
+                ) : null}
               </div>
               <div className=" form-group row mt-2">
                 <p className="col-4">Giới tính: </p>
@@ -137,6 +146,31 @@ export default function Register({}: Props) {
                     <Field type="radio" name="gender" value="false" />
                     <p>Nữ</p>
                   </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="form-group col-6">
+                  <p>Birthday:</p>
+                  <Field
+                    type="date"
+                    name="birthday"
+                    id="birthday"
+                    min="1989-1-1"
+                    max="2022-10-31"
+                    className="form-control"
+                  />
+                </div>
+                <div className="form-group col-6">
+                  <p>Role:</p>
+                  <Field
+                    as="select"
+                    name="role"
+                    id="role"
+                    className="form-control"
+                  >
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                  </Field>
                 </div>
               </div>
               <div className="mt-2">

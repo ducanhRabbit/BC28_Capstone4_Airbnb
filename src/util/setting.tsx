@@ -1,5 +1,6 @@
-import axios from 'axios';
-import { history } from '../index';
+import axios from "axios";
+import { string } from "yup/lib/locale";
+import { history } from "../index";
 
 export const configs = {
   setStore: (name: string, values: any) => {
@@ -26,14 +27,24 @@ export const configs = {
   clearLocalStorage: (name: string) => {
     localStorage.removeItem(name);
   },
-  ACCESS_TOKEN: 'accessToken',
-  USER_LOGIN: 'userLogin',
+  ACCESS_TOKEN: "accesspToken",
+  USER_LOGIN: "userLogin",
+  TOKEN_CYBERSOFT:
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA",
 };
 
-export const { ACCESS_TOKEN, USER_LOGIN, setStore, getStore, setStoreJSON, getStoreJSON } = configs;
+export const {
+  TOKEN_CYBERSOFT,
+  ACCESS_TOKEN,
+  USER_LOGIN,
+  setStore,
+  getStore,
+  setStoreJSON,
+  getStoreJSON,
+} = configs;
 
-export const TOKEN_CYBERSOFT =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA';
+// export const TOKEN_CYBERSOFT =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA";
 
 //Cấu hình interceptor {Cấu hình cho các request và response}
 export const http = axios.create({
@@ -48,7 +59,8 @@ http.interceptors.request.use(
     // Cấu hình tất cả header add thêm thuộc tính Authorization
     configs.headers = {
       ...configs.headers,
-      ['tokenCybersoft']: TOKEN_CYBERSOFT,
+      ["tokenCybersoft"]: TOKEN_CYBERSOFT,
+      // ["token"]: getStore(ACCESS_TOKEN),
     };
     return configs;
   },

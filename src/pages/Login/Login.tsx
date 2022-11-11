@@ -18,7 +18,7 @@ export default function Loign({}: Props) {
   const loginSchema = Yup.object().shape({
     password: Yup.string()
       .required("Không được bỏ trống!")
-      .min(6, "Password nhiều hơn 6 ký tự!"),
+      .min(3, "Password nhiều hơn 3 ký tự!"),
     email: Yup.string()
       .required("Không được bỏ trống!")
       .email("Email không hợp lệ"),

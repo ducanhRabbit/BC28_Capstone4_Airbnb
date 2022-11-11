@@ -77,10 +77,21 @@ export const postSignin = (data: userLogin) => {
       setStore(ACCESS_TOKEN, result.data.content.token);
       // Lưu lại user_Login
       setStoreJSON(USER_LOGIN, result.data.content);
+      //Đưa userLogin lên redux
+      let user: userLogin = result.data.content;
+      let action = setUserLogin(user);
+      dispatch(action);
       history.push("/profile");
+
+      // // if role: user chuyển về page profile còn admin thì chuyển thì template admin
+
+      // if (user.role === "user") {
+      //   history.push("/profile");
+      // }
+      // history.push("/admin");
     } catch (error: any) {
-      let err = error.response.data.content;
-      alert(err);
+      // let err = error.response.data.content;
+      // alert(err);
       console.log({ error });
     }
   };
@@ -112,13 +123,13 @@ export const getDatphongApi = () => {
   };
 };
 // call api put user
-export const putUseApi = (id: number, data: UpdateUser) => {
+export const putUserApi = (id: number, data: UpdateUser) => {
   return async (dispatch: AppDispatch) => {
     try {
       let result = await http.put(`/users/${id}`, data);
       console.log({ result });
-      //Chuyển về trang profile
-      // history.push("/profile");
+      // Chuyển về trang profile
+      history.push("/profile");
       window.location.reload();
       let action = setUserLogin(result.data.content);
       dispatch(action);

@@ -69,6 +69,7 @@ const roomDetailReducer = createSlice({
   reducers: {
     getRoomDetail: (state, action: PayloadAction<Room>) => {
       state.room = [action.payload];
+      console.log(state.room);
     },
     amountGuest: (
       state,

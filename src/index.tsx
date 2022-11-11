@@ -21,10 +21,11 @@ import MobileProfile from "./pages/Profile/MobileProfile";
 import ResponsiveItem from "./HOC/ResponsiveItem";
 import RoomList from "./pages/RoomList/RoomList";
 import Detail from "./pages/Detail/Detail";
+import AdminLocation from "./components/AdminLocation/AdminLocation";
 import AdminTemplate from "./template/admin/AdminTemplate";
 import User from "./template/admin/User";
 import Test1 from "./pages/Admin/Test1";
-import QuanLyPhong from "./pages/Admin/QuanLyPhong/QuanLyPhong";
+import UserManagement from "./pages/Admin/UserManagement/UserManagement";
 
 export const history = createBrowserHistory();
 const root = ReactDOM.createRoot(
@@ -37,7 +38,7 @@ root.render(
         <Route path="" element={<UserTemplate />}>
           <Route index element={<Home />}></Route>
           <Route path="detail">
-            <Route path=":id" element={<Detail />}></Route>
+            <Route path=":idDetail" element={<Detail />}></Route>
           </Route>
           <Route path="/roomlist">
             <Route path=":id" element={<RoomList />}></Route>
@@ -56,12 +57,12 @@ root.render(
         </Route>
         <Route path="/admin" element={<AdminTemplate />}>
           {/* Thêm route page admin. Ex: <Route path='string' element={<Element/>}></Route> */}
+
           <Route index element={<User />}></Route>
-          <Route path="quanlythongtinphong" element={<QuanLyPhong />}></Route>
-          <Route path="2" element={<Test1 />}></Route>
+          <Route path="1" element={<UserManagement />}></Route>
+          <Route path="2" element={<AdminLocation />}></Route>
           <Route path="3" element={<Test1 />}></Route>
           <Route path="4" element={<Test1 />}></Route>
-          <Route path="*" element={<Navigate to="/admin" />}></Route>
         </Route>
       </Routes>
     </HistoryRouter>

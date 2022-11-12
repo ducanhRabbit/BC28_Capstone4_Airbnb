@@ -108,14 +108,6 @@ export default function AdminLocation({}: Props) {
     <div className="admin_location">
       <div className="container admin_location-layout">
         <div className="d-flex admin_location-header">
-          {/* <span
-            className="admin_location-title"
-            onClick={() => setItemClick({ id: 0, tenViTri: '', tinhThanh: '', quocGia: '', hinhAnh: '' })}
-            data-bs-toggle="modal"
-            data-bs-target="#adminLocationModal"
-          >
-            Thêm vị trí
-          </span> */}
           <div className="admin_location-header-add">
             <button
               className="btn_update admin_location-btn add_btn"

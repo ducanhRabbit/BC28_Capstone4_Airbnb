@@ -32,7 +32,7 @@ export default function SidebarAdmin({}: Props) {
       id: 3,
       title: "Quản lý thông tin phòng",
       icon: <FaBed size={24} />,
-      path: "/admin/quanlythongtinphong",
+      path: "/admin/3",
     },
     {
       id: 4,

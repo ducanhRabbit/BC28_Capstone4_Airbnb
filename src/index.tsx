@@ -26,6 +26,8 @@ import AdminTemplate from "./template/admin/AdminTemplate";
 import User from "./template/admin/User";
 import Test1 from "./pages/Admin/Test1";
 import UserManagement from "./pages/Admin/UserManagement/UserManagement";
+import QuanLyPhong from "./pages/Admin/QuanLyPhong/QuanLyPhong";
+import QuanLyDatPhong from "./pages/Admin/QuanLyDatPhong/QuanLyDatPhong";
 
 export const history = createBrowserHistory();
 const root = ReactDOM.createRoot(
@@ -61,8 +63,8 @@ root.render(
           <Route index element={<User />}></Route>
           <Route path="1" element={<UserManagement />}></Route>
           <Route path="2" element={<AdminLocation />}></Route>
-          <Route path="3" element={<Test1 />}></Route>
-          <Route path="4" element={<Test1 />}></Route>
+          <Route path="3" element={<QuanLyPhong />}></Route>
+          <Route path="4" element={<QuanLyDatPhong />}></Route>
         </Route>
       </Routes>
     </HistoryRouter>

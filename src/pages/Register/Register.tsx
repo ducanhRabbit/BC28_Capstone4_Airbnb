@@ -50,7 +50,7 @@ export default function Register({}: Props) {
   return (
     <div className="register">
       <div className="container">
-        <h3>ĐĂNG KÝ</h3>
+        <h3 className="py-3">ĐĂNG KÝ</h3>
         <Formik
           initialValues={initialValues}
           validationSchema={registerSchema}
@@ -72,7 +72,7 @@ export default function Register({}: Props) {
         >
           {({ errors, touched }) => (
             <Form>
-              <div className="form-group">
+              <div className="form-group py-3">
                 <p>Họ tên</p>
                 <Field
                   className="form-control"
@@ -160,20 +160,8 @@ export default function Register({}: Props) {
                     className="form-control"
                   />
                 </div>
-                <div className="form-group col-6">
-                  <p>Role:</p>
-                  <Field
-                    as="select"
-                    name="role"
-                    id="role"
-                    className="form-control"
-                  >
-                    <option value="admin">Admin</option>
-                    <option value="user">User</option>
-                  </Field>
-                </div>
               </div>
-              <div className="mt-2">
+              <div className="mt-2 footer_register">
                 <button type="submit" className="btn btn-success">
                   Đăng ký
                 </button>

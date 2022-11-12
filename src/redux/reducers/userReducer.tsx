@@ -33,12 +33,12 @@ type UpdateUser = {
 export interface userLoginState {
   userLogin: userLogin;
   userData: userLogin[];
-  totalRow:number
+  totalRow: number;
 }
 const initialState = {
   userLogin: getStoreJSON(USER_LOGIN),
   userData: [],
-  totalRow:0
+  totalRow: 0,
 };
 
 const userReducer = createSlice({
@@ -49,19 +49,23 @@ const userReducer = createSlice({
       let userLogin = action.payload;
       state.userLogin = userLogin;
     },
-    getUserData:(state: userLoginState,action: PayloadAction<userLogin[]>)=>{
+    getUserData: (
+      state: userLoginState,
+      action: PayloadAction<userLogin[]>
+    ) => {
       state.userData = action.payload;
     },
-    setTotalRows:(state: userLoginState,action: PayloadAction<number>)=>{
-      state.totalRow = action.payload
+    setTotalRows: (state: userLoginState, action: PayloadAction<number>) => {
+      state.totalRow = action.payload;
     },
-    handleDelUser:(state: userLoginState,action:PayloadAction<number>)=>{
-      state.totalRow -= 1
-    }
+    handleDelUser: (state: userLoginState, action: PayloadAction<number>) => {
+      state.totalRow -= 1;
+    },
   },
 });
 
-export const { setUserLogin, getUserData, setTotalRows,handleDelUser } = userReducer.actions;
+export const { setUserLogin, getUserData, setTotalRows, handleDelUser } =
+  userReducer.actions;
 
 export default userReducer.reducer;
 
@@ -72,7 +76,13 @@ export const postSignupUser = (data: userLogin) => {
     try {
       let result = await http.post("/auth/signup", data);
       console.log({ result });
-      history.push("/login");
+      let dataLogin = {
+        email: data.email,
+        password: data.password,
+      };
+      let action = postSignin(dataLogin);
+      dispatch(action);
+      // history.push("/login");
     } catch (error: any) {
       console.log({ error });
       alert(error.response.data.content);
@@ -91,20 +101,21 @@ export const postSignin = (data: userLogin) => {
       // Lưu lại user_Login
       setStoreJSON(USER_LOGIN, result.data.content);
       //Đưa userLogin lên redux
-      let user: userLogin = result.data.content;
+      let user: userLogin = result.data.content.user;
+      console.log(user.role);
       let action = setUserLogin(user);
       dispatch(action);
-      history.push("/profile");
 
-      // // if role: user chuyển về page profile còn admin thì chuyển thì template admin
+      // if role: user chuyển về page profile còn admin thì chuyển thì template admin
 
-      // if (user.role === "user") {
-      //   history.push("/profile");
-      // }
-      // history.push("/admin");
+      if (user.role == "USER") {
+        history.push("/profile");
+      } else {
+        history.push("/admin");
+      }
     } catch (error: any) {
-      // let err = error.response.data.content;
-      // alert(err);
+      let err = error.response.data.content;
+      alert(err);
       console.log({ error });
     }
   };
@@ -123,18 +134,7 @@ export const getUserAPi = () => {
     }
   };
 };
-export const getDatphongApi = () => {
-  return async (dispatch: AppDispatch) => {
-    try {
-      let result = await http.get(
-        `/dat-phong/lay-theo-nguoi-dung/${getStoreJSON(USER_LOGIN).user.id}`
-      );
-      console.log("getDatPhonng:", result);
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-};
+
 // call api put user
 export const putUserApi = (id: number, data: UpdateUser) => {
   return async (dispatch: AppDispatch) => {
@@ -152,33 +152,32 @@ export const putUserApi = (id: number, data: UpdateUser) => {
   };
 };
 
-export const getPaginationUserAPI = (index:number,pageSize:number)=>{
-  return async (dispatch:AppDispatch) =>{
-    try{
-      let result = await http.get(`/users/phan-trang-tim-kiem?pageIndex=${index}&pageSize=${pageSize}`)
+export const getPaginationUserAPI = (index: number, pageSize: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.get(
+        `/users/phan-trang-tim-kiem?pageIndex=${index}&pageSize=${pageSize}`
+      );
       const action = getUserData(result.data.content.data);
-      dispatch(action)
+      dispatch(action);
       const totalrowsAction = setTotalRows(result.data.content.totalRow);
-      dispatch(totalrowsAction)
-  
-    }
-    catch(err){
+      dispatch(totalrowsAction);
+    } catch (err) {
       console.log(err);
     }
-  }
-}
+  };
+};
 
-// Call API delete user 
+// Call API delete user
 
-export const delUserAPI = (idUser:any)=>{
-  return async (dispatch: AppDispatch)=>{
-    try{
-      await http.delete(`/users?id=${idUser}`)
-      let action = handleDelUser(idUser)
-      dispatch(action)
-    }catch(err){
+export const delUserAPI = (idUser: any) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      await http.delete(`/users?id=${idUser}`);
+      let action = handleDelUser(idUser);
+      dispatch(action);
+    } catch (err) {
       console.log(err);
     }
-
-  }
-}
+  };
+};

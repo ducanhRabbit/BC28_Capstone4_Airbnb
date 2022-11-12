@@ -49,7 +49,7 @@ export default function UpdateProfile({}: Props) {
         {({ errors, touched }) => (
           <Form>
             <div className="form-group">
-              <p>Họ tên</p>
+              <p className="py-2">Họ tên</p>
               <Field
                 className="form-control"
                 type="text"
@@ -61,7 +61,7 @@ export default function UpdateProfile({}: Props) {
               ) : null}
             </div>
             <div className="form-group">
-              <p>Email</p>
+              <p className="py-2">Email</p>
               <input
                 type="email"
                 value={userLogin.email}
@@ -70,7 +70,7 @@ export default function UpdateProfile({}: Props) {
             </div>
 
             <div className="form-group">
-              <p>Số điện thoại</p>
+              <p className="py-2">Số điện thoại</p>
               <Field
                 className="form-control"
                 type="text"
@@ -96,7 +96,7 @@ export default function UpdateProfile({}: Props) {
             </div>
             <div className="row">
               <div className="form-group col-6">
-                <p>Birthday:</p>
+                <p className="py-2">Birthday:</p>
                 <Field
                   type="date"
                   name="birthday"
@@ -105,18 +105,6 @@ export default function UpdateProfile({}: Props) {
                   max="2022-10-31"
                   className="form-control"
                 />
-              </div>
-              <div className="form-group col-6">
-                <p>Role:</p>
-                <Field
-                  as="select"
-                  name="role"
-                  id="role"
-                  className="form-control"
-                >
-                  <option value="admin">Admin</option>
-                  <option value="user">User</option>
-                </Field>
               </div>
             </div>
 

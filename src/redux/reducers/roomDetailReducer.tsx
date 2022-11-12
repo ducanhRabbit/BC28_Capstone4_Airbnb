@@ -7,6 +7,7 @@ import {
   TOKEN_CYBERSOFT,
   USER_LOGIN,
 } from "../../util/setting";
+import { message } from "antd";
 
 export interface Room {
   id: number;
@@ -49,6 +50,7 @@ export interface RoomState {
     emBe: number;
     thuCung: number;
   };
+  arrRoomPage: Room[];
 }
 
 const initialState: RoomState = {
@@ -61,6 +63,7 @@ const initialState: RoomState = {
     emBe: 0,
     thuCung: 0,
   },
+  arrRoomPage: [],
 };
 
 const roomDetailReducer = createSlice({
@@ -130,11 +133,28 @@ const roomDetailReducer = createSlice({
     setRoomList: (state, action) => {
       state.room = action.payload;
     },
+    setBookRoom: (state, action: PayloadAction<BookRoom[]>) => {
+      state.bookRoom = action.payload;
+    },
+
+    setRoomPofile: (state: RoomState, action: PayloadAction<Room>) => {
+      state.room = [action.payload];
+    },
+    setArrRoomPage: (state: RoomState, action: PayloadAction<Room[]>) => {
+      state.arrRoomPage = action.payload;
+    },
   },
 });
 
-export const { getRoomDetail, amountGuest, filterBookedRoom, setRoomList } =
-  roomDetailReducer.actions;
+export const {
+  getRoomDetail,
+  amountGuest,
+  filterBookedRoom,
+  setRoomList,
+  setBookRoom,
+  setRoomPofile,
+  setArrRoomPage,
+} = roomDetailReducer.actions;
 
 export default roomDetailReducer.reducer;
 
@@ -224,7 +244,22 @@ export const getRoomALLApi = () => {
     }
   };
 };
-// Call api xóa phòng
+export const getRoomPageApi = (page: number, pageSize: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.get(
+        `/phong-thue/phan-trang-tim-kiem?pageIndex=${page}&pageSize=${pageSize}&keyword=`
+      );
+      console.log({ result });
+      // đưa lên redux (setRoomList)
+      let action = setArrRoomPage(result.data.content.data);
+      dispatch(action);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+// Call api xóa phòng page Admin quản lý thông tin phòng
 export const deleteRoomApi = (id: number, token: string) => {
   return async (dispatch: AppDispatch) => {
     try {
@@ -237,8 +272,132 @@ export const deleteRoomApi = (id: number, token: string) => {
         },
       });
       console.log({ result });
-      let action = setRoomList(result.data.content);
+      // let action = setRoomList(result.data.content);
+      dispatch(getRoomALLApi());
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+//Call api  Đặt phòng theo người dùng => page profile
+export const getDatphongApi = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.get(
+        `/dat-phong/lay-theo-nguoi-dung/${getStoreJSON(USER_LOGIN).user.id}`
+      );
+      let action = setBookRoom(result.data.content);
       dispatch(action);
+      console.log("getDatPhonng:", result);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+// Call api lấy thông tin của room => page profile
+export const getRoomProfileAPI = (id: number | undefined) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      console.log("id:", { id });
+      let result = await http.get(`/phong-thue/${id}`);
+      let action = setRoomPofile(result.data.content);
+      dispatch(action);
+      console.log(result.data.content);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+
+// call api create Room
+export const postRoomApi = (token: string, data: Room) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await axios({
+        url: "https://airbnbnew.cybersoft.edu.vn/api/phong-thue",
+        method: "POST",
+        data: data,
+        headers: {
+          tokenCybersoft: TOKEN_CYBERSOFT,
+          token: token,
+        },
+      });
+      console.log({ result });
+      alert(result.data.message);
+      // goi
+      dispatch(getRoomALLApi());
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+
+// Call search api room
+export const searchRoomApi = (token: string, data: Room) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await axios({
+        url: "https://airbnbnew.cybersoft.edu.vn/api/phong-thue",
+        method: "POST",
+        data: data,
+        headers: {
+          tokenCybersoft: TOKEN_CYBERSOFT,
+          token: token,
+        },
+      });
+      console.log({ result });
+      alert(result.data.message);
+      // goi
+      dispatch(getRoomALLApi());
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+//Call api Search page Quản lý phòng
+export const searchRoomAdminApi = (
+  search: string | number | undefined,
+  page: number,
+  pageSize: number
+) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.get(
+        `/phong-thue/phan-trang-tim-kiem?pageIndex=${page}&pageSize=${pageSize}&keyword=${search}`
+      );
+      console.log({ result });
+      // đưa lên redux (setRoomList)
+      let action = setArrRoomPage(result.data.content.data);
+      dispatch(action);
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+// -------------- page admin dat phòng-----------
+
+export const getBookRoomAdminApi = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.get(`/dat-phong`);
+      // đưa lên redux
+      dispatch(setBookRoom(result.data.content));
+      console.log({ result });
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+};
+// Call delete bookRoom
+export const deleteBookRoomAdminApi = (id: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      let result = await http.delete(`/dat-phong/${id}`);
+      // đưa lên redux
+      message.success(result.data.message);
+
+      dispatch(getBookRoomAdminApi());
+      console.log({ result });
     } catch (error) {
       console.log({ error });
     }

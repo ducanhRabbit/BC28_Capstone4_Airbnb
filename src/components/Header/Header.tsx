@@ -24,6 +24,15 @@ export default function Header({}: Props) {
     dispatch(action)
     navigate('/')
   }
+
+  const handleNavigate = ()=>{
+    if(userLogin === null || userLogin?.role.toLowerCase() !== 'admin' ){
+      alert('Tài khoản không có quyền truy cập!')
+      navigate('/')
+    }else{
+     navigate('/admin')
+    }
+  }
   const profileMenu = [
     {
       login: false,
@@ -180,7 +189,7 @@ export default function Header({}: Props) {
           <div className="right-header">
             <div className="d-flex align-items-center">
               <div className="host-language d-flex align-items-center me-2">
-                <NavLink className="host" to={'/admin'}>Become a host</NavLink>
+                <ButtonBase onClick={handleNavigate} className="host" >Become a host</ButtonBase>
                 <div className="language">
                   <i className="fas fa-globe"></i>
                 </div>

@@ -1,4 +1,4 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Box} from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import SidebarAdmin from "../../components/Sidebar/SidebarAdmin";

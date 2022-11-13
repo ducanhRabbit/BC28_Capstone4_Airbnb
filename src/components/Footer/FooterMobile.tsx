@@ -5,7 +5,6 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { FaRegHeart, FaHome } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import UserMenu from "../Menu/UserMenu";
-// import logo from "../../assets/img";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 

@@ -1,20 +1,27 @@
-import { Box, Divider, Typography } from '@mui/material'
+import { Box, Divider, Typography, ButtonBase } from '@mui/material'
 import {FaBars, FaUser,FaMapMarkedAlt,FaBed,FaUserTag,FaAirbnb} from 'react-icons/fa'
 import {ImExit} from 'react-icons/im'
 import React, { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { ACCESS_TOKEN, clearLocalStorage, USER_LOGIN } from '../../util/setting'
+import { setUserLogin } from '../../redux/reducers/userReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../redux/configStore'
 
 
 type Props = {}
 
 export default function SidebarAdmin({}: Props) {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const {userLogin} = useSelector((state:RootState) => state.userReducer)
   const [isCollapsed,setCollapsed] = useState(false)
   const menuList = [
     {
       id: 1,
       title: 'Quản lý người dùng',
       icon: <FaUser size={24}/>,
-      path: '/admin/1'
+      path: '/admin'
     },
     {
       id: 2,
@@ -35,6 +42,14 @@ export default function SidebarAdmin({}: Props) {
       path: '/admin/4'
     },
   ]
+
+  const handleLogOut = ()=>{
+    clearLocalStorage(ACCESS_TOKEN)
+    clearLocalStorage(USER_LOGIN)
+    const action = setUserLogin(null)
+    dispatch(action)
+    navigate('/')
+  }
   const handleCollapsed = () =>{
     setCollapsed(!isCollapsed)
   }
@@ -57,7 +72,8 @@ export default function SidebarAdmin({}: Props) {
         px: '20px',
         minHeight: '80px' 
       }}>
-        {!isCollapsed && <Box sx={{
+        {!isCollapsed && <NavLink to={'/'}>
+        <Box sx={{
           display:'flex',
           alignItems:'center',
           color:'#fff',
@@ -70,7 +86,8 @@ export default function SidebarAdmin({}: Props) {
             fontFamily:'Poppins',
             fontWeight: 600
           }}>airbnb</Typography>
-          </Box>}
+          </Box>
+          </NavLink>}
         <Box component={'span'} onClick={handleCollapsed} sx={{
           cursor: 'pointer',
           color: '#fff'
@@ -95,7 +112,7 @@ export default function SidebarAdmin({}: Props) {
             gap: '12px',
             border: '2px solid #fff'
           }}>
-            <Box component={'img'} src={require('../../assets/img/user_pic-50x50.png')} sx={{
+            <Box component={'img'} src={userLogin?.avatar?userLogin.avatar:require('../../assets/img/user_pic-50x50.png')} sx={{
               width: "100%",
               objectFit: 'cover',
             }}></Box>
@@ -104,7 +121,7 @@ export default function SidebarAdmin({}: Props) {
               mt: '8px',
               fontWeight: 600,
               color: '#fff'
-            }}>Erik</Typography>
+            }}>{userLogin?.name}</Typography>
         </Box>}
 
         {menuList.map((item,index)=>{
@@ -151,19 +168,26 @@ export default function SidebarAdmin({}: Props) {
       }}/>
       <Box className="footer-section mt-2">
 
-        <Box className={`d-flex align-items-center ${!isCollapsed?'':'justify-content-center'}`}  sx={{
+        <ButtonBase onClick={handleLogOut}  className={`d-flex align-items-center ${!isCollapsed?'justify-content-start':'justify-content-center'}`} sx={{
           padding:'16px 12px',
+          width: '100%',
           fontWeight: 600,
           fontSize: '1rem',
           gap: '12px',
           color: '#fff',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          '&:hover': {
+            backgroundColor:'#fff',
+            'h3, svg':{
+              color: 'secondary.main'
+            }
+          },
         }}>
           <ImExit size={24}/>
           {!isCollapsed && <Typography component={'h3'} sx={{
             color:'#fff'
           }}>Đăng xuất</Typography>}
-        </Box>
+        </ButtonBase>
       </Box>
     </Box>
     </Box>

@@ -1,17 +1,13 @@
-import { Box, Button, IconButton, Modal, Typography } from '@mui/material'
-import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid'
+import { Box, Button, IconButton, Modal} from '@mui/material'
+import { DataGrid, GridColDef} from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../../../redux/configStore'
 import { delUserAPI, getPaginationUserAPI, userLogin } from '../../../../redux/reducers/userReducer'
-import { http } from '../../../../util/setting'
 import {FaEdit,FaTrash} from 'react-icons/fa'
 import EditUserForm from '../../../../components/Forms/EditUserForm'
 import {FaPlus} from 'react-icons/fa'
 import AddUserForm from '../../../../components/Forms/AddUserForm'
-
-
-
 
 type Props = {}
 
@@ -28,7 +24,6 @@ export default function UserDataTable({}: Props) {
   const [isEditForm,setIsEditForm] = useState(true)
   const [dataModal,setDataModal] =useState<userLogin | null | undefined>(null)
   const dispatch:AppDispatch= useDispatch()
-  console.log(dataModal)
   const{userData, totalRow} = useSelector((state:RootState) => state.userReducer)
   
   const columns:GridColDef[] = [
@@ -89,14 +84,13 @@ export default function UserDataTable({}: Props) {
 
   })
 
-  useEffect(()=>{
+  const[refresh,setRefresh] = useState(false)
 
-    setPageState(prev =>({...prev,isLoading:true}))
+  useEffect(()=>{
     const actionThunk = getPaginationUserAPI(pageState.page,pageState.pageSize)
     dispatch(actionThunk);
-    setPageState(prev =>({...prev,isLoading:false}))
 
-  },[pageState.page,pageState.pageSize,totalRow])
+  },[pageState.page,pageState.pageSize,totalRow,refresh])
   return (
     <>
     <Box sx={{
@@ -115,7 +109,7 @@ export default function UserDataTable({}: Props) {
     rows={userData}
     rowCount={totalRow}
     getRowId={(row)=> row.id}
-    loading={pageState.isLoading}
+    loading={refresh}
     rowsPerPageOptions={[10,15,20]}
     pagination
     page={pageState.page -1}
@@ -141,7 +135,7 @@ export default function UserDataTable({}: Props) {
               boxShadow: 24,
               p: 4,
             }}>
-              {isEditForm?<EditUserForm dataDefault={dataModal} loading={setPageState}></EditUserForm>:<AddUserForm totalRow={totalRow} loading={setPageState}></AddUserForm>}
+              {isEditForm?<EditUserForm dataDefault={dataModal} loading={setRefresh}></EditUserForm>:<AddUserForm totalRow={totalRow} loading={setRefresh}></AddUserForm>}
             </Box>
           </Modal>
     </>

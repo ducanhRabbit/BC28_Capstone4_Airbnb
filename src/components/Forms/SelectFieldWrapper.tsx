@@ -1,7 +1,6 @@
-import { FormControl, InputLabel, MenuItem, Select, TextField, TextFieldProps } from "@mui/material";
+import { FormControl, MenuItem, TextField, TextFieldProps } from "@mui/material";
 import { useField } from "formik";
 import React, { ReactNode } from "react";
-import { string } from "yup/lib/locale";
 
 export interface SelectOptions {
     value: string

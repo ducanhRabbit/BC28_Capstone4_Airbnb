@@ -18,8 +18,6 @@ import RoomList from './pages/RoomList/RoomList';
 import Detail from './pages/Detail/Detail';
 import AdminLocation from './components/AdminLocation/AdminLocation';
 import AdminTemplate from './template/admin/AdminTemplate';
-import User from './template/admin/User';
-import Test1 from './pages/Admin/Test1';
 import UserManagement from './pages/Admin/UserManagement/UserManagement';
 
 export const history = createBrowserHistory();
@@ -42,17 +40,12 @@ root.render(
             path="/profile"
             element={<ResponsiveItem Component={Profile} ComponentMobile={MobileProfile} />}
           ></Route>
-
-          {/* <Route path="*" element={<Navigate to="" />}></Route> */}
+          <Route path="*" element={<Navigate to="" />}></Route>
         </Route>
         <Route path="/admin" element={<AdminTemplate />}>
-          {/* Thêm route page admin. Ex: <Route path='string' element={<Element/>}></Route> */}
-
-          <Route index element={<User />}></Route>
-          <Route path="1" element={<UserManagement/>}></Route>
+          <Route index element={<UserManagement />}></Route>
           <Route path="2" element={<AdminLocation />}></Route>
-          <Route path="3" element={<Test1 />}></Route>
-          <Route path="4" element={<Test1 />}></Route>
+
 
         </Route>
       </Routes>

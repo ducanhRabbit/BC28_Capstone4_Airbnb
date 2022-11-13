@@ -31,7 +31,7 @@ type UpdateUser = {
   phone: string;
 };
 export interface userLoginState {
-  userLogin: userLogin;
+  userLogin: userLogin | null
   userData: userLogin[];
   totalRow: number;
 }
@@ -45,7 +45,7 @@ const userReducer = createSlice({
   name: "userReducer",
   initialState,
   reducers: {
-    setUserLogin: (state: userLoginState, action: PayloadAction<userLogin>) => {
+    setUserLogin: (state: userLoginState, action: PayloadAction<userLogin | null>) => {
       let userLogin = action.payload;
       state.userLogin = userLogin;
     },

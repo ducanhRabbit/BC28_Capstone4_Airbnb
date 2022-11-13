@@ -14,20 +14,20 @@ import {
 import { createBrowserHistory } from "history";
 import "./assets/scss/style.scss";
 
-import Loign from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
-import Profile from "./pages/Profile/Profile";
-import MobileProfile from "./pages/Profile/MobileProfile";
-import ResponsiveItem from "./HOC/ResponsiveItem";
-import RoomList from "./pages/RoomList/RoomList";
-import Detail from "./pages/Detail/Detail";
-import AdminLocation from "./components/AdminLocation/AdminLocation";
-import AdminTemplate from "./template/admin/AdminTemplate";
-import User from "./template/admin/User";
-import Test1 from "./pages/Admin/Test1";
-import UserManagement from "./pages/Admin/UserManagement/UserManagement";
+
+import Loign from './pages/Login/Login';
+import Register from './pages/Register/Register';
+import Profile from './pages/Profile/Profile';
+import MobileProfile from './pages/Profile/MobileProfile';
+import ResponsiveItem from './HOC/ResponsiveItem';
+import RoomList from './pages/RoomList/RoomList';
+import Detail from './pages/Detail/Detail';
+import AdminLocation from './components/AdminLocation/AdminLocation';
+import AdminTemplate from './template/admin/AdminTemplate';
+import UserManagement from './pages/Admin/UserManagement/UserManagement';
 import QuanLyPhong from "./pages/Admin/QuanLyPhong/QuanLyPhong";
 import QuanLyDatPhong from "./pages/Admin/QuanLyDatPhong/QuanLyDatPhong";
+
 
 export const history = createBrowserHistory();
 const root = ReactDOM.createRoot(
@@ -56,15 +56,14 @@ root.render(
               />
             }
           ></Route>
+          <Route path="*" element={<Navigate to="" />}></Route>
         </Route>
         <Route path="/admin" element={<AdminTemplate />}>
-          {/* Thêm route page admin. Ex: <Route path='string' element={<Element/>}></Route> */}
-
-          <Route index element={<User />}></Route>
-          <Route path="1" element={<UserManagement />}></Route>
+          <Route index element={<UserManagement />}></Route>
           <Route path="2" element={<AdminLocation />}></Route>
           <Route path="3" element={<QuanLyPhong />}></Route>
           <Route path="4" element={<QuanLyDatPhong />}></Route>
+
         </Route>
       </Routes>
     </HistoryRouter>

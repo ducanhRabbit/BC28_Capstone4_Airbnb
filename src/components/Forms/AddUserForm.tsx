@@ -1,11 +1,6 @@
 import {
-  Box,
   Button,
-  ButtonBase,
   Grid,
-  MenuItem,
-  Select,
-  TextField,
   Typography,
 } from "@mui/material";
 import { Form, Formik } from "formik";
@@ -13,13 +8,7 @@ import * as Yup from "yup";
 import React from "react";
 import { FormikTextField } from "./TextFieldWrapper";
 import { SelecFieldWrapper, SelectOptions } from "./SelectFieldWrapper";
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-
 import { Dayjs } from 'dayjs';
-
-import { setTotalRows, userLogin } from "../../redux/reducers/userReducer";
-import { textAlign } from "@mui/system";
 import { http } from "../../util/setting";
 import { userDataType } from "../../pages/Admin/UserManagement/DataTable/UserDataTable";
 import DatePicker from "./DatePicker";
@@ -27,7 +16,7 @@ import {FaPlus} from 'react-icons/fa'
 
 type Props = {
   totalRow: number,
-  loading: React.Dispatch<React.SetStateAction<userDataType>>
+  loading: React.Dispatch<React.SetStateAction<boolean>>
 };
 
 interface dataAddType {
@@ -43,14 +32,15 @@ interface dataAddType {
 }
 
 export default function AddUserForm({loading,totalRow}: Props) {
-const [dateValue, setDateValue] = React.useState<Dayjs | null>(null);
   const handleSubmitAddForm = async (value: dataAddType) => {
     try {
+      loading(true)
       let result =await http.post('/users',value)
-      console.log(result);
       alert(result.data.content)
+      loading(prev => !prev)
       
     } catch (err) {
+      console.log(err);
       alert(err);
     }
   };
@@ -66,11 +56,11 @@ const [dateValue, setDateValue] = React.useState<Dayjs | null>(null);
   ];
   const roleOption: SelectOptions[] = [
     {
-      value: "admin",
+      value: "ADMIN",
       label: "Admin",
     },
     {
-      value: "user",
+      value: "USER",
       label: "User",
     },
   ];

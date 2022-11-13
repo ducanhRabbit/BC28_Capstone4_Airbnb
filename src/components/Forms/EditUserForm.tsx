@@ -19,7 +19,7 @@ import { FaEdit } from "react-icons/fa";
 import DatePicker from "./DatePicker";
 type Props = {
   dataDefault: userLogin | null | undefined;
-  loading: React.Dispatch<React.SetStateAction<userDataType>>;
+  loading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 interface dataEditType {
@@ -36,12 +36,11 @@ interface dataEditType {
 export default function EditUserForm({ dataDefault, loading }: Props) {
   const handleSubmitEditForm = async (value: dataEditType) => {
     try {
-      console.log(value);
       const dataEdit: userLogin = { ...dataDefault, ...value };
-      const result = await http.put(`/users/${dataEdit.id}`, dataEdit);
+      loading(true)
+      await http.put(`/users/${dataEdit.id}`, dataEdit);
       alert("Cập nhật thành công!");
-      loading((prev) => ({ ...prev, isLoading: true }));
-      loading((prev) => ({ ...prev, isLoading: false }));
+      loading(prev => !prev)
     } catch (err) {
       alert(err);
     }
@@ -58,11 +57,11 @@ export default function EditUserForm({ dataDefault, loading }: Props) {
   ];
   const roleOption: SelectOptions[] = [
     {
-      value: "admin",
+      value: "ADMIN",
       label: "Admin",
     },
     {
-      value: "user",
+      value: "USER",
       label: "User",
     },
   ];
@@ -74,7 +73,7 @@ export default function EditUserForm({ dataDefault, loading }: Props) {
     gender: true,
     phone: `${dataDefault?.phone}`,
     confirmPassw: "",
-    role: "",
+    role: `${dataDefault?.role}`,
     birthday: "",
   };
   const validation = Yup.object().shape({
@@ -162,7 +161,7 @@ export default function EditUserForm({ dataDefault, loading }: Props) {
                 />
                 <FormikTextField
                   sx={{
-                    my: "10px",
+                    mb: "10px",
                   }}
                   formikKey="password"
                   label="Password"

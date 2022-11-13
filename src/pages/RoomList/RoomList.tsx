@@ -56,8 +56,8 @@ export default function RoomList({}: Props) {
               <Button variant="outlined">More</Button>
             </Box>
             <Box className="mt-2 pb-3">
-              {room?.map((item: Room) => {
-                return <RoomCard roomInfo={item}></RoomCard>;
+              {room?.map((item: Room,index) => {
+                return <RoomCard key={index} roomInfo={item}></RoomCard>;
               })}
             </Box>
           </Box>

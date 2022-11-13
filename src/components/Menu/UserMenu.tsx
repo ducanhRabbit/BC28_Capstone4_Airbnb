@@ -1,6 +1,10 @@
-import { Box } from '@mui/material';
+import { Box, Button, ButtonBase } from '@mui/material';
 import React from 'react'
-import { NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { RootState } from '../../redux/configStore';
+import { setUserLogin } from '../../redux/reducers/userReducer';
+import { ACCESS_TOKEN, clearLocalStorage, USER_LOGIN } from '../../util/setting';
 
 type Props = {
     fontSize: string | object,
@@ -12,6 +16,16 @@ interface customAsProps {
 }
 
 export default function UserMenu({custom}: customAsProps) {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const handleLogOut = ()=>{
+    clearLocalStorage(ACCESS_TOKEN)
+    clearLocalStorage(USER_LOGIN)
+    const action = setUserLogin(null)
+    dispatch(action)
+    navigate('/')
+  }
+  const {userLogin} = useSelector((state:RootState) => state.userReducer)
     const profileMenu = [
         {
           login: false,
@@ -86,15 +100,10 @@ export default function UserMenu({custom}: customAsProps) {
               content: "Trợ giúp",
               link: "/",
             },
-            {
-              id: 9,
-              content: "Đăng xuất",
-              link: "/",
-            },
           ],
         },
       ];
-    const user = false;
+    const user = !!userLogin;
 
     const obj = profileMenu.find((item) => item.login === !!user);
     const menuList = obj?.menu;
@@ -102,12 +111,16 @@ export default function UserMenu({custom}: customAsProps) {
     <>
     {menuList?.map((menu, index) => {
         return (
-          <NavLink to={menu.link} key={index}>
+          <div key={index} >
+          <NavLink to={menu.link} >
             <Box sx={custom}>
-
             {menu.content}
             </Box>
           </NavLink>
+          <ButtonBase onClick={handleLogOut} sx={{
+            width: '100%'
+          }}>Đăng xuất</ButtonBase>
+          </div>
         );
     })
     }

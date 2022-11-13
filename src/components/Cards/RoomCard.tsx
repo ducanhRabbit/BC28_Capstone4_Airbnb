@@ -152,7 +152,7 @@ export default function RoomCard({ roomInfo }: RoomTypeAsProp) {
             >
               {result1.map((item, index) => {
                 return (
-                  <Box component={'span'}>
+                  <Box key={index} component={'span'}>
                     {item}
                     <BsDot size={12} />
                   </Box>

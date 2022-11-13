@@ -98,6 +98,7 @@ header{
                     width: 400px;
                     margin-top: 12px;
                     .search-content{
+                        background-color: #fff;
                         max-height: 400px;
                         overflow: auto;
                         .search-item{
@@ -177,11 +178,6 @@ header{
                 border-radius: 20px;
                 padding: 5px 5px 5px 12px;
                 
-                .burger-menu{
-                    svg{
-    
-                    }
-                }
                 .user-info{
     
                     width: 30px;

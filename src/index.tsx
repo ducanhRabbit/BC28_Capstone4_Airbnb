@@ -1,13 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { store } from './redux/configStore';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { store } from "./redux/configStore";
 
-import UserTemplate from './template/user/UserTemplate';
-import Home from './pages/Home/Home';
-import { Navigate, Route, Routes, unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
-import './assets/scss/style.scss';
+import UserTemplate from "./template/user/UserTemplate";
+import Home from "./pages/Home/Home";
+import {
+  Navigate,
+  Route,
+  Routes,
+  unstable_HistoryRouter as HistoryRouter,
+} from "react-router-dom";
+import { createBrowserHistory } from "history";
+import "./assets/scss/style.scss";
+
 
 import Loign from './pages/Login/Login';
 import Register from './pages/Register/Register';
@@ -19,9 +25,14 @@ import Detail from './pages/Detail/Detail';
 import AdminLocation from './components/AdminLocation/AdminLocation';
 import AdminTemplate from './template/admin/AdminTemplate';
 import UserManagement from './pages/Admin/UserManagement/UserManagement';
+import QuanLyPhong from "./pages/Admin/QuanLyPhong/QuanLyPhong";
+import QuanLyDatPhong from "./pages/Admin/QuanLyDatPhong/QuanLyDatPhong";
+
 
 export const history = createBrowserHistory();
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 root.render(
   <Provider store={store}>
     <HistoryRouter history={history}>
@@ -38,14 +49,20 @@ root.render(
           <Route path="/register" element={<Register />}></Route>
           <Route
             path="/profile"
-            element={<ResponsiveItem Component={Profile} ComponentMobile={MobileProfile} />}
+            element={
+              <ResponsiveItem
+                Component={Profile}
+                ComponentMobile={MobileProfile}
+              />
+            }
           ></Route>
           <Route path="*" element={<Navigate to="" />}></Route>
         </Route>
         <Route path="/admin" element={<AdminTemplate />}>
           <Route index element={<UserManagement />}></Route>
           <Route path="2" element={<AdminLocation />}></Route>
-
+          <Route path="3" element={<QuanLyPhong />}></Route>
+          <Route path="4" element={<QuanLyDatPhong />}></Route>
 
         </Route>
       </Routes>

@@ -1,3 +1,4 @@
+
 import { Box, Divider, Typography, ButtonBase } from '@mui/material'
 import {FaBars, FaUser,FaMapMarkedAlt,FaBed,FaUserTag,FaAirbnb} from 'react-icons/fa'
 import {ImExit} from 'react-icons/im'
@@ -9,9 +10,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../redux/configStore'
 
 
-type Props = {}
+type Props = {};
 
 export default function SidebarAdmin({}: Props) {
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const {userLogin} = useSelector((state:RootState) => state.userReducer)
@@ -25,22 +27,23 @@ export default function SidebarAdmin({}: Props) {
     },
     {
       id: 2,
-      title: 'Quản lý vị trí',
-      icon: <FaMapMarkedAlt size={24}/>,
-      path: '/admin/2'
+      title: "Quản lý vị trí",
+      icon: <FaMapMarkedAlt size={24} />,
+      path: "/admin/2",
     },
     {
       id: 3,
-      title: 'Quản lý thông tin phòng',
-      icon: <FaBed size={24}/>,
-      path: '/admin/3'
+      title: "Quản lý thông tin phòng",
+      icon: <FaBed size={24} />,
+      path: "/admin/3",
     },
     {
       id: 4,
-      title: 'Quản lý đặt phòng',
-      icon: <FaUserTag size={24}/>,
-      path: '/admin/4'
+      title: "Quản lý đặt phòng",
+      icon: <FaUserTag size={24} />,
+      path: "/admin/4",
     },
+
   ]
 
   const handleLogOut = ()=>{
@@ -155,7 +158,7 @@ export default function SidebarAdmin({}: Props) {
              }}>
               {item.title}
              </Typography>}
-              </Box>
+ </Box>
             </NavLink>
           </Box>)
         })}
@@ -166,8 +169,10 @@ export default function SidebarAdmin({}: Props) {
         opacity:0.7
 
       }}/>
-      <Box className="footer-section mt-2">
 
+
+
+<Box className="footer-section mt-2">
         <ButtonBase onClick={handleLogOut}  className={`d-flex align-items-center ${!isCollapsed?'justify-content-start':'justify-content-center'}`} sx={{
           padding:'16px 12px',
           width: '100%',
@@ -188,7 +193,7 @@ export default function SidebarAdmin({}: Props) {
             color:'#fff'
           }}>Đăng xuất</Typography>}
         </ButtonBase>
-      </Box>
+        </Box>
     </Box>
     </Box>
   )

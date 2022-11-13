@@ -3,7 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/configStore";
 import * as Yup from "yup";
-import { putUseApi } from "../../redux/reducers/userReducer";
+import { putUserApi } from "../../redux/reducers/userReducer";
 
 type Props = {};
 type UpdateProfile = {
@@ -21,7 +21,7 @@ export default function UpdateProfile({}: Props) {
   console.log(userLogin.id);
   const dispatch: AppDispatch = useDispatch();
   const initialValues: UpdateProfile = {
-    email: "",
+    email: userLogin.email,
     phone: "",
     birthday: "",
     gender: true,
@@ -29,9 +29,6 @@ export default function UpdateProfile({}: Props) {
     name: "",
   };
   const registerSchema = Yup.object().shape({
-    email: Yup.string()
-      .required("Không được bỏ trống!")
-      .email("Email không hợp lệ"),
     name: Yup.string().required("Không được bỏ trống!"),
     phone: Yup.string()
       .length(10, "Nhập lại số điện thoại !")
@@ -45,14 +42,14 @@ export default function UpdateProfile({}: Props) {
         validationSchema={registerSchema}
         onSubmit={(values) => {
           console.log({ values });
-          let action = putUseApi(userLogin.id, values);
+          let action = putUserApi(userLogin.id, values);
           dispatch(action);
         }}
       >
         {({ errors, touched }) => (
           <Form>
             <div className="form-group">
-              <p>Họ tên</p>
+              <p className="py-2">Họ tên</p>
               <Field
                 className="form-control"
                 type="text"
@@ -64,20 +61,16 @@ export default function UpdateProfile({}: Props) {
               ) : null}
             </div>
             <div className="form-group">
-              <p>Email</p>
-              <Field
-                className="form-control"
+              <p className="py-2">Email</p>
+              <input
                 type="email"
-                name="email"
-                id="email"
+                value={userLogin.email}
+                className="form-control"
               />
-              {errors.email && touched.email ? (
-                <p className="text-danger">{errors.email}</p>
-              ) : null}
             </div>
 
             <div className="form-group">
-              <p>Số điện thoại</p>
+              <p className="py-2">Số điện thoại</p>
               <Field
                 className="form-control"
                 type="text"
@@ -101,15 +94,18 @@ export default function UpdateProfile({}: Props) {
                 </div>
               </div>
             </div>
-            <div className="form-group">
-              <p>Birthday</p>
-              <Field
-                type="date"
-                name="birthday"
-                id="birthday"
-                min="1989-1-1"
-                max="2022-10-31"
-              />
+            <div className="row">
+              <div className="form-group col-6">
+                <p className="py-2">Birthday:</p>
+                <Field
+                  type="date"
+                  name="birthday"
+                  id="birthday"
+                  min="1989-1-1"
+                  max="2022-10-31"
+                  className="form-control"
+                />
+              </div>
             </div>
 
             <div className="mt-2">

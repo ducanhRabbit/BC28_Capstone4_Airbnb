@@ -18,7 +18,7 @@ export default function Loign({}: Props) {
   const loginSchema = Yup.object().shape({
     password: Yup.string()
       .required("Không được bỏ trống!")
-      .min(6, "Password nhiều hơn 6 ký tự!"),
+      .min(3, "Password nhiều hơn 3 ký tự!"),
     email: Yup.string()
       .required("Không được bỏ trống!")
       .email("Email không hợp lệ"),
@@ -26,7 +26,7 @@ export default function Loign({}: Props) {
   return (
     <div className="login">
       <div className="container">
-        <h3>ĐĂNG NHẬP</h3>
+        <h3 className="py-3">ĐĂNG NHẬP</h3>
         <Formik
           initialValues={initialValues}
           validationSchema={loginSchema}
@@ -46,7 +46,9 @@ export default function Loign({}: Props) {
                   name="email"
                   id="email"
                 />
-                {errors.email && touched.email ? <p>{errors.email}</p> : null}
+                {errors.email && touched.email ? (
+                  <p className="text-danger">{errors.email}</p>
+                ) : null}
               </div>
               <div className="form-group">
                 <p>Mật khẩu</p>
@@ -57,11 +59,11 @@ export default function Loign({}: Props) {
                   id="password"
                 />
                 {errors.password && touched.password ? (
-                  <p>{errors.password}</p>
+                  <p className="text-danger">{errors.password}</p>
                 ) : null}
               </div>
 
-              <div className="mt-2">
+              <div className="py-3 footer_login">
                 <button type="submit" className="btn btn-success">
                   Đăng nhập
                 </button>

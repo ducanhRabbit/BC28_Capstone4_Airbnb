@@ -1,20 +1,19 @@
-import { act } from "@testing-library/react";
-import { type } from "@testing-library/user-event/dist/type";
-import { Action } from "history";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { isJsxElement } from "typescript";
 import UpdateProfile from "../../components/UpdateProfile/UpdateProfile";
 import HocModal from "../../HOC/HocModal";
 
 import { AppDispatch, RootState } from "../../redux/configStore";
 import { setModalAction } from "../../redux/reducers/modalReducer";
 import {
+  BookRoom,
   getDatphongApi,
-  getUserAPi,
-  userLoginState,
-} from "../../redux/reducers/userReducer";
-import { getStoreJSON, USER_LOGIN } from "../../util/setting";
+  getRoomProfileAPI,
+  Room,
+} from "../../redux/reducers/roomDetailReducer";
+import { getUserAPi } from "../../redux/reducers/userReducer";
 
 type Props = {};
 
@@ -22,7 +21,14 @@ export default function Profile({}: Props) {
   let userLogin = useSelector(
     (state: RootState) => state.userReducer.userLogin
   );
-  console.log({ userLogin });
+  // lấy mảng phòng đã đặt từ redux
+  const bookRoom = useSelector(
+    (state: RootState) => state.roomDetailReducer.bookRoom
+  );
+  // lấy room
+  const room = useSelector((state: RootState) => state.roomDetailReducer.room);
+  console.log({ room });
+  console.log({ bookRoom });
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
     let action = getUserAPi();
@@ -30,6 +36,34 @@ export default function Profile({}: Props) {
     let action2 = getDatphongApi();
     dispatch(action2);
   }, []);
+
+  const renderBookRoomz = () => {
+    return bookRoom.map((item: BookRoom, index: number) => {
+      return <h3>{item.maPhong}</h3>;
+    });
+    // bookRoom.map((item: BookRoom) => {
+    //   let actionRoom = getRoomProfileAPI(item.maPhong);
+    //   dispatch(actionRoom);
+    // });
+    // return room.map((item: Room, index) => {
+    //   return (
+    //     <div className="row" key={index}>
+    //       <div className="col-7">
+    //         <img style={{ width: "100%" }} src={item.hinhAnh} alt="..." />
+    //       </div>
+    //       <div className="col-5">
+    //         <p>Toàn bộ căn hộ dịch vụ </p>
+    //         <h3>{item.tenPhong}</h3>
+    //         <hr />
+    //         <p>
+    //           {item.khach} khách - {item.giuong} giường - {item.phongTam} phòng
+    //           tắm -{" "}
+    //         </p>
+    //       </div>
+    //     </div>
+    //   );
+    // });
+  };
   return (
     <>
       <HocModal />
@@ -39,7 +73,14 @@ export default function Profile({}: Props) {
             <div className="col-4">
               <div className="card">
                 <div className="card_img">
-                  <img src={userLogin?.avatar} alt="" />
+                  <img
+                    src={
+                      userLogin?.avatar
+                        ? userLogin?.avatar
+                        : "https://www.tutorsvalley.com/public/storage/uploads/tutor/1574383712-1AB5217C-5A13-4888-A5A1-BE0BCADBC655.png"
+                    }
+                    alt=""
+                  />
                   <a href="#">Cập nhập ảnh</a>
                 </div>
                 <div>
@@ -89,6 +130,8 @@ export default function Profile({}: Props) {
               <div className="my-2">
                 <p>Phòng đã thuê</p>
               </div>
+              <hr />
+              {renderBookRoomz()}
             </div>
           </div>
         </div>

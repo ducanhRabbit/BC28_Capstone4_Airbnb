@@ -1,17 +1,17 @@
-import type { PaginationProps } from 'antd';
-import { Pagination } from 'antd';
-import React, { useEffect, useState } from 'react';
+import type { PaginationProps } from "antd";
+import { Pagination } from "antd";
+import React, { useEffect, useState } from "react";
 
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
 import {
   deleteLocationAdminApi,
   getLocationAPI,
   getLocationPageApi,
   searchLocationAdminApi,
-} from '../../redux/reducers/locationDetailReducer';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/configStore';
-import ModalAdminLocation from './ModalAdminLocation';
+} from "../../redux/reducers/locationDetailReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/configStore";
+import ModalAdminLocation from "./ModalAdminLocation";
 
 type Props = {};
 
@@ -26,21 +26,24 @@ export interface Location {
 }
 
 export default function AdminLocation({}: Props) {
-  const { viTri, arrPageLocation } = useSelector((state: RootState) => state.locationDetailReducer);
-  const [search, setSearch] = useState<string | number | undefined>('');
+  const { viTri, arrPageLocation } = useSelector(
+    (state: RootState) => state.locationDetailReducer
+  );
+  console.log({ viTri, arrPageLocation });
+  const [search, setSearch] = useState<string | number | undefined>("");
   const [page, setPage] = useState(1);
   const pageSize = 4;
   const [itemClick, setItemClick] = useState<Location>({
     id: 0,
-    tenViTri: '',
-    tinhThanh: '',
-    quocGia: '',
-    hinhAnh: '',
+    tenViTri: "",
+    tinhThanh: "",
+    quocGia: "",
+    hinhAnh: "",
   });
 
   const dispatch: AppDispatch = useDispatch();
 
-  const onChange: PaginationProps['onChange'] = (page) => {
+  const onChange: PaginationProps["onChange"] = (page) => {
     setPage(page);
   };
 
@@ -62,10 +65,17 @@ export default function AdminLocation({}: Props) {
           <td>{item?.tinhThanh}</td>
           <td>{item?.quocGia}</td>
           <td className="admin_location-table-tdImg">
-            <img className="admin_location-table-img" src={item?.hinhAnh} alt="img" />
+            <img
+              className="admin_location-table-img"
+              src={item?.hinhAnh}
+              alt="img"
+            />
           </td>
           <td>
-            <button className="admin_location-btn" onClick={() => del(item?.id)}>
+            <button
+              className="admin_location-btn"
+              onClick={() => del(item?.id)}
+            >
               <i className="fas fa-trash-alt"></i>
             </button>
 
@@ -119,7 +129,15 @@ export default function AdminLocation({}: Props) {
           <div className="admin_location-header-add">
             <button
               className="btn_update admin_location-btn add_btn"
-              onClick={() => setItemClick({ id: 0, tenViTri: '', tinhThanh: '', quocGia: '', hinhAnh: '' })}
+              onClick={() =>
+                setItemClick({
+                  id: 0,
+                  tenViTri: "",
+                  tinhThanh: "",
+                  quocGia: "",
+                  hinhAnh: "",
+                })
+              }
               data-bs-toggle="modal"
               data-bs-target="#adminLocationModal"
             >
@@ -127,7 +145,11 @@ export default function AdminLocation({}: Props) {
               <i className="fas fa-plus-circle"></i>
             </button>
           </div>
-          <ModalAdminLocation page={page} pageSize={pageSize} itemClick={itemClick} />
+          <ModalAdminLocation
+            page={page}
+            pageSize={pageSize}
+            itemClick={itemClick}
+          />
 
           <form className="d-flex admin_location-header-search" role="search">
             <input
@@ -135,7 +157,9 @@ export default function AdminLocation({}: Props) {
               type="search"
               placeholder="Địa điểm cần tìm?"
               aria-label="Search"
-              onInput={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
+              onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearch(e.target.value)
+              }
             />
             <span className="search-icon">
               <i className="fas fa-search"></i>
@@ -162,7 +186,7 @@ export default function AdminLocation({}: Props) {
               current={page}
               defaultPageSize={4}
               onChange={onChange}
-              total={search == '' ? viTri.length : arrPageLocation.length}
+              total={search == "" ? viTri.length : arrPageLocation.length}
             />
           </div>
         </div>

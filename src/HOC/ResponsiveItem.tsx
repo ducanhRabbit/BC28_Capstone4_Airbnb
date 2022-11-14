@@ -22,7 +22,6 @@ export default function ResponsiveItem({ Component, ComponentMobile }: Props): J
         height: window.innerHeight,
       });
     };
-    console.log(screen.width);
 
     window.onresize = handleOnResize;
     return () => {

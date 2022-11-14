@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DatePicker } from 'antd';
+import { DatePicker, message } from 'antd';
 import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker';
 import moment from 'moment';
 import {
@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/configStore';
 import { useAppSelector } from '../../redux/hooks';
-import ResponsiveItem from '../../HOC/ResponsiveItem';
+import { history } from '../..';
 
 const { RangePicker } = DatePicker;
 
@@ -36,9 +36,9 @@ export default function BookRoom({}: Props) {
   // const { nguoiLon, treEm, emBe, thuCung } = useSelector((state: RootState) => state.roomDetailReducer.guestNumber);
   // const { bookRoom, arrBookRoom, guestNumber } = useSelector((state: RootState) => state.roomDetailReducer);
   const { bookRoom, arrBookRoom } = useSelector((state: RootState) => state.roomDetailReducer);
-
+  const { userLogin } = useSelector((state: RootState) => state.userReducer);
   const { arrCommentId } = useSelector((state: RootState) => state.commentReducer);
-  // console.log(nguoiLon, treEm);
+  console.log(userLogin.user.id);
 
   const [guestsNumber, setGuestsNumber] = useState({
     nguoiLon: 1,
@@ -146,20 +146,22 @@ export default function BookRoom({}: Props) {
   };
 
   const submitBookRoom = () => {
-    let booked = {
-      id: 0,
-      maPhong: roomDetail?.id,
-      ngayDen: date.ngayDen,
-      ngayDi: date.ngayDi,
-      // soLuongKhach: guestNumber.nguoiLon + guestNumber.treEm,
-      soLuongKhach: guestsNumber.nguoiLon + guestsNumber.treEm,
+    if (userLogin) {
+      let booked = {
+        id: 0,
+        maPhong: roomDetail?.id,
+        ngayDen: date.ngayDen,
+        ngayDi: date.ngayDi,
+        soLuongKhach: guestsNumber.nguoiLon + guestsNumber.treEm,
+        maNguoiDung: userLogin.user.id,
+      };
 
-      maNguoiDung: 1,
-    };
-
-    const action = postBookRoomApi(booked);
-    dispatch(action);
-    // dispatch(setGuestNumber());
+      const action = postBookRoomApi(booked);
+      dispatch(action);
+    } else {
+      message.warning('Vui lòng đăng nhập!');
+      history.push('/login');
+    }
   };
 
   useEffect(() => {
@@ -192,7 +194,6 @@ export default function BookRoom({}: Props) {
 
           <div className="detail_book-body">
             <div className="detail_book-body-date">
-              {/* <ResponsiveItem Component={datePC} ComponentMobile={dateMobile} /> */}
               <RangePicker
                 placeholder={['Nhận phòng', 'Trả phòng']}
                 placement="bottomRight"

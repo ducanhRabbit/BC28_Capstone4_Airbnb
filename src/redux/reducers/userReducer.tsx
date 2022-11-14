@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { message } from "antd";
 import axios from "axios";
 import { history } from "../..";
 import {
@@ -142,10 +143,9 @@ export const putUserApi = (id: number, data: UpdateUser) => {
       let result = await http.put(`/users/${id}`, data);
       console.log({ result });
       // Chuyển về trang profile
-      history.push("/profile");
-      window.location.reload();
       let action = setUserLogin(result.data.content);
       dispatch(action);
+      window.location.reload();
     } catch (error) {
       console.log({ error });
     }

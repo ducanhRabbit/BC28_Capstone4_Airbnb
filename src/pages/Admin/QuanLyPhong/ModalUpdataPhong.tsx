@@ -1,29 +1,24 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/configStore";
 
 type Props = {};
 
-export default function HocModal({}: Props) {
-  let { Component, title } = useSelector(
-    (state: RootState) => state.modalReducer
-  );
+export default function ModalUpdataPhong({}: Props) {
   return (
     <div>
       {/* Modal trigger button */}
-      {/* <button
+      <button
         type="button"
         className="btn btn-primary btn-lg"
         data-bs-toggle="modal"
-        data-bs-target={"#modal"}
+        data-bs-target="#modal"
       >
-        Launch
-      </button> */}
+        Updata
+      </button>
       {/* Modal Body */}
       {/* if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard */}
       <div
         className="modal fade"
-        id="modal"
+        id="modalId"
         tabIndex={-1}
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -32,18 +27,14 @@ export default function HocModal({}: Props) {
         aria-hidden="true"
       >
         <div
-          className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl"
+          className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
           role="document"
         >
           <div className="modal-content">
             <div className="modal-header">
-              <h3
-                className="modal-title"
-                id="modalTitleId"
-                style={{ color: "#ff385c" }}
-              >
-                {title}
-              </h3>
+              <h5 className="modal-title" id="modalTitleId">
+                Modal title
+              </h5>
               <button
                 type="button"
                 className="btn-close"
@@ -51,8 +42,18 @@ export default function HocModal({}: Props) {
                 aria-label="Close"
               />
             </div>
-            <div className="modal-body">
-              <Component />
+            <div className="modal-body">Body</div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" className="btn btn-primary">
+                Save
+              </button>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { Pagination } from "antd";
+import moment from "moment";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/configStore";
@@ -6,7 +6,10 @@ import {
   BookRoom,
   deleteBookRoomAdminApi,
   getBookRoomAdminApi,
+  setUpdataBookRoomAction,
 } from "../../../redux/reducers/roomDetailReducer";
+import CreateDatPhong from "./CreateDatPhong";
+import UpdataDatPhong from "./UpdataDatPhong";
 
 type Props = {};
 
@@ -27,13 +30,17 @@ export default function QuanLyDatPhong({}: Props) {
           <td>{item.id}</td>
           <td>{item.maPhong}</td>
           <td>{item.maNguoiDung}</td>
-          <td>{item.ngayDen}</td>
-          <td>{item.ngayDi}</td>
+          <td>{moment(item.ngayDen).format("DD / MM / YYYY")}</td>
+          <td>{moment(item.ngayDi).format("DD / MM / YYYY")}</td>
           <td>
             <button
               className="btn btn-info mx-2"
               data-bs-toggle="modal"
-              data-bs-target={"#modal"}
+              data-bs-target="#modalIdUpdataDatPhong"
+              onClick={() => {
+                const action = setUpdataBookRoomAction(item);
+                dispatch(action);
+              }}
             >
               Sửa
             </button>
@@ -54,18 +61,13 @@ export default function QuanLyDatPhong({}: Props) {
   return (
     <>
       <div className="container datPhong">
+        <CreateDatPhong />
+        <UpdataDatPhong />
         <div className="row py-3">
           <button
             className="btn btn-danger col-3 add"
             data-bs-toggle="modal"
-            data-bs-target={"#modal"}
-            onClick={() => {
-              //   const action = setModalAction({
-              //     Component: CreateRoom,
-              //     title: "Create Room",
-              //   });
-              //   dispatch(action);
-            }}
+            data-bs-target="#modalIdCreateDatPhong"
           >
             Thêm Đặt Phòng
           </button>

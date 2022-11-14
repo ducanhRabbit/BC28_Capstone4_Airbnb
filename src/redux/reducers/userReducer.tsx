@@ -29,7 +29,7 @@ export interface TAIKHOAN {
   token: string;
 }
 export interface userLoginState {
-  userLogin: userLogin;
+  userLogin: userLogin | null;
   userData: userLogin[];
   totalRow: number;
   updataUser: userLogin;
@@ -68,7 +68,7 @@ const userReducer = createSlice({
   name: "userReducer",
   initialState,
   reducers: {
-    setUserLogin: (state: userLoginState, action: PayloadAction<userLogin>) => {
+    setUserLogin: (state: userLoginState, action: PayloadAction<userLogin | null>) => {
       let userLogin = action.payload;
       state.userLogin = userLogin;
     },
@@ -139,6 +139,8 @@ export const postSignin = (data: userLogin) => {
       // Lưu lại user_Login
       setStoreJSON(USER_LOGIN, result.data.content);
       //Đưa userLogin lên redux
+      let action1 = setUserLogin(result.data.content.user);
+      dispatch(action1)
       let action2 = setTaiKhoan(result.data.content);
       dispatch(action2);
       console.log({ result });

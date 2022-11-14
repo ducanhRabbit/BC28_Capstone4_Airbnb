@@ -24,6 +24,8 @@ export default function Header({}: Props) {
   const handleLogOut = () => {
     clearLocalStorage(ACCESS_TOKEN);
     clearLocalStorage(USER_LOGIN);
+    clearLocalStorage('userSignin');
+
     const action = setUserLogin(null);
     dispatch(action);
     navigate("/");

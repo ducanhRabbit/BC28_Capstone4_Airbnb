@@ -26,6 +26,7 @@ export default function SearchHeader({}: Props) {
   },[])
   
   return (
+    <span>
     <Tippy
       visible={showResult && !!viTri}
       interactive={true}
@@ -35,12 +36,14 @@ export default function SearchHeader({}: Props) {
           <PopperWrapper>
             <div className="search-content">
               {viTri?.filter((item,index) => item.tenViTri.toLowerCase().includes(searchValue.toLowerCase())).map((item,index)=>{
-                return <NavLink to={`/roomlist/${item.id}`} className="search-item d-flex align-items-center justify-content-between" key={item.id} onClick={handleHideResult} >
+                return <span key={index}>
+                <NavLink to={`/roomlist/${item.id}`} className="search-item d-flex align-items-center justify-content-between" key={item.id} onClick={handleHideResult} >
                 <span className="location-icon d-flex align-items-center justify-content-center">
                   <i className="fas fa-map-marker-alt"></i>
                 </span>
                 <span className="location-result">{`${item.tenViTri}, ${item.tinhThanh} - ${item.quocGia}`}</span>
               </NavLink>
+              </span>
               })}
             </div>
           </PopperWrapper>
@@ -74,5 +77,6 @@ export default function SearchHeader({}: Props) {
         )}
       </div>
     </Tippy>
+    </span>
   );
 }

@@ -1,5 +1,5 @@
 import { Box, Tabs , Tab } from '@mui/material';
-import React, { ChangeEvent, ChangeEventHandler, useState } from 'react'
+import React, { useState } from 'react'
 import {MdOutlineApartment,MdKitesurfing,MdDownhillSkiing,MdHouseboat} from 'react-icons/md'
 import {GiUfo,GiIsland,GiGolfFlag,GiTreehouse,GiCampingTent,GiFarmTractor,GiCastle,GiDesert,GiMountainCave,GiWindmill,GiWoodCabin,GiRiver} from 'react-icons/gi'
 import {FaSwimmingPool,FaUmbrellaBeach,FaCity} from 'react-icons/fa'

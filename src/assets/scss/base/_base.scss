@@ -7,7 +7,7 @@
 }
 
 .container {
-  // max-width: 1309px!important;
+  max-width: 1309px!important;
 }
 
 a {
@@ -16,7 +16,13 @@ a {
   display: inline-block;
 }
 
-a:hover {
-  text-decoration: none;
-  color: unset;
+
+a:hover{
+    text-decoration: none;
+    color: unset;
 }
+
+p{
+    margin: unset!important;
+}
+

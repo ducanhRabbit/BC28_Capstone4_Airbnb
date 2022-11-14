@@ -1,13 +1,29 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Typewriter from "typewriter-effect";
 import Tippy from "@tippyjs/react/headless";
 import PopperWrapper from "../Popper/Popper";
 import SearchHeader from "./SearchHeader";
+import { useSelector,useDispatch } from "react-redux";
+import { RootState } from "../../redux/configStore";
+import { ButtonBase } from "@mui/material";
+import { ACCESS_TOKEN, clearLocalStorage, USER_LOGIN } from "../../util/setting";
+import { setUserLogin } from "../../redux/reducers/userReducer";
 type Props = {};
 
 export default function Header({}: Props) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const {userLogin} = useSelector((state:RootState) => state.userReducer)
   const [activeSearch, setActiveSearch] = useState(false);
+
+  const handleLogOut = ()=>{
+    clearLocalStorage(ACCESS_TOKEN)
+    clearLocalStorage(USER_LOGIN)
+    const action = setUserLogin(null)
+    dispatch(action)
+    navigate('/')
+  }
   const profileMenu = [
     {
       login: false,
@@ -86,20 +102,36 @@ export default function Header({}: Props) {
           id: 9,
           content: "Đăng xuất",
           link: "/",
+          action: handleLogOut
         },
       ],
     },
   ];
-  const user = false;
+  const user = !!userLogin;
   const renderMenuProfile = () => {
     let obj = profileMenu.find((item) => item.login === !!user);
     let menuList = obj?.menu;
     return menuList?.map((menu, index) => {
-      return (
-        <NavLink className="menu-item" to={menu.link}>
+      if(menu.action){
+        return <ButtonBase key={index} sx={{
+          padding: '12px 16px',
+          justifyContent: 'start',
+          width:'100%',
+          color:'#000',
+          fontSize: '14px',
+          '&:hover': {
+            backgroundColor: '#ddd'
+          }
+        }} onClick={handleLogOut}>
           {menu.content}
-        </NavLink>
-      );
+        </ButtonBase>
+      }else{
+        return (
+          <NavLink key={index} className="menu-item" to={menu.link}>
+            {menu.content}
+          </NavLink>
+        );
+      }
     });
   };
 
@@ -148,17 +180,18 @@ export default function Header({}: Props) {
           <div className="right-header">
             <div className="d-flex align-items-center">
               <div className="host-language d-flex align-items-center me-2">
-                <div className="host">Become a host</div>
+                <NavLink className="host" to={'/admin'}>Become a host</NavLink>
                 <div className="language">
                   <i className="fas fa-globe"></i>
                 </div>
               </div>
               <div className="profile">
                 <Tippy
+
                   trigger="click"
                   interactive={true}
                   render={(attrs) => (
-                    <div className="profile-popper" tabIndex={-1} {...attrs}>
+                    <div key={attrs.toString()} className="profile-popper" tabIndex={-1} {...attrs}>
                       <PopperWrapper>
                         <div className="menu-content">
                           {renderMenuProfile()}

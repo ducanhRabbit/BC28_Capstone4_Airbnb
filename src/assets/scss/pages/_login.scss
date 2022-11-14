@@ -1,16 +1,35 @@
 .login {
     .container {
         max-width: 768px !important;
+        padding: 60px 0;
 
         h3 {
-            @include text ($text-3xl, $text-bold, $text-c1-dark)
+            @include text ($text-3xl, $text-bold, #ff385c)
         }
 
         div {
-            p {}
+            p {
+                padding: 10px 0;
+            }
 
             input {
                 // width: 100%;
+            }
+        }
+
+        .footer_login {
+            padding: 10px 0;
+
+            button {
+                background: #ff385c;
+
+                &:hover {
+                    background: #ff385c75;
+                }
+            }
+
+            a {
+                color: #FFF !important;
             }
         }
     }

@@ -6,7 +6,7 @@ import PopperWrapper from "../Popper/Popper";
 import SearchHeader from "./SearchHeader";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/configStore";
-import { ButtonBase } from "@mui/material";
+import { ButtonBase,Box } from "@mui/material";
 import {
   ACCESS_TOKEN,
   clearLocalStorage,
@@ -32,7 +32,13 @@ export default function Header({}: Props) {
   };
 
 
- 
+ const handleNavProfile=()=>{
+  if(userLogin === null){
+    navigate('/login')
+  }else{
+    navigate('/profile')
+  }
+ }
   const handleNavigate = ()=>{
     if(userLogin === null || userLogin?.role !== 'ADMIN' ){
       alert('Tài khoản không có quyền truy cập!')
@@ -232,18 +238,18 @@ export default function Header({}: Props) {
                     </div>
                   )}
                 >
-                  <button className="wrapper d-flex align-items-center">
+                  <Box className="wrapper d-flex align-items-center">
                     <div className="burger-menu me-3">
                       <i className="fas fa-bars"></i>
                     </div>
-                    <NavLink to={"/profile"} className="user-info">
+                    <ButtonBase onClick={handleNavProfile} className="user-info">
                       <img
                         src="https://www.tutorsvalley.com/public/storage/uploads/tutor/1574383712-1AB5217C-5A13-4888-A5A1-BE0BCADBC655.png"
                         alt=""
                         className="user-img w-100"
                       />
-                    </NavLink>
-                  </button>
+                    </ButtonBase>
+                  </Box>
                 </Tippy>
               </div>
             </div>

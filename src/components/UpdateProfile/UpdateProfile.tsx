@@ -24,17 +24,19 @@ export default function UpdateProfile({}: Props) {
   };
   const [valueUpdate, setValueUpdate] = useState(initialValues);
   useEffect(() => {
-    let values = {
-      id: userLogin.id,
-      email: userLogin.email,
-      phone: userLogin.phone,
-      birthday: userLogin.birthday,
-      gender: userLogin.gender,
-      role: "",
-      name: userLogin.name,
-    };
-    setValueUpdate(values);
-  }, [userLogin.id]);
+    if(userLogin){
+      let values = {
+        id: userLogin.id,
+        email: userLogin.email,
+        phone: userLogin.phone,
+        birthday: userLogin.birthday,
+        gender: userLogin.gender,
+        role: "",
+        name: userLogin.name,
+      };
+      setValueUpdate(values);
+    }
+  }, [userLogin?.id]);
   const registerSchema = Yup.object().shape({
     name: Yup.string().required("Không được bỏ trống!"),
     phone: Yup.string()
@@ -71,7 +73,7 @@ export default function UpdateProfile({}: Props) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="modalTitleId">
-                Updata Profile
+                Update Profile
               </h5>
               <button
                 type="button"
@@ -87,8 +89,8 @@ export default function UpdateProfile({}: Props) {
                 validationSchema={registerSchema}
                 onSubmit={(values) => {
                   console.log({ values });
-                  values.email = userLogin.email;
-                  let action = putUserApi(userLogin.id, values);
+                  values.email = userLogin?.email;
+                  let action = putUserApi(userLogin?.id, values);
                   dispatch(action);
                 }}
               >
@@ -110,7 +112,7 @@ export default function UpdateProfile({}: Props) {
                       <p className="py-2">Email</p>
                       <input
                         type="email"
-                        value={userLogin.email}
+                        value={userLogin?.email}
                         className="form-control"
                       />
                     </div>

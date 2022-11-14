@@ -1,5 +1,4 @@
 import axios from "axios";
-import { string } from "yup/lib/locale";
 import { history } from "../index";
 
 export const configs = {
@@ -27,12 +26,11 @@ export const configs = {
   clearLocalStorage: (name: string) => {
     localStorage.removeItem(name);
   },
-  ACCESS_TOKEN: "accesspToken",
+  ACCESS_TOKEN: "access_Token",
   USER_LOGIN: "userLogin",
   TOKEN_CYBERSOFT:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjAxLzAzLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzYyODgwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3Nzc2NDAwfQ.z923oFwCROoABao5uzu3qATLUqYBTAaJWQMPJAUBNFU",
 };
-
 
 export const {
   TOKEN_CYBERSOFT,
@@ -42,9 +40,8 @@ export const {
   getStore,
   setStoreJSON,
   getStoreJSON,
-  clearLocalStorage
+  clearLocalStorage,
 } = configs;
-
 
 // export const TOKEN_CYBERSOFT =
 //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCAyOCIsIkhldEhhblN0cmluZyI6IjI1LzAyLzIwMjMiLCJIZXRIYW5UaW1lIjoiMTY3NzI4MzIwMDAwMCIsIm5iZiI6MTY0Nzk2ODQwMCwiZXhwIjoxNjc3NDMwODAwfQ.wEdmkKpVZbDB4s4L_cmLwJ1O8le8Cc-VMgLZCI-HvLA";

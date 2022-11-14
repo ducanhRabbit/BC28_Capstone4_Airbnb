@@ -1,21 +1,17 @@
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../../redux/configStore";
-import { number } from "yup/lib/locale";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../redux/configStore";
 import {
   postRoomApi,
   Room,
 } from "../../../../redux/reducers/roomDetailReducer";
+import { ACCESS_TOKEN, getStore } from "../../../../util/setting";
 
 type Props = {};
 
 export default function CreateRoom({}: Props) {
-  const userLogin = useSelector(
-    (state: RootState) => state.userReducer.userLogin
-  );
-  console.log({ userLogin });
   const dispatch: AppDispatch = useDispatch();
   const initialValues: Room = {
     id: 0,
@@ -93,8 +89,11 @@ export default function CreateRoom({}: Props) {
                   validationSchema={CreateRoomSchema}
                   onSubmit={(values) => {
                     console.log({ values });
-                    let action = postRoomApi(userLogin.token, values);
-                    dispatch(action);
+                    let token = getStore(ACCESS_TOKEN);
+                    if (token) {
+                      let action = postRoomApi(token, values);
+                      dispatch(action);
+                    }
                   }}
                 >
                   {({ errors, touched }) => (

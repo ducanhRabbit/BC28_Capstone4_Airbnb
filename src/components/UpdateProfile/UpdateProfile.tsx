@@ -1,33 +1,39 @@
 import { Field, Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/configStore";
 import * as Yup from "yup";
-import { putUserApi } from "../../redux/reducers/userReducer";
-import { getStoreJSON, USER_LOGIN } from "../../util/setting";
+import { putUserApi, userLogin } from "../../redux/reducers/userReducer";
 
 type Props = {};
-type UpdateProfile = {
-  name: string;
-  email: string;
-  phone: string;
-  birthday: string;
-  gender: boolean;
-  role: string;
-};
+
 export default function UpdateProfile({}: Props) {
-  const userLogin = useSelector(
-    (state: RootState) => state.userReducer.userLogin
+  const updataUser = useSelector(
+    (state: RootState) => state.userReducer.updataUser
   );
   const dispatch: AppDispatch = useDispatch();
-  const initialValues: UpdateProfile = {
-    email: userLogin.email,
+  const initialValues: userLogin = {
+    id: 0,
+    email: "",
     phone: "",
     birthday: "",
     gender: true,
     role: "",
     name: "",
   };
+  const [valueUpdate, setValueUpdate] = useState(initialValues);
+  useEffect(() => {
+    let values = {
+      id: updataUser.id,
+      email: updataUser.email,
+      phone: updataUser.phone,
+      birthday: updataUser.birthday,
+      gender: updataUser.gender,
+      role: "",
+      name: updataUser.name,
+    };
+    setValueUpdate(values);
+  }, [updataUser.id]);
   const registerSchema = Yup.object().shape({
     name: Yup.string().required("Không được bỏ trống!"),
     phone: Yup.string()
@@ -75,11 +81,13 @@ export default function UpdateProfile({}: Props) {
             </div>
             <div className="modal-body">
               <Formik
-                initialValues={initialValues}
+                initialValues={valueUpdate}
+                enableReinitialize={true}
                 validationSchema={registerSchema}
                 onSubmit={(values) => {
                   console.log({ values });
-                  let action = putUserApi(userLogin.id, values);
+                  values.email = updataUser.email;
+                  let action = putUserApi(updataUser.id, values);
                   dispatch(action);
                 }}
               >
@@ -101,7 +109,7 @@ export default function UpdateProfile({}: Props) {
                       <p className="py-2">Email</p>
                       <input
                         type="email"
-                        value={userLogin.email}
+                        value={updataUser.email}
                         className="form-control"
                       />
                     </div>

@@ -1,6 +1,6 @@
-import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AppDispatch, RootState } from "../configStore";
+import { AppDispatch } from "../configStore";
 import {
   getStoreJSON,
   http,
@@ -327,9 +327,7 @@ export const postRoomApi = (token: string, data: Room) => {
         },
       });
       console.log({ result });
-      // alert(result.data.message);
       message.success(result.data.message);
-      // goi
       dispatch(getRoomALLApi());
     } catch (error) {
       console.log({ error });
@@ -424,7 +422,6 @@ export const searchRoomAdminApi = (
         `/phong-thue/phan-trang-tim-kiem?pageIndex=${page}&pageSize=${pageSize}&keyword=${search}`
       );
       console.log({ result });
-      // đưa lên redux (setRoomList)
       let action = setArrRoomPage(result.data.content.data);
       dispatch(action);
     } catch (error) {

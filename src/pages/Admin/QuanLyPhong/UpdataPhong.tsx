@@ -1,11 +1,11 @@
-import Item from "antd/lib/list/Item";
 import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { AppDispatch, RootState } from "../../../redux/configStore";
 import { Room, updataRoomApi } from "../../../redux/reducers/roomDetailReducer";
-import { getStore, getStoreJSON } from "../../../util/setting";
+import { getUserAPi } from "../../../redux/reducers/userReducer";
+import { ACCESS_TOKEN, getStore } from "../../../util/setting";
 
 type Props = {};
 
@@ -13,11 +13,11 @@ export default function UpdataPhong({}: Props) {
   const { room, page, pageSize } = useSelector(
     (state: RootState) => state.roomDetailReducer.updataRoom
   );
-  const { user, token } = useSelector(
-    (state: RootState) => state.userReducer.userLogin
-  );
 
   const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserAPi());
+  }, []);
   const initialValues: Room = {
     id: 0,
     tenPhong: "",
@@ -122,14 +122,17 @@ export default function UpdataPhong({}: Props) {
                   validationSchema={CreateRoomSchema}
                   onSubmit={(values) => {
                     console.log({ values });
-                    let action = updataRoomApi(
-                      room.id,
-                      token,
-                      values,
-                      page,
-                      pageSize
-                    );
-                    dispatch(action);
+                    let token = getStore(ACCESS_TOKEN);
+                    if (token) {
+                      let action = updataRoomApi(
+                        room.id,
+                        token,
+                        values,
+                        page,
+                        pageSize
+                      );
+                      dispatch(action);
+                    }
                   }}
                 >
                   {({ errors, touched }) => (
@@ -147,7 +150,6 @@ export default function UpdataPhong({}: Props) {
                             <p className="text-danger">{errors.tenPhong}</p>
                           ) : null}
                         </div>
-                        {/* <Field  style={{ display: "none" }} /> */}
                         <div className="form-group col-4">
                           <p className="py-2">Số khách</p>
                           <Field

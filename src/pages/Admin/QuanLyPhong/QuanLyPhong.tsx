@@ -8,22 +8,14 @@ import {
   deleteRoomApi,
   getRoomALLApi,
   getRoomPageApi,
-  Room,
-  RoomState,
   searchRoomAdminApi,
   setUpdataRoom,
   updataRoom,
 } from "../../../redux/reducers/roomDetailReducer";
 
-import {
-  ACCESS_TOKEN,
-  getStore,
-  getStoreJSON,
-  setStore,
-  USER_LOGIN,
-} from "../../../util/setting";
-import ModalUpdataPhong from "./ModalUpdataPhong";
 import UpdataPhong from "./UpdataPhong";
+import { ACCESS_TOKEN, getStore } from "../../../util/setting";
+import { getUserAPi } from "../../../redux/reducers/userReducer";
 
 type Props = {};
 let timeout: any = null;
@@ -35,26 +27,35 @@ export default function QuanLyPhong({}: Props) {
   const arrLocation = useSelector(
     (state: RootState) => state.locationDetailReducer.viTri
   );
-  const { user, token } = useSelector(
-    (state: RootState) => state.userReducer.userLogin
-  );
+
   const [page, setPage] = useState(1);
   const pageSize = 4;
   const [search, setSearch] = useState<string | number | undefined>("");
 
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    let action = getRoomPageApi(page, pageSize);
-    dispatch(action);
-    let action2 = getLocationAPI();
-    dispatch(action2);
-  }, [page]);
+    timeout = setTimeout(() => {
+      let action3 = getUserAPi();
+      dispatch(action3);
+    }, 1000);
+    return () => {
+      if (timeout !== null) {
+        clearTimeout(timeout);
+      }
+    };
+  }, []);
   useEffect(() => {
+    let action3 = getUserAPi();
+    dispatch(action3);
     let action = getRoomALLApi();
     dispatch(action);
     let action2 = getLocationAPI();
     dispatch(action2);
   }, []);
+  useEffect(() => {
+    let action = getRoomPageApi(page, pageSize);
+    dispatch(action);
+  }, [page]);
 
   useEffect(() => {
     timeout = setTimeout(() => {
@@ -67,9 +68,7 @@ export default function QuanLyPhong({}: Props) {
       }
     };
   }, [search]);
-  const updataRoom = (item: Room) => {
-    console.log({ item });
-  };
+
   const renderRoomList = () => {
     return arrRoomPage?.map((item, index) => {
       return (
@@ -103,16 +102,17 @@ export default function QuanLyPhong({}: Props) {
             <button
               className="btn btn-danger"
               onClick={() => {
-                if (!token) {
-                  return;
+                let token = getStore(ACCESS_TOKEN);
+                console.log({ token });
+                if (token) {
+                  let actionDelete = deleteRoomApi(
+                    item.id,
+                    token,
+                    page,
+                    pageSize
+                  );
+                  dispatch(actionDelete);
                 }
-                let actionDelete = deleteRoomApi(
-                  item.id,
-                  token,
-                  page,
-                  pageSize
-                );
-                dispatch(actionDelete);
               }}
             >
               X

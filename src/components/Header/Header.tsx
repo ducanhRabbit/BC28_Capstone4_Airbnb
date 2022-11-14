@@ -29,12 +29,15 @@ export default function Header({}: Props) {
     navigate("/");
   };
 
-  const handleNavigate = () => {
-    if (userLogin === null || userLogin?.role.toLowerCase() !== "admin") {
-      alert("Tài khoản không có quyền truy cập!");
-      navigate("/");
-    } else {
-      navigate("/admin");
+
+ 
+  const handleNavigate = ()=>{
+    if(userLogin === null || userLogin?.role.toLowerCase() !== 'admin' ){
+      alert('Tài khoản không có quyền truy cập!')
+
+    }else{
+     navigate('/admin')
+
     }
   };
 

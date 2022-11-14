@@ -56,8 +56,8 @@ export default function SidebarAdmin({}: Props) {
   const handleLogOut = () => {
     clearLocalStorage(ACCESS_TOKEN);
     clearLocalStorage(USER_LOGIN);
-    // const action = setUserLogin(null);
-    // dispatch(action);
+    const action = setUserLogin(null);
+    dispatch(action);
     navigate("/");
   };
   const handleCollapsed = () => {

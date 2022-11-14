@@ -38,7 +38,7 @@ export default function BookRoom({}: Props) {
   const { bookRoom, arrBookRoom } = useSelector((state: RootState) => state.roomDetailReducer);
   const { userLogin } = useSelector((state: RootState) => state.userReducer);
   const { arrCommentId } = useSelector((state: RootState) => state.commentReducer);
-  console.log(userLogin.user.id);
+  console.log(userLogin);
 
   const [guestsNumber, setGuestsNumber] = useState({
     nguoiLon: 1,
@@ -155,7 +155,6 @@ export default function BookRoom({}: Props) {
         soLuongKhach: guestsNumber.nguoiLon + guestsNumber.treEm,
         maNguoiDung: userLogin.user.id,
       };
-
       const action = postBookRoomApi(booked);
       dispatch(action);
     } else {

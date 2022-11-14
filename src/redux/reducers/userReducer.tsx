@@ -36,7 +36,7 @@ export interface userLoginState {
   taiKhoan: TAIKHOAN;
 }
 const initialState = {
-  userLogin: getStoreJSON(USER_LOGIN),
+  userLogin: getStoreJSON('userSignin'),
   userData: [],
   totalRow: 0,
   updataUser: {
@@ -138,6 +138,7 @@ export const postSignin = (data: userLogin) => {
       setStore(ACCESS_TOKEN, result.data.content.token);
       // Lưu lại user_Login
       setStoreJSON(USER_LOGIN, result.data.content);
+      setStoreJSON('userSignin',result.data.content.user)
       //Đưa userLogin lên redux
       let action1 = setUserLogin(result.data.content.user);
       dispatch(action1)

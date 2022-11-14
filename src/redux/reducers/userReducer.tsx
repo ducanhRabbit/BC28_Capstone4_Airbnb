@@ -22,13 +22,14 @@ export interface userLogin {
   birthday?: string;
   gender?: boolean;
   role?: string;
+  avatar?: string;
 }
 export interface TAIKHOAN {
   user: userLogin;
   token: string;
 }
 export interface userLoginState {
-  userLogin: userLogin | null;
+  userLogin: userLogin;
   userData: userLogin[];
   totalRow: number;
   updataUser: userLogin;
@@ -47,17 +48,27 @@ const initialState = {
     gender: true,
     phone: "",
   },
-  taiKhoan: getStoreJSON(USER_LOGIN),
+  taiKhoan: {
+    user: {
+      id: 0,
+      name: "",
+      email: "",
+      password: "",
+      phone: "",
+      birthday: "",
+      gender: true,
+      role: "",
+      avatar: "",
+    },
+    token: "",
+  },
 };
 
 const userReducer = createSlice({
   name: "userReducer",
   initialState,
   reducers: {
-    setUserLogin: (
-      state: userLoginState,
-      action: PayloadAction<userLogin | null>
-    ) => {
+    setUserLogin: (state: userLoginState, action: PayloadAction<userLogin>) => {
       let userLogin = action.payload;
       state.userLogin = userLogin;
     },
@@ -144,12 +155,11 @@ export const postSignin = (data: userLogin) => {
   };
 };
 // Call api get user
-export const getUserAPi = () => {
+export const getUserAPi = (id: number) => {
   return async (dispatch: AppDispatch) => {
     try {
-      let acc = getStoreJSON(USER_LOGIN);
-      let result = await http.get(`/users/${acc.user.id}`);
-      console.log({ result, acc });
+      let result = await http.get(`/users/${id}`);
+      console.log({ result });
       let action = setUserLogin(result.data.content);
       dispatch(action);
     } catch (err) {

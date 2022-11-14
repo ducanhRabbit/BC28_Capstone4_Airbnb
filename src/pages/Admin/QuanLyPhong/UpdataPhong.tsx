@@ -5,7 +5,12 @@ import * as Yup from "yup";
 import { AppDispatch, RootState } from "../../../redux/configStore";
 import { Room, updataRoomApi } from "../../../redux/reducers/roomDetailReducer";
 import { getUserAPi } from "../../../redux/reducers/userReducer";
-import { ACCESS_TOKEN, getStore } from "../../../util/setting";
+import {
+  ACCESS_TOKEN,
+  getStore,
+  getStoreJSON,
+  USER_LOGIN,
+} from "../../../util/setting";
 
 type Props = {};
 
@@ -15,8 +20,10 @@ export default function UpdataPhong({}: Props) {
   );
 
   const dispatch: AppDispatch = useDispatch();
+  let userStore = getStoreJSON(USER_LOGIN);
+
   useEffect(() => {
-    dispatch(getUserAPi());
+    dispatch(getUserAPi(userStore?.user?.id));
   }, []);
   const initialValues: Room = {
     id: 0,

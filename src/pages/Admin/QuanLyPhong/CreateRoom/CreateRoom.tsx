@@ -1,30 +1,18 @@
 import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
-import { AppDispatch, RootState } from "../../../redux/configStore";
-import { Room, updataRoomApi } from "../../../redux/reducers/roomDetailReducer";
-import { getUserAPi } from "../../../redux/reducers/userReducer";
+import React from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../redux/configStore";
 import {
-  ACCESS_TOKEN,
-  getStore,
-  getStoreJSON,
-  USER_LOGIN,
-} from "../../../util/setting";
+  postRoomApi,
+  Room,
+} from "../../../../redux/reducers/roomDetailReducer";
+import { ACCESS_TOKEN, getStore } from "../../../../util/setting";
 
 type Props = {};
 
-export default function UpdataPhong({}: Props) {
-  const { room, page, pageSize } = useSelector(
-    (state: RootState) => state.roomDetailReducer.updataRoom
-  );
-
+export default function CreateRoom({}: Props) {
   const dispatch: AppDispatch = useDispatch();
-  let userStore = getStoreJSON(USER_LOGIN);
-
-  useEffect(() => {
-    dispatch(getUserAPi(userStore?.user?.id));
-  }, []);
   const initialValues: Room = {
     id: 0,
     tenPhong: "",
@@ -46,32 +34,6 @@ export default function UpdataPhong({}: Props) {
     maViTri: 0,
     hinhAnh: "",
   };
-  const [valueUpdate, setValueUpdate] = useState(initialValues);
-
-  useEffect(() => {
-    let values = {
-      id: room.id,
-      tenPhong: room.tenPhong,
-      khach: room.khach,
-      phongNgu: room.phongNgu,
-      giuong: room.giuong,
-      phongTam: room.phongTam,
-      moTa: room.moTa,
-      giaTien: room.giaTien,
-      mayGiat: room.mayGiat,
-      banLa: room.banLa,
-      tivi: room.tivi,
-      dieuHoa: room.dieuHoa,
-      wifi: room.wifi,
-      bep: room.bep,
-      doXe: room.doXe,
-      hoBoi: room.hoBoi,
-      banUi: room.banUi,
-      maViTri: room.maViTri,
-      hinhAnh: room.hinhAnh,
-    };
-    setValueUpdate(values);
-  }, [room.id]);
   const CreateRoomSchema = Yup.object().shape({
     tenPhong: Yup.string().required("Không được bỏ trống!"),
     khach: Yup.string().required("Không được bỏ trống!"),
@@ -81,7 +43,6 @@ export default function UpdataPhong({}: Props) {
     maViTri: Yup.string().required("Không được bỏ trống!"),
     moTa: Yup.string().required("Không được bỏ trống!"),
   });
-
   return (
     <div>
       {/* Modal trigger button */}
@@ -89,7 +50,7 @@ export default function UpdataPhong({}: Props) {
         type="button"
         className="btn btn-primary btn-lg"
         data-bs-toggle="modal"
-        data-bs-target="#modalIdUpdataRoom"
+        data-bs-target="#modalIdCreateRoom"
       >
         Launch
       </button> */}
@@ -97,7 +58,7 @@ export default function UpdataPhong({}: Props) {
       {/* if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard */}
       <div
         className="modal fade"
-        id="modalIdUpdataRoom"
+        id="modalIdCreateRoom"
         tabIndex={-1}
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -112,7 +73,7 @@ export default function UpdataPhong({}: Props) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="modalTitleId">
-                Updata Room
+                Create Room
               </h5>
               <button
                 type="button"
@@ -124,20 +85,13 @@ export default function UpdataPhong({}: Props) {
             <div className="modal-body">
               <div className="container">
                 <Formik
-                  enableReinitialize={true}
-                  initialValues={valueUpdate}
+                  initialValues={initialValues}
                   validationSchema={CreateRoomSchema}
                   onSubmit={(values) => {
                     console.log({ values });
                     let token = getStore(ACCESS_TOKEN);
                     if (token) {
-                      let action = updataRoomApi(
-                        room.id,
-                        token,
-                        values,
-                        page,
-                        pageSize
-                      );
+                      let action = postRoomApi(token, values);
                       dispatch(action);
                     }
                   }}
@@ -351,12 +305,8 @@ export default function UpdataPhong({}: Props) {
                         </div>
                       </div>
                       <div className="mt-2 footer_register">
-                        <button
-                          type="submit"
-                          className="btn btn-success"
-                          data-bs-dismiss="modal"
-                        >
-                          Updata Room
+                        <button type="submit" className="btn btn-success">
+                          Create Room
                         </button>
                       </div>
                     </Form>

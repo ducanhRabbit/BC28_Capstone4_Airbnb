@@ -25,6 +25,7 @@ export default function ModalAdminLocation({ page, pageSize, itemClick }: Props)
   const [img, setImg] = useState<any>(image);
   let randomString = Math.random().toString(36);
   const [inputKey, setInputKey] = useState<any>();
+
   let initialValues: Location = {
     id: 0,
     tenViTri: '',
@@ -32,6 +33,7 @@ export default function ModalAdminLocation({ page, pageSize, itemClick }: Props)
     quocGia: '',
     hinhAnh: '',
   };
+
   const [valueUpdate, setValueUpdate] = useState(initialValues);
 
   const dispatch: AppDispatch = useDispatch();
@@ -56,10 +58,10 @@ export default function ModalAdminLocation({ page, pageSize, itemClick }: Props)
       tenViTri: itemClick.tenViTri,
       tinhThanh: itemClick.tinhThanh,
       quocGia: itemClick.quocGia,
-      hinhAnh: itemClick.hinhAnh,
+      hinhAnh: '',
     };
     setValueUpdate(values);
-  }, [itemClick.id]);
+  }, [itemClick.id, itemClick.tenViTri, itemClick.tinhThanh]);
 
   return (
     <div>
@@ -99,7 +101,7 @@ export default function ModalAdminLocation({ page, pageSize, itemClick }: Props)
                   actions.resetForm();
                 }}
               >
-                {({ errors, touched, values, setFieldValue }) => (
+                {({ errors, touched, setFieldValue }) => (
                   <Form className="row">
                     <div className="col-6">
                       <div className="mb-3">
@@ -143,15 +145,6 @@ export default function ModalAdminLocation({ page, pageSize, itemClick }: Props)
                               }
                             };
                             reader.readAsDataURL(e.target.files[0]);
-
-                            // let reader = new FileReader();
-                            // reader.onload = () => {
-                            //   if (reader.readyState === 2) {
-                            //     setFieldValue('hinhAnh', reader.result);
-                            //     setImg(reader.result);
-                            //   }
-                            // };
-                            // reader.readAsDataURL(e.target.files[0]);
                           }}
                           key={inputKey || ''}
                           type="file"

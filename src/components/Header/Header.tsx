@@ -4,18 +4,23 @@ import Typewriter from "typewriter-effect";
 import Tippy from "@tippyjs/react/headless";
 import PopperWrapper from "../Popper/Popper";
 import SearchHeader from "./SearchHeader";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/configStore";
 import { ButtonBase } from "@mui/material";
-import { ACCESS_TOKEN, clearLocalStorage, USER_LOGIN } from "../../util/setting";
+import {
+  ACCESS_TOKEN,
+  clearLocalStorage,
+  USER_LOGIN,
+} from "../../util/setting";
 import { setUserLogin } from "../../redux/reducers/userReducer";
 type Props = {};
 
 export default function Header({}: Props) {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
-  const {userLogin} = useSelector((state:RootState) => state.userReducer)
+  const navigate = useNavigate();
+  const { userLogin } = useSelector((state: RootState) => state.userReducer);
   const [activeSearch, setActiveSearch] = useState(false);
+
 
   const handleLogOut = ()=>{
     clearLocalStorage(ACCESS_TOKEN)
@@ -33,6 +38,7 @@ export default function Header({}: Props) {
      navigate('/admin')
     }
   }
+
   const profileMenu = [
     {
       login: false,
@@ -111,7 +117,7 @@ export default function Header({}: Props) {
           id: 9,
           content: "Đăng xuất",
           link: "/",
-          action: handleLogOut
+          action: handleLogOut,
         },
       ],
     },
@@ -121,20 +127,26 @@ export default function Header({}: Props) {
     let obj = profileMenu.find((item) => item.login === !!user);
     let menuList = obj?.menu;
     return menuList?.map((menu, index) => {
-      if(menu.action){
-        return <ButtonBase key={index} sx={{
-          padding: '12px 16px',
-          justifyContent: 'start',
-          width:'100%',
-          color:'#000',
-          fontSize: '14px',
-          '&:hover': {
-            backgroundColor: '#ddd'
-          }
-        }} onClick={handleLogOut}>
-          {menu.content}
-        </ButtonBase>
-      }else{
+      if (menu.action) {
+        return (
+          <ButtonBase
+            key={index}
+            sx={{
+              padding: "12px 16px",
+              justifyContent: "start",
+              width: "100%",
+              color: "#000",
+              fontSize: "14px",
+              "&:hover": {
+                backgroundColor: "#ddd",
+              },
+            }}
+            onClick={handleLogOut}
+          >
+            {menu.content}
+          </ButtonBase>
+        );
+      } else {
         return (
           <NavLink key={index} className="menu-item" to={menu.link}>
             {menu.content}
@@ -189,18 +201,24 @@ export default function Header({}: Props) {
           <div className="right-header">
             <div className="d-flex align-items-center">
               <div className="host-language d-flex align-items-center me-2">
+
                 <ButtonBase onClick={handleNavigate} className="host" >Become a host</ButtonBase>
+
                 <div className="language">
                   <i className="fas fa-globe"></i>
                 </div>
               </div>
               <div className="profile">
                 <Tippy
-
                   trigger="click"
                   interactive={true}
                   render={(attrs) => (
-                    <div key={attrs.toString()} className="profile-popper" tabIndex={-1} {...attrs}>
+                    <div
+                      key={attrs.toString()}
+                      className="profile-popper"
+                      tabIndex={-1}
+                      {...attrs}
+                    >
                       <PopperWrapper>
                         <div className="menu-content">
                           {renderMenuProfile()}
@@ -213,7 +231,7 @@ export default function Header({}: Props) {
                     <div className="burger-menu me-3">
                       <i className="fas fa-bars"></i>
                     </div>
-                    <NavLink to={'/profile'} className="user-info">
+                    <NavLink to={"/profile"} className="user-info">
                       <img
                         src="https://www.tutorsvalley.com/public/storage/uploads/tutor/1574383712-1AB5217C-5A13-4888-A5A1-BE0BCADBC655.png"
                         alt=""

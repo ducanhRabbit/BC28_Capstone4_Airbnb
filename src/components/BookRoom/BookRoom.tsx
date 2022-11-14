@@ -1,19 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { DatePicker } from "antd";
+import { DatePicker, message } from "antd";
 import type { DatePickerProps, RangePickerProps } from "antd/es/date-picker";
 import moment from "moment";
 import {
-  amountGuest,
+  // amountGuest,
   getBookRoomApi,
   postBookRoomApi,
   Room,
+  // setGuestNumber,
 } from "../../redux/reducers/roomDetailReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/configStore";
 import { useAppSelector } from "../../redux/hooks";
-import ResponsiveItem from "../../HOC/ResponsiveItem";
+import { history } from "../..";
+import { getStoreJSON, USER_LOGIN } from "../../util/setting";
 
 const { RangePicker } = DatePicker;
+
+export interface GuestsNumber {
+  nguoiLon: number;
+  treEm: number;
+  emBe: number;
+  thuCung: number;
+}
 
 type Props = {};
 
@@ -25,15 +34,66 @@ export default function BookRoom({}: Props) {
   let { room } = useAppSelector((state) => state.roomDetailReducer);
   let [roomDetail] = [...room];
 
-  const { nguoiLon, treEm, emBe, thuCung } = useSelector(
-    (state: RootState) => state.roomDetailReducer.guestNumber
-  );
-  const { bookRoom, arrBookRoom, guestNumber } = useSelector(
+  // const { nguoiLon, treEm, emBe, thuCung } = useSelector((state: RootState) => state.roomDetailReducer.guestNumber);
+  // const { bookRoom, arrBookRoom, guestNumber } = useSelector((state: RootState) => state.roomDetailReducer);
+  const { bookRoom, arrBookRoom } = useSelector(
     (state: RootState) => state.roomDetailReducer
   );
   const { arrCommentId } = useSelector(
     (state: RootState) => state.commentReducer
   );
+  let userLogin = getStoreJSON(USER_LOGIN);
+  console.log(userLogin);
+
+  const [guestsNumber, setGuestsNumber] = useState({
+    nguoiLon: 1,
+    treEm: 0,
+    emBe: 0,
+    thuCung: 0,
+  });
+  const { nguoiLon, treEm, emBe, thuCung } = guestsNumber;
+
+  const amountGuest = (value: boolean, text: string) => {
+    let NL = guestsNumber.nguoiLon;
+    let TE = guestsNumber.treEm;
+    let EB = guestsNumber.emBe;
+    let TC = guestsNumber.thuCung;
+
+    if (value) {
+      switch (text) {
+        case "nguoiLon":
+          if (nguoiLon < roomDetail.khach - treEm) {
+            NL = guestsNumber.nguoiLon += 1;
+          }
+          break;
+        case "treEm":
+          if (treEm < roomDetail.khach - nguoiLon) {
+            TE = guestsNumber.treEm += 1;
+          }
+          break;
+        case "emBe":
+          EB = guestsNumber.emBe += 1;
+          break;
+        case "thuCung":
+          TC = guestsNumber.thuCung += 1;
+          break;
+      }
+    } else {
+      if (text == "nguoiLon" && guestsNumber.nguoiLon >= 2) {
+        NL = guestsNumber.nguoiLon -= 1;
+      }
+      if (text == "treEm" && guestsNumber.treEm >= 1) {
+        TE = guestsNumber.treEm -= 1;
+      }
+      if (text == "emBe" && guestsNumber.emBe >= 1) {
+        EB = guestsNumber.emBe -= 1;
+      }
+      if (text == "thuCung" && guestsNumber.thuCung >= 1) {
+        TC = guestsNumber.thuCung -= 1;
+      }
+    }
+    setGuestsNumber({ nguoiLon: NL, treEm: TE, emBe: EB, thuCung: TC });
+  };
 
   let dates = [
     {
@@ -97,22 +157,27 @@ export default function BookRoom({}: Props) {
   };
 
   const countGuest = (value: boolean, text: string) => {
-    const action = amountGuest({ value, text });
-    dispatch(action);
+    // const action = amountGuest({ value, text });
+    // dispatch(action);
+    amountGuest(value, text);
   };
 
   const submitBookRoom = () => {
-    let booked = {
-      id: 0,
-      maPhong: roomDetail?.id,
-      ngayDen: date.ngayDen,
-      ngayDi: date.ngayDi,
-      soLuongKhach: guestNumber.nguoiLon + guestNumber.treEm,
-      maNguoiDung: 1,
-    };
-
-    const action = postBookRoomApi(booked);
-    dispatch(action);
+    if (userLogin) {
+      let booked = {
+        id: 0,
+        maPhong: roomDetail?.id,
+        ngayDen: date.ngayDen,
+        ngayDi: date.ngayDi,
+        soLuongKhach: guestsNumber.nguoiLon + guestsNumber.treEm,
+        maNguoiDung: userLogin?.user?.id,
+      };
+      const action = postBookRoomApi(booked);
+      dispatch(action);
+    } else {
+      message.warning("Vui lòng đăng nhập!");
+      history.push("/login");
+    }
   };
 
   useEffect(() => {
@@ -147,7 +212,6 @@ export default function BookRoom({}: Props) {
 
           <div className="detail_book-body">
             <div className="detail_book-body-date">
-              {/* <ResponsiveItem Component={datePC} ComponentMobile={dateMobile} /> */}
               <RangePicker
                 placeholder={["Nhận phòng", "Trả phòng"]}
                 placement="bottomRight"
@@ -199,7 +263,7 @@ export default function BookRoom({}: Props) {
                         >
                           +
                         </button>
-                        <p>{nguoiLon}</p>
+                        <p>{guestsNumber.nguoiLon}</p>
                         <button
                           onClick={() => countGuest(false, "nguoiLon")}
                           className="guest_btn"

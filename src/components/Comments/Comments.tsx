@@ -12,7 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Room } from "../../redux/reducers/roomDetailReducer";
 import { getGuestDetailApi } from "../../redux/reducers/guestDetailReducer";
 import { Button, message } from "antd";
+import { history } from "../..";
 import ModalComment from "../ModalComment/ModalComment";
+import { getStoreJSON, USER_LOGIN } from "../../util/setting";
 
 type Props = {
   roomDetail: Room;
@@ -84,20 +86,25 @@ export default function Comments({ roomDetail }: Props) {
     const { id, value } = e.target;
     setState(value);
   };
-
+  const userLogin = getStoreJSON(USER_LOGIN);
   const handleSubmitComment = () => {
-    let userCommentApi = {
-      id: 456,
-      maPhong: roomDetail?.id,
-      maNguoiBinhLuan: 1210,
-      ngayBinhLuan: moment().format("DD-MM-YYYY"),
-      noiDung: state,
-      saoBinhLuan: rate,
-    };
-    if (state != "") {
-      const action = postCommentApi(userCommentApi);
-      dispatch(action);
-      setState("");
+    if (userLogin) {
+      let userCommentApi = {
+        id: 456,
+        maPhong: roomDetail?.id,
+        maNguoiBinhLuan: 1210,
+        ngayBinhLuan: moment().format("DD-MM-YYYY"),
+        noiDung: state,
+        saoBinhLuan: rate,
+      };
+      if (state != "") {
+        const action = postCommentApi(userCommentApi);
+        dispatch(action);
+        setState("");
+      }
+    } else {
+      message.warning("Vui lòng đăng nhập!");
+      history.push("/login");
     }
   };
 

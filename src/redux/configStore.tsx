@@ -1,16 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
-import modalReducer from './reducers/modalReducer';
-import userReducer from './reducers/userReducer';
+import { configureStore } from "@reduxjs/toolkit";
+import userReducer from "./reducers/userReducer";
 
-import commentReducer from './reducers/commentReducer';
-import locationDetailReducer from './reducers/locationDetailReducer';
-import guestDetailReducer from './reducers/guestDetailReducer';
-import roomDetailReducer from './reducers/roomDetailReducer';
+import commentReducer from "./reducers/commentReducer";
+import locationDetailReducer from "./reducers/locationDetailReducer";
+import guestDetailReducer from "./reducers/guestDetailReducer";
+import roomDetailReducer from "./reducers/roomDetailReducer";
 
 export const store = configureStore({
   reducer: {
     userReducer: userReducer,
-    modalReducer: modalReducer,
     roomDetailReducer: roomDetailReducer,
     locationDetailReducer: locationDetailReducer,
     commentReducer: commentReducer,

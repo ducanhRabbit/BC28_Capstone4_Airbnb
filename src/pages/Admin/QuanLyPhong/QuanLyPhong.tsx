@@ -1,25 +1,26 @@
 import { Pagination, PaginationProps } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CreateRoom from "../../../components/Admin/CreateRoom/CreateRoom";
-import HocModal from "../../../HOC/HocModal";
+import CreateRoom from "./CreateRoom/CreateRoom";
 import { AppDispatch, RootState } from "../../../redux/configStore";
 import { getLocationAPI } from "../../../redux/reducers/locationDetailReducer";
-import { setModalAction } from "../../../redux/reducers/modalReducer";
 import {
   deleteRoomApi,
   getRoomALLApi,
   getRoomPageApi,
   searchRoomAdminApi,
+  setUpdataRoom,
+  updataRoom,
 } from "../../../redux/reducers/roomDetailReducer";
 
+import UpdataPhong from "./UpdataPhong";
 import {
   ACCESS_TOKEN,
   getStore,
   getStoreJSON,
   USER_LOGIN,
 } from "../../../util/setting";
-import UpdataPhong from "./UpdataPhong";
+import { getUserAPi } from "../../../redux/reducers/userReducer";
 
 type Props = {};
 let timeout: any = null;
@@ -31,26 +32,35 @@ export default function QuanLyPhong({}: Props) {
   const arrLocation = useSelector(
     (state: RootState) => state.locationDetailReducer.viTri
   );
-  const { user, token } = useSelector(
-    (state: RootState) => state.userReducer.userLogin
-  );
+
   const [page, setPage] = useState(1);
   const pageSize = 4;
   const [search, setSearch] = useState<string | number | undefined>("");
 
   const dispatch: AppDispatch = useDispatch();
+  let userStore = getStoreJSON(USER_LOGIN);
+
   useEffect(() => {
-    let action = getRoomPageApi(page, pageSize);
-    dispatch(action);
-    let action2 = getLocationAPI();
-    dispatch(action2);
-  }, [page]);
+    timeout = setTimeout(() => {
+      let action3 = getUserAPi(userStore?.user.id);
+      dispatch(action3);
+    }, 1000);
+    return () => {
+      if (timeout !== null) {
+        clearTimeout(timeout);
+      }
+    };
+  }, []);
   useEffect(() => {
     let action = getRoomALLApi();
     dispatch(action);
     let action2 = getLocationAPI();
     dispatch(action2);
   }, []);
+  useEffect(() => {
+    let action = getRoomPageApi(page, pageSize);
+    dispatch(action);
+  }, [page]);
 
   useEffect(() => {
     timeout = setTimeout(() => {
@@ -63,6 +73,7 @@ export default function QuanLyPhong({}: Props) {
       }
     };
   }, [search]);
+
   const renderRoomList = () => {
     return arrRoomPage?.map((item, index) => {
       return (
@@ -79,61 +90,34 @@ export default function QuanLyPhong({}: Props) {
             <button
               className="btn btn-info mx-2"
               data-bs-toggle="modal"
-              data-bs-target="#modalId"
-              onClick={() => {}}
+              data-bs-target="#modalIdUpdataRoom"
+              onClick={() => {
+                let updataRoom: updataRoom = {
+                  room: item,
+                  page: page,
+                  pageSize: pageSize,
+                };
+                const action = setUpdataRoom(updataRoom);
+                dispatch(action);
+              }}
             >
               Sửa
             </button>
-            <div
-              className="modal fade"
-              id="modalId"
-              tabIndex={-1}
-              data-bs-backdrop="static"
-              data-bs-keyboard="false"
-              role="dialog"
-              aria-labelledby="modalTitleId"
-              aria-hidden="true"
-            >
-              <div
-                className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
-                role="document"
-              >
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h5 className="modal-title" id="modalTitleId">
-                      Modal title
-                    </h5>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    />
-                  </div>
-                  <div className="modal-body">Body</div>
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button type="button" className="btn btn-primary">
-                      Save
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+
             <button
               className="btn btn-danger"
               onClick={() => {
-                if (!token) {
-                  return;
+                let token = getStore(ACCESS_TOKEN);
+                console.log({ token });
+                if (token) {
+                  let actionDelete = deleteRoomApi(
+                    item.id,
+                    token,
+                    page,
+                    pageSize
+                  );
+                  dispatch(actionDelete);
                 }
-                let actionDelete = deleteRoomApi(item.id, token);
-                dispatch(actionDelete);
               }}
             >
               X
@@ -153,20 +137,14 @@ export default function QuanLyPhong({}: Props) {
   };
   return (
     <>
-      <HocModal />
+      <CreateRoom />
+      <UpdataPhong />
       <div className="container thongTinPhong">
         <div className="row py-3">
           <button
             className="btn btn-danger col-3 add"
             data-bs-toggle="modal"
-            data-bs-target={"#modal"}
-            onClick={() => {
-              const action = setModalAction({
-                Component: CreateRoom,
-                title: "Create Room",
-              });
-              dispatch(action);
-            }}
+            data-bs-target="#modalIdCreateRoom"
           >
             Thêm Phòng
           </button>
@@ -181,15 +159,7 @@ export default function QuanLyPhong({}: Props) {
                 setSearch(e.target.value)
               }
             />
-            <button
-              className="btn btn-success mx-2 px-4"
-              onClick={() => {
-                // let action =
-                // dis
-              }}
-            >
-              Tìm
-            </button>
+            <button className="btn btn-success mx-2 px-4">Tìm</button>
           </div>
         </div>
         <div>

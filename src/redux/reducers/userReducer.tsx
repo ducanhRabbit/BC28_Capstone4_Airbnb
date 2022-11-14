@@ -88,7 +88,7 @@ const userReducer = createSlice({
       state: userLoginState,
       action: PayloadAction<userLogin>
     ) => {
-      state.updataUser = action.payload;
+      state.userLogin = action.payload;
     },
     setTaiKhoan: (state: userLoginState, action: PayloadAction<TAIKHOAN>) => {
       let { user, token } = action.payload;

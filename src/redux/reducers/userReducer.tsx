@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { message } from "antd";
 import axios from "axios";
 import { history } from "../..";
 import {
@@ -22,30 +23,41 @@ export interface userLogin {
   gender?: boolean;
   role?: string;
 }
-type UpdateUser = {
-  name: string;
-  email: string;
-  birthday: string;
-  role: string;
-  gender: boolean;
-  phone: string;
-};
+export interface TAIKHOAN {
+  user: userLogin;
+  token: string;
+}
 export interface userLoginState {
-  userLogin: userLogin | null
+  userLogin: userLogin | null;
   userData: userLogin[];
   totalRow: number;
+  updataUser: userLogin;
+  taiKhoan: TAIKHOAN;
 }
 const initialState = {
   userLogin: getStoreJSON(USER_LOGIN),
   userData: [],
   totalRow: 0,
+  updataUser: {
+    id: 0,
+    name: "",
+    email: "",
+    birthday: "",
+    role: "",
+    gender: true,
+    phone: "",
+  },
+  taiKhoan: getStoreJSON(USER_LOGIN),
 };
 
 const userReducer = createSlice({
   name: "userReducer",
   initialState,
   reducers: {
-    setUserLogin: (state: userLoginState, action: PayloadAction<userLogin | null>) => {
+    setUserLogin: (
+      state: userLoginState,
+      action: PayloadAction<userLogin | null>
+    ) => {
       let userLogin = action.payload;
       state.userLogin = userLogin;
     },
@@ -61,17 +73,33 @@ const userReducer = createSlice({
     handleDelUser: (state: userLoginState, action: PayloadAction<number>) => {
       state.totalRow -= 1;
     },
+    setUserUpdata: (
+      state: userLoginState,
+      action: PayloadAction<userLogin>
+    ) => {
+      state.updataUser = action.payload;
+    },
+    setTaiKhoan: (state: userLoginState, action: PayloadAction<TAIKHOAN>) => {
+      let { user, token } = action.payload;
+      state.taiKhoan.user = user;
+      state.taiKhoan.token = token;
+    },
   },
 });
 
-export const { setUserLogin, getUserData, setTotalRows, handleDelUser } =
-  userReducer.actions;
+export const {
+  setUserLogin,
+  getUserData,
+  setTotalRows,
+  handleDelUser,
+  setUserUpdata,
+  setTaiKhoan,
+} = userReducer.actions;
 
 export default userReducer.reducer;
 
 /// Call api post signup
 export const postSignupUser = (data: userLogin) => {
-  console.log({ data });
   return async (dispatch: AppDispatch) => {
     try {
       let result = await http.post("/auth/signup", data);
@@ -82,7 +110,6 @@ export const postSignupUser = (data: userLogin) => {
       };
       let action = postSignin(dataLogin);
       dispatch(action);
-      // history.push("/login");
     } catch (error: any) {
       console.log({ error });
       alert(error.response.data.content);
@@ -101,21 +128,17 @@ export const postSignin = (data: userLogin) => {
       // Lưu lại user_Login
       setStoreJSON(USER_LOGIN, result.data.content);
       //Đưa userLogin lên redux
-      let user: userLogin = result.data.content.user;
-      console.log(user.role);
-      let action = setUserLogin(user);
-      dispatch(action);
-
+      let action2 = setTaiKhoan(result.data.content);
+      dispatch(action2);
+      console.log({ result });
       // if role: user chuyển về page profile còn admin thì chuyển thì template admin
-
-      if (user.role == "USER") {
-        history.push("/profile");
-      } else {
+      let role = result.data.content.user.role;
+      if (role === "ADMIN") {
         history.push("/admin");
+      } else {
+        history.push("/profile");
       }
-    } catch (error: any) {
-      let err = error.response.data.content;
-      alert(err);
+    } catch (error) {
       console.log({ error });
     }
   };
@@ -124,8 +147,9 @@ export const postSignin = (data: userLogin) => {
 export const getUserAPi = () => {
   return async (dispatch: AppDispatch) => {
     try {
-      let result = await http.get(`/users/${getStoreJSON(USER_LOGIN).user.id}`);
-      console.log({ result });
+      let acc = getStoreJSON(USER_LOGIN);
+      let result = await http.get(`/users/${acc.user.id}`);
+      console.log({ result, acc });
       let action = setUserLogin(result.data.content);
       dispatch(action);
     } catch (err) {
@@ -136,14 +160,11 @@ export const getUserAPi = () => {
 };
 
 // call api put user
-export const putUserApi = (id: number, data: UpdateUser) => {
+export const putUserApi = (id: number, data: userLogin) => {
   return async (dispatch: AppDispatch) => {
     try {
       let result = await http.put(`/users/${id}`, data);
       console.log({ result });
-      // Chuyển về trang profile
-      history.push("/profile");
-      window.location.reload();
       let action = setUserLogin(result.data.content);
       dispatch(action);
     } catch (error) {

@@ -91,7 +91,7 @@ export default function Header({}: Props) {
         {
           id: 7,
           content: "Tài khoản",
-          link: "/",
+          link: "/profile",
         },
         {
           id: 8,
@@ -204,13 +204,13 @@ export default function Header({}: Props) {
                     <div className="burger-menu me-3">
                       <i className="fas fa-bars"></i>
                     </div>
-                    <div className="user-info">
+                    <NavLink to={'/profile'} className="user-info">
                       <img
                         src="https://www.tutorsvalley.com/public/storage/uploads/tutor/1574383712-1AB5217C-5A13-4888-A5A1-BE0BCADBC655.png"
                         alt=""
                         className="user-img w-100"
                       />
-                    </div>
+                    </NavLink>
                   </button>
                 </Tippy>
               </div>

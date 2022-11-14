@@ -1,21 +1,68 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/configStore";
+import {
+  BookRoom,
+  getDatphongApi,
+} from "../../redux/reducers/roomDetailReducer";
+import { getUserAPi } from "../../redux/reducers/userReducer";
+import moment from "moment";
+import UpdateProfile from "../../components/UpdateProfile/UpdateProfile";
 
 type Props = {};
 
 export default function MobileProfile({}: Props) {
+  let userLogin = useSelector(
+    (state: RootState) => state.userReducer.userLogin
+  );
+  // lấy mảng phòng đã đặt từ redux
+  const bookRoom = useSelector(
+    (state: RootState) => state.roomDetailReducer.bookRoom
+  );
+
+  const dispatch: AppDispatch = useDispatch();
+  useEffect(() => {
+    let action = getUserAPi();
+    dispatch(action);
+    let action2 = getDatphongApi();
+    dispatch(action2);
+  }, []);
+  const renderBookRoom = () => {
+    return bookRoom.map((item: BookRoom, index: number) => {
+      return (
+        <tr key={index}>
+          <td>{item.maPhong}</td>
+          <td>{moment(item.ngayDen).format("DD MM YYYY")}</td>
+          <td>{moment(item.ngayDi).format("DD MM YYYY")}</td>
+          <td>{item.soLuongKhach}</td>
+        </tr>
+      );
+    });
+  };
   return (
     <div className="mobileProfile">
+      <UpdateProfile />
       <div className="container">
         <div className="info">
           <div className="row">
             <div className="col-9">
-              <h1>Xin chào, tôi là Name</h1>
+              <h1>Xin chào, tôi là {userLogin.name}</h1>
               <p>Bắt đầu tham gia vào 2022</p>
-              <a href="#">Chỉnh sửa hồ sơ</a>
+              <a
+                href="#"
+                data-bs-toggle="modal"
+                data-bs-target="#modalIdProfile"
+              >
+                Chỉnh sửa hồ sơ
+              </a>
             </div>
             <div className="col-3">
               <img
-                src="http://sc04.alicdn.com/kf/Hc3e61591078043e09dba7808a6be5d21n.jpg"
+                src={
+                  userLogin?.avatar
+                    ? userLogin?.avatar
+                    : "https://www.tutorsvalley.com/public/storage/uploads/tutor/1574383712-1AB5217C-5A13-4888-A5A1-BE0BCADBC655.png"
+                }
                 alt=""
               />
               <a href="#">Cập nhập ảnh</a>
@@ -46,6 +93,19 @@ export default function MobileProfile({}: Props) {
           </div>
         </div>
         <hr />
+        <div>
+          <table className="table text-center">
+            <thead className="table-dark">
+              <tr>
+                <th>Mã phòng</th>
+                <th>Ngày nhận phòng</th>
+                <th>Ngày trả phòng</th>
+                <th>Số khách</th>
+              </tr>
+            </thead>
+            <tbody>{renderBookRoom()}</tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -8,9 +8,10 @@ import { putUserApi, userLogin } from "../../redux/reducers/userReducer";
 type Props = {};
 
 export default function UpdateProfile({}: Props) {
-  const updataUser = useSelector(
-    (state: RootState) => state.userReducer.updataUser
+  const userLogin = useSelector(
+    (state: RootState) => state.userReducer.userLogin
   );
+  console.log({ userLogin });
   const dispatch: AppDispatch = useDispatch();
   const initialValues: userLogin = {
     id: 0,
@@ -24,16 +25,16 @@ export default function UpdateProfile({}: Props) {
   const [valueUpdate, setValueUpdate] = useState(initialValues);
   useEffect(() => {
     let values = {
-      id: updataUser.id,
-      email: updataUser.email,
-      phone: updataUser.phone,
-      birthday: updataUser.birthday,
-      gender: updataUser.gender,
+      id: userLogin.id,
+      email: userLogin.email,
+      phone: userLogin.phone,
+      birthday: userLogin.birthday,
+      gender: userLogin.gender,
       role: "",
-      name: updataUser.name,
+      name: userLogin.name,
     };
     setValueUpdate(values);
-  }, [updataUser.id]);
+  }, [userLogin.id]);
   const registerSchema = Yup.object().shape({
     name: Yup.string().required("Không được bỏ trống!"),
     phone: Yup.string()
@@ -86,8 +87,8 @@ export default function UpdateProfile({}: Props) {
                 validationSchema={registerSchema}
                 onSubmit={(values) => {
                   console.log({ values });
-                  values.email = updataUser.email;
-                  let action = putUserApi(updataUser.id, values);
+                  values.email = userLogin.email;
+                  let action = putUserApi(userLogin.id, values);
                   dispatch(action);
                 }}
               >
@@ -109,7 +110,7 @@ export default function UpdateProfile({}: Props) {
                       <p className="py-2">Email</p>
                       <input
                         type="email"
-                        value={updataUser.email}
+                        value={userLogin.email}
                         className="form-control"
                       />
                     </div>
@@ -159,11 +160,7 @@ export default function UpdateProfile({}: Props) {
                     </div>
 
                     <div className="mt-2">
-                      <button
-                        type="submit"
-                        className="btn btn-success"
-                        data-bs-dismiss="modal"
-                      >
+                      <button type="submit" className="btn btn-success">
                         UpDate
                       </button>
                     </div>

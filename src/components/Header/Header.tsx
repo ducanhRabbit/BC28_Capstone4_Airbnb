@@ -32,7 +32,7 @@ export default function Header({}: Props) {
 
  
   const handleNavigate = ()=>{
-    if(userLogin === null || userLogin?.role.toLowerCase() !== 'admin' ){
+    if(userLogin === null || userLogin?.role !== 'ADMIN' ){
       alert('Tài khoản không có quyền truy cập!')
 
     }else{

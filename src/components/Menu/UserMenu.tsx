@@ -33,12 +33,12 @@ export default function UserMenu({custom}: customAsProps) {
             {
               id: 1,
               content: "Đăng nhập",
-              link: "/",
+              link: "/login",
             },
             {
               id: 2,
               content: "Đăng ký",
-              link: "/",
+              link: "/register",
             },
             {
               id: 3,
@@ -93,37 +93,46 @@ export default function UserMenu({custom}: customAsProps) {
             {
               id: 7,
               content: "Tài khoản",
-              link: "/",
+              link: "/profile",
             },
             {
               id: 8,
               content: "Trợ giúp",
               link: "/",
             },
+            {
+              id: 9,
+              content: "Đăng xuất",
+              link: "/",
+              action: handleLogOut
+            },
           ],
         },
       ];
     const user = !!userLogin;
 
-    const obj = profileMenu.find((item) => item.login === !!user);
-    const menuList = obj?.menu;
-  return (
-    <>
-    {menuList?.map((menu, index) => {
-        return (
-          <div key={index} >
-          <NavLink to={menu.link} >
-            <Box sx={custom}>
+    const renderMenuProfile = () => {
+      let obj = profileMenu.find((item) => item.login === !!user);
+      let menuList = obj?.menu;
+      return menuList?.map((menu, index) => {
+        if(menu.action){
+          return <ButtonBase className='justify-content-start' key={index} sx={custom} onClick={handleLogOut}>
+            {menu.content}
+          </ButtonBase>
+        }else{
+          return (
+            <NavLink key={index}  to={menu.link}>
+              <Box sx={custom}>
             {menu.content}
             </Box>
-          </NavLink>
-          <ButtonBase onClick={handleLogOut} sx={{
-            width: '100%'
-          }}>Đăng xuất</ButtonBase>
-          </div>
-        );
-    })
-    }
+            </NavLink>
+          );
+        }
+      });
+    };
+  return (
+    <>
+    {renderMenuProfile()}
     </>
   )
 }

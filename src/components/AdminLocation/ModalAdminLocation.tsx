@@ -5,6 +5,7 @@ import { updateLocationAdminApi } from '../../redux/reducers/locationDetailReduc
 import { postLocationAdminApi } from '../../redux/reducers/locationDetailReducer';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { ACCESS_TOKEN, getStore, getStoreJSON, USER_LOGIN } from '../../util/setting';
 
 export interface Location {
   id: number;
@@ -86,13 +87,20 @@ export default function ModalAdminLocation({ page, pageSize, itemClick }: Props)
                 initialValues={valueUpdate}
                 validationSchema={locationSchema}
                 onSubmit={(values, actions) => {
-                  console.log({ values, actions });
-                  if (itemClick.id != 0) {
-                    const action = updateLocationAdminApi(itemClick.id, values, page, pageSize);
-                    dispatch(action);
+                  // console.log({ values, actions });
+                  let userLogin = getStoreJSON(USER_LOGIN);
+                  let { token, user } = userLogin;
+                  let roleUser = user.role;
+                  if (roleUser == 'ADMIN') {
+                    if (itemClick.id != 0) {
+                      const action = updateLocationAdminApi(itemClick.id, values, page, pageSize);
+                      dispatch(action);
+                    } else {
+                      const action = postLocationAdminApi(values, page, pageSize, token);
+                      dispatch(action);
+                    }
                   } else {
-                    const action = postLocationAdminApi(values, page, pageSize);
-                    dispatch(action);
+                    alert('User không phải quyền admin!');
                   }
                   const c = document.querySelector('.btn-close') as HTMLElement;
                   c.click();

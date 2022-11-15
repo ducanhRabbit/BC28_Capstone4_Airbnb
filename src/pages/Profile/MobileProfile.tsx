@@ -8,25 +8,28 @@ import {
 import { getUserAPi } from "../../redux/reducers/userReducer";
 import moment from "moment";
 import UpdateProfile from "../../components/UpdateProfile/UpdateProfile";
+import { getStoreJSON, USER_LOGIN } from "../../util/setting";
 
 type Props = {};
 
 export default function MobileProfile({}: Props) {
-  let userLogin = useSelector(
-    (state: RootState) => state.userReducer.userLogin
-  );
   // lấy mảng phòng đã đặt từ redux
   const bookRoom = useSelector(
     (state: RootState) => state.roomDetailReducer.bookRoom
   );
 
   const dispatch: AppDispatch = useDispatch();
+  let userStore = getStoreJSON(USER_LOGIN);
+
   useEffect(() => {
-    let action = getUserAPi();
+    let action = getUserAPi(userStore?.user?.id);
     dispatch(action);
     let action2 = getDatphongApi();
     dispatch(action2);
   }, []);
+  let userLogin = useSelector(
+    (state: RootState) => state.userReducer.userLogin
+  );
   const renderBookRoom = () => {
     return bookRoom.map((item: BookRoom, index: number) => {
       return (

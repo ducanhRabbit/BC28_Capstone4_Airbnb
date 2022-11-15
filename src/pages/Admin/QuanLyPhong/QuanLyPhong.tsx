@@ -1,9 +1,9 @@
-import { Pagination, PaginationProps } from 'antd';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import CreateRoom from './CreateRoom/CreateRoom';
-import { AppDispatch, RootState } from '../../../redux/configStore';
-import { getLocationAPI } from '../../../redux/reducers/locationDetailReducer';
+import { Pagination, PaginationProps } from "antd";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import CreateRoom from "./CreateRoom/CreateRoom";
+import { AppDispatch, RootState } from "../../../redux/configStore";
+import { getLocationAPI } from "../../../redux/reducers/locationDetailReducer";
 import {
   deleteRoomApi,
   getRoomALLApi,
@@ -11,27 +11,38 @@ import {
   searchRoomAdminApi,
   setUpdataRoom,
   updataRoom,
-} from '../../../redux/reducers/roomDetailReducer';
+} from "../../../redux/reducers/roomDetailReducer";
 
-import UpdataPhong from './UpdataPhong';
-import { ACCESS_TOKEN, getStore } from '../../../util/setting';
-import { getUserAPi } from '../../../redux/reducers/userReducer';
+import UpdataPhong from "./UpdataPhong";
+import {
+  ACCESS_TOKEN,
+  getStore,
+  getStoreJSON,
+  USER_LOGIN,
+} from "../../../util/setting";
+import { getUserAPi } from "../../../redux/reducers/userReducer";
 
 type Props = {};
 let timeout: any = null;
 
 export default function QuanLyPhong({}: Props) {
-  const { room, arrRoomPage } = useSelector((state: RootState) => state.roomDetailReducer);
-  const arrLocation = useSelector((state: RootState) => state.locationDetailReducer.viTri);
+  const { room, arrRoomPage } = useSelector(
+    (state: RootState) => state.roomDetailReducer
+  );
+  const arrLocation = useSelector(
+    (state: RootState) => state.locationDetailReducer.viTri
+  );
 
   const [page, setPage] = useState(1);
   const pageSize = 4;
-  const [search, setSearch] = useState<string | number | undefined>('');
+  const [search, setSearch] = useState<string | number | undefined>("");
 
   const dispatch: AppDispatch = useDispatch();
+  let userStore = getStoreJSON(USER_LOGIN);
+
   useEffect(() => {
     timeout = setTimeout(() => {
-      let action3 = getUserAPi();
+      let action3 = getUserAPi(userStore?.user.id);
       dispatch(action3);
     }, 1000);
     return () => {
@@ -41,8 +52,6 @@ export default function QuanLyPhong({}: Props) {
     };
   }, []);
   useEffect(() => {
-    let action3 = getUserAPi();
-    dispatch(action3);
     let action = getRoomALLApi();
     dispatch(action);
     let action2 = getLocationAPI();
@@ -101,7 +110,12 @@ export default function QuanLyPhong({}: Props) {
                 let token = getStore(ACCESS_TOKEN);
                 console.log({ token });
                 if (token) {
-                  let actionDelete = deleteRoomApi(item.id, token, page, pageSize);
+                  let actionDelete = deleteRoomApi(
+                    item.id,
+                    token,
+                    page,
+                    pageSize
+                  );
                   dispatch(actionDelete);
                 }
               }}
@@ -118,7 +132,7 @@ export default function QuanLyPhong({}: Props) {
     return arrLocation[index]?.tinhThanh;
   };
 
-  const onChange: PaginationProps['onChange'] = (page) => {
+  const onChange: PaginationProps["onChange"] = (page) => {
     setPage(page);
   };
   return (
@@ -127,7 +141,11 @@ export default function QuanLyPhong({}: Props) {
       <UpdataPhong />
       <div className="container thongTinPhong">
         <div className="row py-3">
-          <button className="btn btn-danger col-3 add" data-bs-toggle="modal" data-bs-target="#modalIdCreateRoom">
+          <button
+            className="btn btn-danger col-3 add"
+            data-bs-toggle="modal"
+            data-bs-target="#modalIdCreateRoom"
+          >
             Thêm Phòng
           </button>
           <div className="form-group d-flex col-9">
@@ -137,7 +155,9 @@ export default function QuanLyPhong({}: Props) {
               id="search"
               className="form-control"
               placeholder="Nhập vào tên phòng"
-              onInput={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
+              onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearch(e.target.value)
+              }
             />
             <button className="btn btn-success mx-2 px-4">Tìm</button>
           </div>
@@ -162,7 +182,7 @@ export default function QuanLyPhong({}: Props) {
               current={page}
               defaultPageSize={4}
               onChange={onChange}
-              total={search == '' ? room.length : arrRoomPage.length}
+              total={search == "" ? room.length : arrRoomPage.length}
             />
           </div>
         </div>

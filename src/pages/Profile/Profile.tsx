@@ -9,20 +9,25 @@ import {
   getDatphongApi,
 } from "../../redux/reducers/roomDetailReducer";
 import { getUserAPi, setUserUpdata } from "../../redux/reducers/userReducer";
+import { getStoreJSON, USER_LOGIN } from "../../util/setting";
 
 type Props = {};
 
 export default function Profile({}: Props) {
-  let { user } = useSelector((state: RootState) => state.userReducer.taiKhoan);
-  console.log({ user });
+  let userLogin = useSelector(
+    (state: RootState) => state.userReducer.userLogin
+  );
+  console.log({ userLogin });
   // lấy mảng phòng đã đặt từ redux
   const bookRoom = useSelector(
     (state: RootState) => state.roomDetailReducer.bookRoom
   );
 
+  let userStore = getStoreJSON(USER_LOGIN);
+  console.log({ userStore });
   const dispatch: AppDispatch = useDispatch();
   useEffect(() => {
-    let action = getUserAPi();
+    let action = getUserAPi(userStore?.user?.id);
     dispatch(action);
     let action2 = getDatphongApi();
     dispatch(action2);
@@ -50,8 +55,8 @@ export default function Profile({}: Props) {
               <div className="card_img">
                 <img
                   src={
-                    user?.avatar
-                      ? user?.avatar
+                    userLogin?.avatar
+                      ? userLogin?.avatar
                       : "https://www.tutorsvalley.com/public/storage/uploads/tutor/1574383712-1AB5217C-5A13-4888-A5A1-BE0BCADBC655.png"
                   }
                   alt=""
@@ -77,7 +82,7 @@ export default function Profile({}: Props) {
               <div>
                 <hr />
               </div>
-              <h3>{user?.name} đã xác nhận </h3>
+              <h3>{userLogin?.name} đã xác nhận </h3>
               <div className="card-bt">
                 <i className="fa fa-check"></i>
                 <span>Địa chỉ email</span>
@@ -85,14 +90,14 @@ export default function Profile({}: Props) {
             </div>
           </div>
           <div className="col-8">
-            <h1>Xin Chào, tôi là {user?.name}</h1>
+            <h1>Xin Chào, tôi là {userLogin?.name}</h1>
             <p>Bắt đầu tham gia vào 2022</p>
             <a
               href=""
               data-bs-toggle="modal"
               data-bs-target="#modalIdProfile"
               onClick={() => {
-                const action = setUserUpdata(user);
+                const action = setUserUpdata(userLogin);
                 dispatch(action);
               }}
             >

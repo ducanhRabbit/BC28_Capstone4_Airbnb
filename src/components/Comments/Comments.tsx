@@ -1,42 +1,30 @@
-import React, { useState, createElement, useEffect } from "react";
-import { Avatar, Comment, Tooltip } from "antd";
-import { Rate } from "antd";
-import moment from "moment";
-import {
-  filterComment,
-  getAllCommentApi,
-  postCommentApi,
-} from "../../redux/reducers/commentReducer";
-import { AppDispatch, RootState } from "../../redux/configStore";
-import { useDispatch, useSelector } from "react-redux";
-import { Room } from "../../redux/reducers/roomDetailReducer";
-import { getGuestDetailApi } from "../../redux/reducers/guestDetailReducer";
-import { Button, message } from "antd";
-import { history } from "../..";
-import ModalComment from "../ModalComment/ModalComment";
-import { getStoreJSON, USER_LOGIN } from "../../util/setting";
+import React, { useState, useEffect } from 'react';
+import { Avatar, Comment, Tooltip } from 'antd';
+import { Rate } from 'antd';
+import moment from 'moment';
+import { filterComment, getAllCommentApi, postCommentApi } from '../../redux/reducers/commentReducer';
+import { AppDispatch, RootState } from '../../redux/configStore';
+import { useDispatch, useSelector } from 'react-redux';
+import { Room } from '../../redux/reducers/roomDetailReducer';
+import { getGuestDetailApi } from '../../redux/reducers/guestDetailReducer';
+import { history } from '../..';
+import ModalComment from '../ModalComment/ModalComment';
+import { getStoreJSON, USER_LOGIN } from '../../util/setting';
 
 type Props = {
   roomDetail: Room;
 };
 
 export default function Comments({ roomDetail }: Props) {
-  const { arrComment, arrCommentId } = useSelector(
-    (state: RootState) => state.commentReducer
-  );
-  const { arrGuest } = useSelector(
-    (state: RootState) => state.guestDetailReducer
-  );
-  const [state, setState] = useState("");
+  const { arrCommentId } = useSelector((state: RootState) => state.commentReducer);
+  const { arrGuest } = useSelector((state: RootState) => state.guestDetailReducer);
+  const [state, setState] = useState('');
   const [rate, setRate] = useState(5);
-  // console.log(arrGuest);
-  // console.log(arrCommentId);
 
   const dispatch: AppDispatch = useDispatch();
 
   const filterUerComment = (id: number) => {
     let arr = arrGuest.filter((user) => user.id == id);
-    // console.log(arr);
 
     return arr[0];
   };
@@ -44,7 +32,7 @@ export default function Comments({ roomDetail }: Props) {
   const renderComment = () => {
     let count = 0;
     return arrCommentId.map((comment, index) => {
-      if (comment.noiDung != "" && comment.ngayBinhLuan.toString() != "") {
+      if (comment.noiDung != '' && comment.ngayBinhLuan.toString() != '') {
         count += 1;
         let test = comment.ngayBinhLuan.toString();
 
@@ -55,20 +43,9 @@ export default function Comments({ roomDetail }: Props) {
             <div className="col-md-6 col-12" key={index}>
               <Comment
                 className="detail_comment-item"
-                author={
-                  <a className="detail_comment-item-name">
-                    {guestComment?.name}
-                  </a>
-                }
-                avatar={
-                  <Avatar
-                    src={`https://i.pravatar.cc?u=${comment?.id}`}
-                    alt="avatar"
-                  />
-                }
-                content={
-                  <p className="detail_comment-item-text">{comment?.noiDung}</p>
-                }
+                author={<a className="detail_comment-item-name">{guestComment?.name}</a>}
+                avatar={<Avatar src={`https://i.pravatar.cc?u=${comment?.id}`} alt="avatar" />}
+                content={<p className="detail_comment-item-text">{comment?.noiDung}</p>}
                 datetime={
                   <Tooltip title={test}>
                     <span>{test}</span>
@@ -83,7 +60,7 @@ export default function Comments({ roomDetail }: Props) {
   };
 
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { id, value } = e.target;
+    const { value } = e.target;
     setState(value);
   };
   const userLogin = getStoreJSON(USER_LOGIN);
@@ -92,24 +69,24 @@ export default function Comments({ roomDetail }: Props) {
       let userCommentApi = {
         id: 456,
         maPhong: roomDetail?.id,
-        maNguoiBinhLuan: 1210,
-        ngayBinhLuan: moment().format("DD-MM-YYYY"),
+        maNguoiBinhLuan: userLogin?.user?.id,
+        ngayBinhLuan: moment().format('DD-MM-YYYY'),
         noiDung: state,
         saoBinhLuan: rate,
       };
-      if (state != "") {
+      if (state != '') {
         const action = postCommentApi(userCommentApi);
         dispatch(action);
-        setState("");
+        setState('');
       }
     } else {
-      message.warning("Vui lòng đăng nhập!");
-      history.push("/login");
+      alert('Vui lòng đăng nhập!');
+      history.push('/login');
     }
   };
 
   useEffect(() => {
-    const action = getAllCommentApi(roomDetail?.id);
+    const action = getAllCommentApi();
     dispatch(action);
   }, [roomDetail?.id]);
 
@@ -126,12 +103,7 @@ export default function Comments({ roomDetail }: Props) {
   return (
     <div className="detail_comment row" id="detailComment">
       <div className="detail_comment-rate">
-        <Rate
-          className="detail_rate-star"
-          allowHalf
-          defaultValue={4.8}
-          disabled
-        />
+        <Rate className="detail_rate-star" allowHalf defaultValue={4.8} disabled />
         <span className="ms-2 rate_title">4,80</span>
         <li className="ms-3 rate_title">{arrCommentId.length} đánh giá</li>
       </div>
@@ -147,7 +119,7 @@ export default function Comments({ roomDetail }: Props) {
                   className="progress-bar process-item-bar"
                   role="progressbar"
                   aria-label="Basic example"
-                  style={{ width: "95%" }}
+                  style={{ width: '95%' }}
                   aria-valuenow={25}
                   aria-valuemin={0}
                   aria-valuemax={100}
@@ -166,7 +138,7 @@ export default function Comments({ roomDetail }: Props) {
                   className="progress-bar process-item-bar"
                   role="progressbar"
                   aria-label="Basic example"
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                   aria-valuenow={25}
                   aria-valuemin={0}
                   aria-valuemax={100}
@@ -185,7 +157,7 @@ export default function Comments({ roomDetail }: Props) {
                   className="progress-bar process-item-bar"
                   role="progressbar"
                   aria-label="Basic example"
-                  style={{ width: "80%" }}
+                  style={{ width: '80%' }}
                   aria-valuenow={25}
                   aria-valuemin={0}
                   aria-valuemax={100}
@@ -208,7 +180,7 @@ export default function Comments({ roomDetail }: Props) {
                   className="progress-bar process-item-bar"
                   role="progressbar"
                   aria-label="Basic example"
-                  style={{ width: "95%" }}
+                  style={{ width: '95%' }}
                   aria-valuenow={25}
                   aria-valuemin={0}
                   aria-valuemax={100}
@@ -227,7 +199,7 @@ export default function Comments({ roomDetail }: Props) {
                   className="progress-bar process-item-bar"
                   role="progressbar"
                   aria-label="Basic example"
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                   aria-valuenow={25}
                   aria-valuemin={0}
                   aria-valuemax={100}
@@ -246,7 +218,7 @@ export default function Comments({ roomDetail }: Props) {
                   className="progress-bar process-item-bar"
                   role="progressbar"
                   aria-label="Basic example"
-                  style={{ width: "80%" }}
+                  style={{ width: '80%' }}
                   aria-valuenow={25}
                   aria-valuemin={0}
                   aria-valuemax={100}
@@ -259,11 +231,7 @@ export default function Comments({ roomDetail }: Props) {
 
       <div className="row">{renderComment()}</div>
       <div>
-        <button
-          className="comment_btn-show"
-          data-bs-toggle="modal"
-          data-bs-target="#modalComment"
-        >
+        <button className="comment_btn-show" data-bs-toggle="modal" data-bs-target="#modalComment">
           Hiển thị tất cả bình luận
         </button>
         <ModalComment />
@@ -272,11 +240,7 @@ export default function Comments({ roomDetail }: Props) {
       <div className="detail_comment-write">
         <div className="detail_comment-write-rate">
           <span className="rate_text">Chất lượng phòng</span>
-          <Rate
-            className="detail_rate-star rate_star"
-            defaultValue={rate}
-            onChange={(value) => setRate(value)}
-          />
+          <Rate className="detail_rate-star rate_star" defaultValue={rate} onChange={(value) => setRate(value)} />
         </div>
 
         <div className="d-flex">
@@ -296,10 +260,7 @@ export default function Comments({ roomDetail }: Props) {
               ></textarea>
             </div>
             <div className="comment_btn">
-              <button
-                onClick={handleSubmitComment}
-                className="detail_book-body-btnSubmit comment_btn-submit"
-              >
+              <button onClick={handleSubmitComment} className="detail_book-body-btnSubmit comment_btn-submit">
                 Bình luận
               </button>
             </div>

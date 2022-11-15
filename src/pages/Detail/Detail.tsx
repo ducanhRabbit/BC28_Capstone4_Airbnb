@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
-import { NavLink, useLoaderData, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import BookRoom from '../../components/BookRoom/BookRoom';
 import Comments from '../../components/Comments/Comments';
 import { getRoomDetailApi } from '../../redux/reducers/roomDetailReducer';
 import { AppDispatch, RootState } from '../../redux/configStore';
 import { useDispatch, useSelector } from 'react-redux';
-import { number } from 'yup';
 import { useAppSelector } from '../../redux/hooks';
 import Convenient from '../../components/Convenient/Convenient';
 import { getLocationDetailApi } from '../../redux/reducers/locationDetailReducer';

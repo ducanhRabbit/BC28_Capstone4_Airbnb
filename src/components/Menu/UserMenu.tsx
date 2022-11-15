@@ -24,8 +24,10 @@ export default function UserMenu({ custom }: customAsProps) {
   const handleLogOut = () => {
     clearLocalStorage(ACCESS_TOKEN);
     clearLocalStorage(USER_LOGIN);
-    // const action = setUserLogin(null)
-    // dispatch(action)
+    clearLocalStorage('userSignin');
+    const action = setUserLogin(null)
+    dispatch(action)
+
     navigate("/");
   };
   const { userLogin } = useSelector((state: RootState) => state.userReducer);
